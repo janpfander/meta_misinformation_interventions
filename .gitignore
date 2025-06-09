@@ -17,5 +17,4 @@ data/papers/*
 
 
 # ignore data in output file
-
 docs/data/**/*.csv
