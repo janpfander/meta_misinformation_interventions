@@ -1,0 +1,175 @@
+---
+title: "Identify studies "
+title-block-banner: true
+execute:
+  message: false
+  warning: false
+bibliography: ../references.bib
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  # for tables
+library(readxl)
+```
+
+
+## @pfanderSpottingFalseNews2025
+
+We downloaded the data from <https://osf.io/5r7q3>. The data frame contains a column that identifies studies which tested an intervention. We reduce the data frame to only these studies.
+
+This script identifies paper that tested an intervention from the control conditions news judgments meta-analysis.
+
+```{r, message=FALSE, echo=FALSE}
+pfander <- read_csv("review_papers/Pfander_2025.csv") |> 
+  # control conditions only
+  filter(intervention_study == "yes") |>  
+  group_by(ref) %>% 
+  summarize(reference = unique(reference)) |> 
+  mutate(review = "Pfander_2025") |> 
+  select(review, reference)
+
+```
+
+## @sultanSusceptibilityOnlineMisinformation2024a
+
+We downloaded a spreadsheet with the final studies and their titles from https://osf.io/zk9vy. Because the data comes in an annoying format, we extracted our reference list based on the papers appendix
+
+```{r}
+sultan <- read_csv("review_papers/Sultan_2024.csv") |> 
+  mutate(review = "Sultan_2024") |> 
+    rename(reference = `Full Reference`) |> 
+    group_by(review, Reference) %>% 
+    summarize(reference = unique(reference)) |> 
+  ungroup() |> 
+  select(review, reference)
+```
+
+## @kozyrevaToolboxIndividuallevelInterventions2024
+
+We downloaded a spreadsheet with the final studies and their titles from https://osf.io/ejyh6/ (alternatively the data can also be downloaded here: https://github.com/askozyreva/toolbox/blob/main/data/toolbox_evidence.xlsx).
+
+```{r}
+kozyreva <- read_excel("review_papers/Kozyreva_2024.xlsx") |> 
+  mutate(review = "Kozyreva_2024") |> 
+  rename(reference = References_long) |> 
+  select(review, reference)
+```
+
+## @sunImpactPrebunkingInterventions2025
+
+We downloaded the spreadsheet with the studies and their titles from https://osf.io/qz9fj/files/osfstorage?view_only=70cdfe5ad3104e6bb441e9cee25b82ee.
+
+```{r}
+sun <- read_excel("review_papers/Sun_2025.xlsx", skip = 1) |>  # Skip first row (keep it as data)
+  mutate(review = "Sun_2025") |> 
+  rename(reference = Title) |> 
+  drop_na(reference) |> 
+  distinct(review, reference) 
+```
+
+## Combine reviews
+
+### Add a title column
+
+For three reviews [@pfanderSpottingFalseNews2025; @sultanSusceptibilityOnlineMisinformation2024a; @kozyrevaToolboxIndividuallevelInterventions2024], we extract titles from longer reference entries.
+
+```{r}
+# Combine all datasets into one
+titles_to_clean <- bind_rows(pfander, sultan, kozyreva) |> 
+  # Extract text after year but before journal name/DOI
+  mutate(title = str_extract(reference, "(?<=\\)\\.\\s).*?(?=\\.\\s[A-Z])"))  
+```
+
+Because the regex is not perfect due to different Title format, we export the data and do the missing entries by hand.
+
+```{r}
+#write_csv(all_reviews, "review_papers/combined_data_titles.csv")
+```
+
+We then read back the hand-edited file.
+
+```{r}
+by_hand_titles <- read_delim("review_papers/combined_data_titles.csv", 
+                        delim = ";")
+```
+
+We then add the review by @sunImpactPrebunkingInterventions2025 back in.
+
+```{r}
+reviews <- bind_rows(by_hand_titles, 
+                     sun |>
+                       mutate(title = reference))
+```
+
+### Clean titles
+
+To be able to match the titles we want to make sure to have them in a similar format
+
+```{r}
+# little helper function to make strings more compatible
+make_strings_more_compatible <- function(string) {
+  # Convert to lowercase
+  string <- tolower(string)
+  
+  # Remove spaces and any non-alphabetic characters (keeping only letters)
+  string <- gsub("[^a-z]", "", string)  # Remove everything that's not a letter
+  
+  # Trim any extra whitespace (not strictly necessary now, but safe to keep)
+  string <- trimws(string)
+  
+  return(string)
+}
+
+reviews <- reviews %>%
+  mutate(
+    compatible_title = make_strings_more_compatible(title)
+  )
+```
+
+### Identify Duplicates
+
+```{r}
+
+# identify duplicates based on cleaned titles
+duplicates <- reviews %>%
+  group_by(compatible_title) %>%
+  summarize(n_occurences = n(),
+            occurence = toString(unique(review)) ) |> 
+  filter(n_occurences > 1) |> 
+  mutate(duplicate = TRUE) |> 
+  select(compatible_title, duplicate, occurence)
+```
+
+Note that there is one apparent duplicate within the Kozyreva study. This is because the same study is coded for different types of interventions in the original data frame. Since this is not the kind of duplicate we are after, we remove it.
+
+```{r}
+duplicates <- duplicates |> 
+  filter(compatible_title != "combatingfakenewsonsocialmediawithsourceratingstheeffectsofuserandexpertreputationratings")
+
+# identify duplicates in combined data
+reviews <- left_join(reviews, duplicates)
+```
+
+### De-duplicated data
+
+Finally, we can remove all the duplicates to obtain the spreadsheet for screening.
+
+```{r}
+# Remove duplicates and keep only one entry for each cleaned title
+deduplicated_reviews <- reviews %>%
+  distinct(compatible_title, .keep_all = TRUE) |>  # Keeps the first occurrence of each title
+  mutate(id = row_number())
+
+write_csv(deduplicated_reviews |> 
+            # remove unnecessary columns for coding
+            select(-c(compatible_title, title)), 
+          "review_papers/de-duplicated_references.csv")
+```
+
+```{r}
+deduplicated_reviews |> 
+  kable()
+```

@@ -1,0 +1,24 @@
+---
+title: "Literature Search"
+title-block-banner: true
+execute:
+  message: false
+  warning: false
+bibliography: ../references.bib
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  # for tables
+library(readxl)
+```
+
+Several recent meta-analyses and systematic reviews have tried to answer how well people distinguish between true and false news [@pfanderSpottingFalseNews2025], which variables are associated with that capacity [@sultanSusceptibilityOnlineMisinformation2024a], and which interventions could help people improve detecting misinformation [@kozyrevaToolboxIndividuallevelInterventions2024; @sunImpactPrebunkingInterventions2025]. Instead of conducting a new systematic search from scratch, we base our review on the studies included in these reviews.
+
+First, we extract all references from studies included in the reviews, identify duplicates and merge all references into a de-duplicated data frame that we will use for the screening. We then have two screening stages: A first round of screening will be based on the abstract. All articles that pass this stage will be selected for full-text analysis.
+
+All steps of this literature review are documented.
+
+

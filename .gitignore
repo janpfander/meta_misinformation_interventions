@@ -1,0 +1,15 @@
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+
+# Ignore all csv files
+data/**/*.csv
+
+# Ignore all files in data/papers/
+data/papers/*
+
+# But do not ignore .qmd files in that folder
+!data/papers/**/*.qmd

@@ -1,0 +1,34 @@
+---
+title: "Cleaning Scripts"
+listing:
+  contents: papers
+  sort: "author"
+  type: table
+  fields: [author, date, title]  
+  image-align: right
+  max-description-length: 175
+  date-format: "YYYY"
+  categories: true
+  sort-ui: true
+  filter-ui: false
+page-layout: full
+title-block-banner: true
+execute:
+  message: false
+  warning: false
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  # for tables
+```
+
+::: {.callout-note}
+Note that we only list the first author in this overview. 
+:::
+
+
+
+

@@ -1,0 +1,6 @@
+# enable banner style title blocks ----
+title-block-banner: true
+
+# Date format
+date-format: "YYYY"
+
