@@ -13,3 +13,9 @@ data/papers/*
 
 # But do not ignore .qmd files in that folder
 !data/papers/**/*.qmd
+/.quarto/
+
+
+# ignore data in output file
+
+docs/data/**/*.csv
