@@ -1,0 +1,74 @@
+---
+title: "Combine data"
+title-block-banner: true
+execute:
+  message: false
+  warning: false
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  # for tables
+library(readr)
+```
+
+## A single data frame
+
+After having cleaned all individual studies and put the data into a shared format, we combine the studies into a single data frame. 
+
+```{r}
+# combine data
+
+# List all matching files recursively
+files <- list.files(
+  path = "papers", 
+  pattern = "^cleaned.*\\.rds$", 
+  full.names = TRUE, 
+  recursive = TRUE
+)
+
+# Load each file into a named list
+studies_data <- lapply(files, function(file) {
+  readRDS(file) |> 
+    # ensure all identifier variables are of same variable type
+    mutate(subject_id = as.character(subject_id), 
+           scale = as.character(scale))
+})
+
+# Name list elements based on filenames (without extension or path)
+names(studies_data) <- tools::file_path_sans_ext(basename(files))
+
+data <- bind_rows(studies_data)
+
+# build additional variables
+write_csv(data, "data.csv")
+
+```
+
+
+## Control and intervention group selection
+
+Several experiments have multiple control and/or intervention groups. For our meta-analysis, for each experiment, we only pair one control and one treatment group. In a case where we needed to make a selection, we have coded our selection choice in the variables `intervention_selection` and  `control_selection`. 
+
+
+```{r}
+names(data)
+
+
+# data |> 
+#   filter(
+#     # for cases where there was an intervention selection, make sure to only pick the selected intervention
+#     is.na(intervention_selection) | intervention_label == intervention_selection,
+#     # same but for the control
+#     is.na(control_selection) | control_label == control_selection
+#   )
+
+```
+
+
+
+
+
+

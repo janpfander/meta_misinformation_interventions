@@ -149,7 +149,7 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../data/data.html"> 
+    <a class="nav-link" href="../../../data/codebook.html"> 
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
@@ -219,7 +219,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#study-1" id="toc-study-1" class="nav-link" data-scroll-target="#study-1">Study 1</a></li>
   <li><a href="#study-2" id="toc-study-2" class="nav-link" data-scroll-target="#study-2">Study 2</a></li>
-  <li><a href="#combine-studies" id="toc-combine-studies" class="nav-link" data-scroll-target="#combine-studies">Combine Studies</a></li>
+  <li><a href="#combine-and-add-identifiers-country-paper_id" id="toc-combine-and-add-identifiers-country-paper_id" class="nav-link" data-scroll-target="#combine-and-add-identifiers-country-paper_id">Combine and add identifiers (<code>country</code>, <code>paper_id</code>)</a></li>
   </ul></li>
   <li><a href="#write-out-data" id="toc-write-out-data" class="nav-link" data-scroll-target="#write-out-data">Write out data</a></li>
   </ul>
@@ -246,9 +246,9 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags either immediately before (prebunking), during (labeling), or immediately after (debunking) reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information. We will only consider ratings from the first wave. Study 2 is essentially a replication of Study 1, but with a new 3s intervall in the prebunking condition.'</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"warning_labels"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">'We will select the "during (labeling)" condition, that is, the condition in which participants saw a headline with true/false tags. The debunking condition is relevant in the study context for long-term effects, but but should not affect ratings of the first wave, which we will look at. As for prebunking, it is unclear how this has been done, from the paper.'</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags either immediately before (prebunking), during (veracity_labels), or immediately after (debunking) reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information. We will only consider ratings from the first wave. Study 2 is essentially a replication of Study 1, but with a new 3s intervall in the prebunking condition.'</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"veracity_labels"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">'We will select the "during" (veracity_labels) condition, that is, the condition in which participants saw a headline with true/false tags. The debunking condition is relevant in the study context for long-term effects, but but should not affect ratings of the first wave, which we will look at. As for prebunking, it is unclear how this has been done, from the paper.'</span>,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
@@ -265,8 +265,8 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags either immediately before (prebunking), during (labeling), or immediately after (debunking) reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information. We will only consider ratings from the first wave. Study 2 is essentially a replication of Study 1, but with a new 3s intervall in the prebunking condition.</td>
-<td style="text-align: left;">We will select the "during (labeling)" condition, that is, the condition in which participants saw a headline with true/false tags. The debunking condition is relevant in the study context for long-term effects, but but should not affect ratings of the first wave, which we will look at. As for prebunking, it is unclear how this has been done, from the paper.</td>
+<td style="text-align: left;">Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags either immediately before (prebunking), during (veracity_labels), or immediately after (debunking) reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information. We will only consider ratings from the first wave. Study 2 is essentially a replication of Study 1, but with a new 3s intervall in the prebunking condition.</td>
+<td style="text-align: left;">We will select the "during" (veracity_labels) condition, that is, the condition in which participants saw a headline with true/false tags. The debunking condition is relevant in the study context for long-term effects, but but should not affect ratings of the first wave, which we will look at. As for prebunking, it is unclear how this has been done, from the paper.</td>
 </tr>
 </tbody>
 </table>
@@ -281,29 +281,13 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 </section>
 <section id="data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define variables to select</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper_id"</span>, <span class="st">"experiment_id"</span>, <span class="st">"subject_id"</span>, <span class="st">"news_id"</span>, <span class="st">"country"</span>, <span class="st">"year"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"veracity"</span>, <span class="st">"condition"</span>, <span class="st">"intervention_label"</span>, <span class="st">"intervention_description"</span>, </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection_description"</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"control_selection"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"accuracy_raw"</span>, <span class="st">"scale"</span>, <span class="st">"originally_identified_treatment_effect"</span>, </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"concordance"</span>, <span class="st">"partisan_identity"</span>, <span class="st">"news_slant"</span>, <span class="st">"age"</span>, <span class="st">"age_range"</span>, <span class="st">"identified_via"</span>, <span class="st">"id"</span>, </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"unique_experiment_id"</span>, <span class="st">"accuracy"</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 <section id="study-1" class="level3">
 <h3 class="anchored" data-anchor-id="study-1">Study 1</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_1.xlsx"</span>, </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_1.xlsx"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
@@ -311,7 +295,7 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 78
@@ -332,60 +316,80 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 #   `B2 - Initial` &lt;dbl&gt;, `B3 - Initial` &lt;dbl&gt;, `B4 - Initial` &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-<section id="veracity" class="level4">
-<h4 class="anchored" data-anchor-id="veracity">Veracity</h4>
+<section id="accuracy_raw-veracity" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy_raw-veracity"><code>accuracy_raw</code>, <code>veracity</code></h4>
 <p>The data comes in wide format, with one column per headline. We first change this to long format.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>From the stata code provided by the authors, we know that variables preceded by “A” are false news, and those preceded by “B” are true news.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="news-id" class="level4">
-<h4 class="anchored" data-anchor-id="news-id">News id</h4>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    0     1     2     3     4  &lt;NA&gt; 
+    1 42563 14404 23738 25926  9432 </code></pre>
+</div>
+</div>
+<p>One person gave an accuracy rating of <code>0</code>. This is likely a coding error, we’ll remove this observation.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">accuracy_raw =</span> accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="news_id" class="level4">
+<h4 class="anchored" data-anchor-id="news_id"><code>news_id</code></h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    1   10   11   12   13   14   15   16   17   18    2    3    4    5    6    7 
-6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 6448 
+5924 5924 5924 5924 5924 5924 5924 5924 5924 5924 5924 5924 5924 5924 5923 5924 
    8    9 
-6448 6448 </code></pre>
+5924 5924 </code></pre>
 </div>
 </div>
 <p>There are only 18 different item identifiers. That is presumably, because these numbers only identify items within each veracity category.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(veracity) <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">n_distinct</span>(item))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(veracity) <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">n_distinct</span>(item))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
@@ -399,8 +403,8 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -411,72 +415,49 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Final Initial 
-  58032   58032 </code></pre>
+  48600   58031 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="concordance" class="level4">
-<h4 class="anchored" data-anchor-id="concordance">Concordance</h4>
+<section id="concordance-concordance-partisan_identity-news_slant" class="level4">
+<h4 class="anchored" data-anchor-id="concordance-concordance-partisan_identity-news_slant">Concordance (<code>concordance</code>, <code>partisan_identity</code>, <code>news_slant</code>)</h4>
 <p>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="accuracy" class="level4">
-<h4 class="anchored" data-anchor-id="accuracy">Accuracy</h4>
+<section id="conditions-intervention_label-condition" class="level4">
+<h4 class="anchored" data-anchor-id="conditions-intervention_label-condition">Conditions (<code>intervention_label</code>, <code>condition</code>)</h4>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    0     1     2     3     4  &lt;NA&gt; 
-    1 22571  7442 12455 15563     0 </code></pre>
-</div>
-</div>
-<p>One person gave an accuracy rating of <code>0</code>. This is likely a coding error, we’ll remove this observation.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">accuracy_raw =</span> accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="interventions-other-cleaning" class="level4">
-<h4 class="anchored" data-anchor-id="interventions-other-cleaning">Interventions &amp; other cleaning</h4>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 1
@@ -491,11 +472,69 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">intervention_label =</span> <span class="fu">tolower</span>(Condition),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>), </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">intervention_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"Before"</span> <span class="sc">~</span> <span class="st">"prebunking"</span>, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"During"</span> <span class="sc">~</span> <span class="st">"veracity_labels"</span>, </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"After"</span> <span class="sc">~</span> <span class="st">"debunking"</span>, </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>           <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"Control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>)) </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#check</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>intervention_label, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+      debunking      prebunking veracity_labels            &lt;NA&gt; 
+          14580           14544           14291           14616 </code></pre>
+</div>
+</div>
+</section>
+<section id="age" class="level4">
+<h4 class="anchored" data-anchor-id="age"><code>age</code></h4>
+<p>There is no age variable in the data.</p>
+</section>
+<section id="year" class="level4">
+<h4 class="anchored" data-anchor-id="year"><code>year</code></h4>
+<p>There is no date variable in the data. It’s not clear from the paper, the supplement, or the pre-registraiton when the data has been collected. We have to rely on the publication date.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="scale" class="level4">
+<h4 class="anchored" data-anchor-id="scale"><code>scale</code></h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy_raw, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2     3     4  &lt;NA&gt; 
+22571  7442 12455 15563     0 </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="identifiers-subject_id-experiment_id" class="level4">
+<h4 class="anchored" data-anchor-id="identifiers-subject_id-experiment_id">Identifiers (<code>subject_id</code>, <code>experiment_id</code>)</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -505,9 +544,9 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_2.xlsx"</span>, </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_2.xlsx"</span>, </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 77
@@ -528,92 +567,37 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 #   `B2 - Initial` &lt;dbl&gt;, `B3 - Initial` &lt;dbl&gt;, `B4 - Initial` &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-<section id="veracity-1" class="level4">
-<h4 class="anchored" data-anchor-id="veracity-1">Veracity</h4>
+<section id="accuracy_raw-veracity-1" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy_raw-veracity-1"><code>accuracy_raw</code>, <code>veracity</code></h4>
 <p>The data comes in wide format, with one column per headline. We first change this to long format.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>From the stata code provided by the authors, we know that variables preceeded by “A” are false news, and those preceeded by “B” are true news.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="news-id-1" class="level4">
-<h4 class="anchored" data-anchor-id="news-id-1">News id</h4>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="time-point-1" class="level4">
-<h4 class="anchored" data-anchor-id="time-point-1">Time point</h4>
-<p>As before, we want to exclude the ratings at the second time point (“Final”).</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  Final Initial 
-  59616   59616 </code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="concordance-1" class="level4">
-<h4 class="anchored" data-anchor-id="concordance-1">Concordance</h4>
-<p>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="accuracy-1" class="level4">
-<h4 class="anchored" data-anchor-id="accuracy-1">Accuracy</h4>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -622,7 +606,7 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell-output cell-output-stdout">
 <pre><code>
     0     1     2     3     4  &lt;NA&gt; 
-   31 21810  7705 13961 16109     0 </code></pre>
+   31 40700 14322 25513 27038 11628 </code></pre>
 </div>
 </div>
 <p>This time, 31 people gave an accuracy rating of <code>0</code>. Again, this is likely a coding error, and we’ll remove these observations.</p>
@@ -635,13 +619,65 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 </details>
 </div>
 </section>
-<section id="interventions-other-cleaning-1" class="level4">
-<h4 class="anchored" data-anchor-id="interventions-other-cleaning-1">Interventions &amp; other cleaning</h4>
+<section id="news_id-1" class="level4">
+<h4 class="anchored" data-anchor-id="news_id-1"><code>news_id</code></h4>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="time-point-1" class="level4">
+<h4 class="anchored" data-anchor-id="time-point-1">Time point</h4>
+<p>As before, we want to exclude the ratings at the second time point (“Final”).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Final Initial 
+  47988   59585 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="concordance-concordance-partisan_identity-news_slant-1" class="level4">
+<h4 class="anchored" data-anchor-id="concordance-concordance-partisan_identity-news_slant-1">Concordance (<code>concordance</code>, <code>partisan_identity</code>, <code>news_slant</code>)</h4>
+<p>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="conditions-intervention_label-condition-1" class="level4">
+<h4 class="anchored" data-anchor-id="conditions-intervention_label-condition-1">Conditions (<code>intervention_label</code>, <code>condition</code>)</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 1
@@ -656,29 +692,78 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">intervention_label =</span> <span class="fu">tolower</span>(Condition),</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>), </span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">intervention_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"Before"</span> <span class="sc">~</span> <span class="st">"prebunking"</span>, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"During"</span> <span class="sc">~</span> <span class="st">"veracity_labels"</span>, </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"After"</span> <span class="sc">~</span> <span class="st">"debunking"</span>, </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>           <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"Control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="age-1" class="level4">
+<h4 class="anchored" data-anchor-id="age-1"><code>age</code></h4>
+<p>There is no age variable in the data.</p>
+</section>
+<section id="year-1" class="level4">
+<h4 class="anchored" data-anchor-id="year-1"><code>year</code></h4>
+<p>There is no date variable in the data. It’s not clear from the paper, the supplement, or the pre-registraiton when the data has been collected. We have to rely on the publication date.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="scale-1" class="level4">
+<h4 class="anchored" data-anchor-id="scale-1"><code>scale</code></h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy_raw, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2     3     4  &lt;NA&gt; 
+21810  7705 13961 16109     0 </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="identifiers-subject_id-experiment_id-1" class="level4">
+<h4 class="anchored" data-anchor-id="identifiers-subject_id-experiment_id-1">Identifiers (<code>subject_id</code>, <code>experiment_id</code>)</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 </section>
-<section id="combine-studies" class="level3">
-<h3 class="anchored" data-anchor-id="combine-studies">Combine Studies</h3>
+<section id="combine-and-add-identifiers-country-paper_id" class="level3">
+<h3 class="anchored" data-anchor-id="combine-and-add-identifiers-country-paper_id">Combine and add identifiers (<code>country</code>, <code>paper_id</code>)</h3>
 <p>We combine both studies.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine + add remaining variables</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(d1, d2) <span class="sc">|&gt;</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>, </span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">country =</span> <span class="st">"United States"</span>,</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">paper_id =</span> <span class="st">"brashier_2021"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add_intervention_info </span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine + add remaining variables</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(d1, d2) <span class="sc">|&gt;</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="st">"United States"</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">paper_id =</span> <span class="st">"brashier_2021"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add_intervention_info </span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
@@ -686,19 +771,19 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># brashier_2021 |&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(paper_id, experiment_id) |&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n_observations = n()) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co"># brashier_2021 |&gt;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(paper_id, experiment_id) |&gt;</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n_observations = n()) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Since in both studies the same news have been used (with the same labels), we can just keep the labels</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="sc">|&gt;</span> </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(news_id) <span class="sc">|&gt;</span> </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="sc">|&gt;</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(news_id) <span class="sc">|&gt;</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 36 × 2
@@ -718,6 +803,17 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 # ℹ 26 more rows</code></pre>
 </div>
 </div>
+<section id="news_selection" class="level4">
+<h4 class="anchored" data-anchor-id="news_selection"><code>news_selection</code></h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine + add remaining variables</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="ot">&lt;-</span> brashier_2021 <span class="sc">|&gt;</span> </span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_selection =</span> <span class="st">"researchers"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
 </section>
 </section>
 <section id="write-out-data" class="level2">
@@ -725,7 +821,7 @@ Brashier, Nadia M., Gordon Pennycook, Adam J. Berinsky, and David G. Rand. 2021.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(brashier_2021)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(brashier_2021)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
@@ -1203,329 +1299,394 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb45" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Timing Matters When Correcting Fake News.</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2021"</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - Brashier, Nadia M.</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - warning labels</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../../references.bib</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="an">nocite:</span><span class="co"> |</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co">  @brashierTimingMattersWhen2021</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false </span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)      <span class="co"># read excel files</span></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a><span class="co"># load functions</span></span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../../R/custom_functions.R"</span>)</span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference</span></span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intervention</span></span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags either immediately before (prebunking), during (labeling), or immediately after (debunking) reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information. We will only consider ratings from the first wave. Study 2 is essentially a replication of Study 1, but with a new 3s intervall in the prebunking condition.'</span>,</span>
-<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"warning_labels"</span>,</span>
-<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">'We will select the "during (labeling)" condition, that is, the condition in which participants saw a headline with true/false tags. The debunking condition is relevant in the study context for long-term effects, but but should not affect ratings of the first wave, which we will look at. As for prebunking, it is unclear how this has been done, from the paper.'</span>,</span>
-<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
-<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(intervention_description, intervention_selection_description) <span class="sc">|&gt;</span> </span>
-<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()</span>
-<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes</span></span>
-<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a>The authors did not find evidence that emotion regulation helped people distinguish false from true news headlines, in any of the studies.</span>
-<span id="cb45-52"><a href="#cb45-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-53"><a href="#cb45-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Cleaning</span></span>
-<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Define variables to select</span></span>
-<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper_id"</span>, <span class="st">"experiment_id"</span>, <span class="st">"subject_id"</span>, <span class="st">"news_id"</span>, <span class="st">"country"</span>, <span class="st">"year"</span>, </span>
-<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"veracity"</span>, <span class="st">"condition"</span>, <span class="st">"intervention_label"</span>, <span class="st">"intervention_description"</span>, </span>
-<span id="cb45-62"><a href="#cb45-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection"</span>,</span>
-<span id="cb45-63"><a href="#cb45-63" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection_description"</span>,</span>
-<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a>    <span class="st">"control_selection"</span>,</span>
-<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"accuracy_raw"</span>, <span class="st">"scale"</span>, <span class="st">"originally_identified_treatment_effect"</span>, </span>
-<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">"concordance"</span>, <span class="st">"partisan_identity"</span>, <span class="st">"news_slant"</span>, <span class="st">"age"</span>, <span class="st">"age_range"</span>, <span class="st">"identified_via"</span>, <span class="st">"id"</span>, </span>
-<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">"unique_experiment_id"</span>, <span class="st">"accuracy"</span></span>
-<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Study 1</span></span>
-<span id="cb45-73"><a href="#cb45-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-76"><a href="#cb45-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-77"><a href="#cb45-77" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_1.xlsx"</span>, </span>
-<span id="cb45-78"><a href="#cb45-78" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span>
-<span id="cb45-79"><a href="#cb45-79" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span>
-<span id="cb45-80"><a href="#cb45-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-81"><a href="#cb45-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-82"><a href="#cb45-82" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Veracity</span></span>
-<span id="cb45-83"><a href="#cb45-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-84"><a href="#cb45-84" aria-hidden="true" tabindex="-1"></a>The data comes in wide format, with one column per headline. We first change this to long format. </span>
-<span id="cb45-85"><a href="#cb45-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-88"><a href="#cb45-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-89"><a href="#cb45-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
-<span id="cb45-90"><a href="#cb45-90" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
-<span id="cb45-91"><a href="#cb45-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb45-92"><a href="#cb45-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
-<span id="cb45-93"><a href="#cb45-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
-<span id="cb45-94"><a href="#cb45-94" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
-<span id="cb45-95"><a href="#cb45-95" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
-<span id="cb45-96"><a href="#cb45-96" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb45-97"><a href="#cb45-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-98"><a href="#cb45-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-99"><a href="#cb45-99" aria-hidden="true" tabindex="-1"></a>From the stata code provided by the authors, we know that variables preceded by "A" are false news, and those preceded by "B" are true news. </span>
-<span id="cb45-100"><a href="#cb45-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-103"><a href="#cb45-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
-<span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
-<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
-<span id="cb45-111"><a href="#cb45-111" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
-<span id="cb45-112"><a href="#cb45-112" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span>
-<span id="cb45-113"><a href="#cb45-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-114"><a href="#cb45-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-115"><a href="#cb45-115" aria-hidden="true" tabindex="-1"></a><span class="fu">#### News id</span></span>
-<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-119"><a href="#cb45-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>item)</span>
-<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-122"><a href="#cb45-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-123"><a href="#cb45-123" aria-hidden="true" tabindex="-1"></a>There are only 18 different item identifiers. That is presumably, because these numbers only identify items within each veracity category. </span>
-<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-128"><a href="#cb45-128" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-129"><a href="#cb45-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(veracity) <span class="sc">|&gt;</span> </span>
-<span id="cb45-130"><a href="#cb45-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">n_distinct</span>(item))</span>
-<span id="cb45-131"><a href="#cb45-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-132"><a href="#cb45-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-133"><a href="#cb45-133" aria-hidden="true" tabindex="-1"></a>For our news identifier, we therefore combine the veracity variable with these identifiers. </span>
-<span id="cb45-134"><a href="#cb45-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-137"><a href="#cb45-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-138"><a href="#cb45-138" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-139"><a href="#cb45-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span>
-<span id="cb45-140"><a href="#cb45-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-141"><a href="#cb45-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-142"><a href="#cb45-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-143"><a href="#cb45-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-144"><a href="#cb45-144" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Time point</span></span>
-<span id="cb45-145"><a href="#cb45-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-146"><a href="#cb45-146" aria-hidden="true" tabindex="-1"></a>Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags immediately before, during, or immediately after reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information.</span>
-<span id="cb45-147"><a href="#cb45-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-148"><a href="#cb45-148" aria-hidden="true" tabindex="-1"></a>In our study, we want to exclude the ratings at the second time point ("Final"), because previous exposure to the headlines would make the results not comparable with other studies, where participants haven't been (at least in a study context) exposed to the headlines previously. </span>
-<span id="cb45-149"><a href="#cb45-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-152"><a href="#cb45-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-153"><a href="#cb45-153" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span>
-<span id="cb45-154"><a href="#cb45-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-155"><a href="#cb45-155" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-156"><a href="#cb45-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span>
-<span id="cb45-157"><a href="#cb45-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-158"><a href="#cb45-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-159"><a href="#cb45-159" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Concordance</span></span>
-<span id="cb45-160"><a href="#cb45-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-161"><a href="#cb45-161" aria-hidden="true" tabindex="-1"></a>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</span>
-<span id="cb45-162"><a href="#cb45-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-165"><a href="#cb45-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-166"><a href="#cb45-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
-<span id="cb45-167"><a href="#cb45-167" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
-<span id="cb45-168"><a href="#cb45-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-169"><a href="#cb45-169" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-170"><a href="#cb45-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb45-171"><a href="#cb45-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
-<span id="cb45-172"><a href="#cb45-172" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
-<span id="cb45-173"><a href="#cb45-173" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
-<span id="cb45-174"><a href="#cb45-174" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
-<span id="cb45-175"><a href="#cb45-175" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
-<span id="cb45-176"><a href="#cb45-176" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
-<span id="cb45-177"><a href="#cb45-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
-<span id="cb45-178"><a href="#cb45-178" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb45-179"><a href="#cb45-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-180"><a href="#cb45-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-181"><a href="#cb45-181" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Accuracy</span></span>
-<span id="cb45-182"><a href="#cb45-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-185"><a href="#cb45-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-186"><a href="#cb45-186" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
-<span id="cb45-187"><a href="#cb45-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-188"><a href="#cb45-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-189"><a href="#cb45-189" aria-hidden="true" tabindex="-1"></a>One person gave an accuracy rating of <span class="in">`0`</span>. This is likely a coding error, we'll remove this observation.</span>
-<span id="cb45-190"><a href="#cb45-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-193"><a href="#cb45-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">accuracy_raw =</span> accuracy)</span>
-<span id="cb45-197"><a href="#cb45-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-199"><a href="#cb45-199" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Interventions &amp; other cleaning</span></span>
-<span id="cb45-200"><a href="#cb45-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-203"><a href="#cb45-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-204"><a href="#cb45-204" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-205"><a href="#cb45-205" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span>
-<span id="cb45-206"><a href="#cb45-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-207"><a href="#cb45-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-210"><a href="#cb45-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-211"><a href="#cb45-211" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-212"><a href="#cb45-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
-<span id="cb45-213"><a href="#cb45-213" aria-hidden="true" tabindex="-1"></a>         <span class="at">intervention_label =</span> <span class="fu">tolower</span>(Condition),</span>
-<span id="cb45-214"><a href="#cb45-214" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>), </span>
-<span id="cb45-215"><a href="#cb45-215" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">1</span>) </span>
-<span id="cb45-216"><a href="#cb45-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-217"><a href="#cb45-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-218"><a href="#cb45-218" aria-hidden="true" tabindex="-1"></a><span class="fu">### Study 2</span></span>
-<span id="cb45-219"><a href="#cb45-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-222"><a href="#cb45-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-223"><a href="#cb45-223" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_2.xlsx"</span>, </span>
-<span id="cb45-224"><a href="#cb45-224" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span>
-<span id="cb45-225"><a href="#cb45-225" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span>
-<span id="cb45-226"><a href="#cb45-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-227"><a href="#cb45-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-228"><a href="#cb45-228" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Veracity</span></span>
-<span id="cb45-229"><a href="#cb45-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-230"><a href="#cb45-230" aria-hidden="true" tabindex="-1"></a>The data comes in wide format, with one column per headline. We first change this to long format. </span>
-<span id="cb45-231"><a href="#cb45-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-234"><a href="#cb45-234" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-235"><a href="#cb45-235" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
-<span id="cb45-236"><a href="#cb45-236" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
-<span id="cb45-237"><a href="#cb45-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb45-238"><a href="#cb45-238" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
-<span id="cb45-239"><a href="#cb45-239" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
-<span id="cb45-240"><a href="#cb45-240" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
-<span id="cb45-241"><a href="#cb45-241" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
-<span id="cb45-242"><a href="#cb45-242" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb45-243"><a href="#cb45-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-244"><a href="#cb45-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-245"><a href="#cb45-245" aria-hidden="true" tabindex="-1"></a>From the stata code provided by the authors, we know that variables preceeded by "A" are false news, and those preceeded by "B" are true news. </span>
-<span id="cb45-246"><a href="#cb45-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-249"><a href="#cb45-249" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-250"><a href="#cb45-250" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-251"><a href="#cb45-251" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb45-252"><a href="#cb45-252" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
-<span id="cb45-253"><a href="#cb45-253" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb45-254"><a href="#cb45-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-255"><a href="#cb45-255" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
-<span id="cb45-256"><a href="#cb45-256" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
-<span id="cb45-257"><a href="#cb45-257" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
-<span id="cb45-258"><a href="#cb45-258" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span>
-<span id="cb45-259"><a href="#cb45-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-260"><a href="#cb45-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-261"><a href="#cb45-261" aria-hidden="true" tabindex="-1"></a><span class="fu">#### News id</span></span>
-<span id="cb45-262"><a href="#cb45-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-265"><a href="#cb45-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-266"><a href="#cb45-266" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-267"><a href="#cb45-267" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span>
-<span id="cb45-268"><a href="#cb45-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Time point</span></span>
-<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a>As before, we want to exclude the ratings at the second time point ("Final").</span>
-<span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-276"><a href="#cb45-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-277"><a href="#cb45-277" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span>
-<span id="cb45-278"><a href="#cb45-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-279"><a href="#cb45-279" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-280"><a href="#cb45-280" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span>
-<span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Concordance</span></span>
-<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</span>
-<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-289"><a href="#cb45-289" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-290"><a href="#cb45-290" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
-<span id="cb45-291"><a href="#cb45-291" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
-<span id="cb45-292"><a href="#cb45-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-293"><a href="#cb45-293" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-294"><a href="#cb45-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb45-295"><a href="#cb45-295" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
-<span id="cb45-296"><a href="#cb45-296" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
-<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
-<span id="cb45-298"><a href="#cb45-298" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
-<span id="cb45-299"><a href="#cb45-299" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
-<span id="cb45-300"><a href="#cb45-300" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
-<span id="cb45-301"><a href="#cb45-301" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
-<span id="cb45-302"><a href="#cb45-302" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb45-303"><a href="#cb45-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-304"><a href="#cb45-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-305"><a href="#cb45-305" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Accuracy</span></span>
-<span id="cb45-306"><a href="#cb45-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-309"><a href="#cb45-309" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-310"><a href="#cb45-310" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
-<span id="cb45-311"><a href="#cb45-311" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-312"><a href="#cb45-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-313"><a href="#cb45-313" aria-hidden="true" tabindex="-1"></a>This time, 31 people gave an accuracy rating of <span class="in">`0`</span>. Again, this is likely a coding error, and we'll remove these observations.</span>
-<span id="cb45-314"><a href="#cb45-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-317"><a href="#cb45-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-318"><a href="#cb45-318" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-319"><a href="#cb45-319" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb45-320"><a href="#cb45-320" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">accuracy_raw =</span> accuracy)</span>
-<span id="cb45-321"><a href="#cb45-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-322"><a href="#cb45-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-323"><a href="#cb45-323" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Interventions &amp; other cleaning</span></span>
-<span id="cb45-324"><a href="#cb45-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-327"><a href="#cb45-327" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-328"><a href="#cb45-328" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-329"><a href="#cb45-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span>
-<span id="cb45-330"><a href="#cb45-330" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-331"><a href="#cb45-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-334"><a href="#cb45-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-335"><a href="#cb45-335" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb45-336"><a href="#cb45-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
-<span id="cb45-337"><a href="#cb45-337" aria-hidden="true" tabindex="-1"></a>         <span class="at">intervention_label =</span> <span class="fu">tolower</span>(Condition),</span>
-<span id="cb45-338"><a href="#cb45-338" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>), </span>
-<span id="cb45-339"><a href="#cb45-339" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">2</span>) </span>
-<span id="cb45-340"><a href="#cb45-340" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-341"><a href="#cb45-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-342"><a href="#cb45-342" aria-hidden="true" tabindex="-1"></a><span class="fu">### Combine Studies</span></span>
-<span id="cb45-343"><a href="#cb45-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-344"><a href="#cb45-344" aria-hidden="true" tabindex="-1"></a>We combine both studies. </span>
-<span id="cb45-345"><a href="#cb45-345" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-348"><a href="#cb45-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-349"><a href="#cb45-349" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine + add remaining variables</span></span>
-<span id="cb45-350"><a href="#cb45-350" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(d1, d2) <span class="sc">|&gt;</span> </span>
-<span id="cb45-351"><a href="#cb45-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>, </span>
-<span id="cb45-352"><a href="#cb45-352" aria-hidden="true" tabindex="-1"></a>         <span class="at">country =</span> <span class="st">"United States"</span>,</span>
-<span id="cb45-353"><a href="#cb45-353" aria-hidden="true" tabindex="-1"></a>         <span class="at">paper_id =</span> <span class="st">"brashier_2021"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb45-354"><a href="#cb45-354" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add_intervention_info </span></span>
-<span id="cb45-355"><a href="#cb45-355" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
-<span id="cb45-356"><a href="#cb45-356" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span>
-<span id="cb45-357"><a href="#cb45-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-358"><a href="#cb45-358" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
-<span id="cb45-359"><a href="#cb45-359" aria-hidden="true" tabindex="-1"></a><span class="co"># brashier_2021 |&gt;</span></span>
-<span id="cb45-360"><a href="#cb45-360" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(paper_id, experiment_id) |&gt;</span></span>
-<span id="cb45-361"><a href="#cb45-361" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n_observations = n()) </span></span>
-<span id="cb45-362"><a href="#cb45-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-363"><a href="#cb45-363" aria-hidden="true" tabindex="-1"></a>Since in both studies the same news have been used (with the same labels), we can just keep the labels</span>
-<span id="cb45-364"><a href="#cb45-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-367"><a href="#cb45-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-368"><a href="#cb45-368" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="sc">|&gt;</span> </span>
-<span id="cb45-369"><a href="#cb45-369" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(news_id) <span class="sc">|&gt;</span> </span>
-<span id="cb45-370"><a href="#cb45-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span>
-<span id="cb45-371"><a href="#cb45-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-372"><a href="#cb45-372" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-373"><a href="#cb45-373" aria-hidden="true" tabindex="-1"></a><span class="fu">## Write out data</span></span>
-<span id="cb45-374"><a href="#cb45-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-377"><a href="#cb45-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-378"><a href="#cb45-378" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(brashier_2021)</span>
-<span id="cb45-379"><a href="#cb45-379" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb56" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Timing Matters When Correcting Fake News.</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2021"</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - Brashier, Nadia M.</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - warning labels</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../../references.bib</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="an">nocite:</span><span class="co"> |</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co">  @brashierTimingMattersWhen2021</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false </span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)      <span class="co"># read excel files</span></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a><span class="co"># load functions</span></span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../../R/custom_functions.R"</span>)</span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a><span class="co"># load target variables</span></span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../../R/variables.R"</span>)</span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference</span></span>
+<span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intervention</span></span>
+<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-40"><a href="#cb56-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-41"><a href="#cb56-41" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb56-42"><a href="#cb56-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags either immediately before (prebunking), during (veracity_labels), or immediately after (debunking) reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information. We will only consider ratings from the first wave. Study 2 is essentially a replication of Study 1, but with a new 3s intervall in the prebunking condition.'</span>,</span>
+<span id="cb56-43"><a href="#cb56-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"veracity_labels"</span>,</span>
+<span id="cb56-44"><a href="#cb56-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">'We will select the "during" (veracity_labels) condition, that is, the condition in which participants saw a headline with true/false tags. The debunking condition is relevant in the study context for long-term effects, but but should not affect ratings of the first wave, which we will look at. As for prebunking, it is unclear how this has been done, from the paper.'</span>,</span>
+<span id="cb56-45"><a href="#cb56-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb56-46"><a href="#cb56-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-47"><a href="#cb56-47" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
+<span id="cb56-48"><a href="#cb56-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(intervention_description, intervention_selection_description) <span class="sc">|&gt;</span> </span>
+<span id="cb56-49"><a href="#cb56-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()</span>
+<span id="cb56-50"><a href="#cb56-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-51"><a href="#cb56-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-52"><a href="#cb56-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes</span></span>
+<span id="cb56-53"><a href="#cb56-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-54"><a href="#cb56-54" aria-hidden="true" tabindex="-1"></a>The authors did not find evidence that emotion regulation helped people distinguish false from true news headlines, in any of the studies.</span>
+<span id="cb56-55"><a href="#cb56-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-56"><a href="#cb56-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Cleaning</span></span>
+<span id="cb56-57"><a href="#cb56-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-58"><a href="#cb56-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Study 1</span></span>
+<span id="cb56-59"><a href="#cb56-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-62"><a href="#cb56-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-63"><a href="#cb56-63" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_1.xlsx"</span>, </span>
+<span id="cb56-64"><a href="#cb56-64" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span>
+<span id="cb56-65"><a href="#cb56-65" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span>
+<span id="cb56-66"><a href="#cb56-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-67"><a href="#cb56-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-68"><a href="#cb56-68" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `accuracy_raw`, `veracity`</span></span>
+<span id="cb56-69"><a href="#cb56-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-70"><a href="#cb56-70" aria-hidden="true" tabindex="-1"></a>The data comes in wide format, with one column per headline. We first change this to long format. </span>
+<span id="cb56-71"><a href="#cb56-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-74"><a href="#cb56-74" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-75"><a href="#cb56-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
+<span id="cb56-76"><a href="#cb56-76" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb56-77"><a href="#cb56-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb56-78"><a href="#cb56-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
+<span id="cb56-79"><a href="#cb56-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
+<span id="cb56-80"><a href="#cb56-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
+<span id="cb56-81"><a href="#cb56-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
+<span id="cb56-82"><a href="#cb56-82" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb56-83"><a href="#cb56-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-84"><a href="#cb56-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-85"><a href="#cb56-85" aria-hidden="true" tabindex="-1"></a>From the stata code provided by the authors, we know that variables preceded by "A" are false news, and those preceded by "B" are true news. </span>
+<span id="cb56-86"><a href="#cb56-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-89"><a href="#cb56-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-90"><a href="#cb56-90" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-91"><a href="#cb56-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-92"><a href="#cb56-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
+<span id="cb56-93"><a href="#cb56-93" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb56-94"><a href="#cb56-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-95"><a href="#cb56-95" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
+<span id="cb56-96"><a href="#cb56-96" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
+<span id="cb56-97"><a href="#cb56-97" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
+<span id="cb56-98"><a href="#cb56-98" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span>
+<span id="cb56-99"><a href="#cb56-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-100"><a href="#cb56-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-103"><a href="#cb56-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-104"><a href="#cb56-104" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
+<span id="cb56-105"><a href="#cb56-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-106"><a href="#cb56-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-107"><a href="#cb56-107" aria-hidden="true" tabindex="-1"></a>One person gave an accuracy rating of <span class="in">`0`</span>. This is likely a coding error, we'll remove this observation.</span>
+<span id="cb56-108"><a href="#cb56-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-111"><a href="#cb56-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-112"><a href="#cb56-112" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-113"><a href="#cb56-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb56-114"><a href="#cb56-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">accuracy_raw =</span> accuracy)</span>
+<span id="cb56-115"><a href="#cb56-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-116"><a href="#cb56-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-117"><a href="#cb56-117" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `news_id`</span></span>
+<span id="cb56-118"><a href="#cb56-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-121"><a href="#cb56-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-122"><a href="#cb56-122" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>item)</span>
+<span id="cb56-123"><a href="#cb56-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-124"><a href="#cb56-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-125"><a href="#cb56-125" aria-hidden="true" tabindex="-1"></a>There are only 18 different item identifiers. That is presumably, because these numbers only identify items within each veracity category. </span>
+<span id="cb56-126"><a href="#cb56-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-129"><a href="#cb56-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-130"><a href="#cb56-130" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-131"><a href="#cb56-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(veracity) <span class="sc">|&gt;</span> </span>
+<span id="cb56-132"><a href="#cb56-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">n_distinct</span>(item))</span>
+<span id="cb56-133"><a href="#cb56-133" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-134"><a href="#cb56-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-135"><a href="#cb56-135" aria-hidden="true" tabindex="-1"></a>For our news identifier, we therefore combine the veracity variable with these identifiers. </span>
+<span id="cb56-136"><a href="#cb56-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-139"><a href="#cb56-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-140"><a href="#cb56-140" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-141"><a href="#cb56-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span>
+<span id="cb56-142"><a href="#cb56-142" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-143"><a href="#cb56-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-144"><a href="#cb56-144" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Time point</span></span>
+<span id="cb56-145"><a href="#cb56-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-146"><a href="#cb56-146" aria-hidden="true" tabindex="-1"></a>Two-wave panel design: In the treatment conditions, participants saw “true” and “false” tags immediately before, during, or immediately after reading. In the control condition, participants rated the headlines alone, with no tags. One week later, all participants judged the same 36 headlines for accuracy, this time with no veracity information.</span>
+<span id="cb56-147"><a href="#cb56-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-148"><a href="#cb56-148" aria-hidden="true" tabindex="-1"></a>In our study, we want to exclude the ratings at the second time point ("Final"), because previous exposure to the headlines would make the results not comparable with other studies, where participants haven't been (at least in a study context) exposed to the headlines previously. </span>
+<span id="cb56-149"><a href="#cb56-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-152"><a href="#cb56-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-153"><a href="#cb56-153" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span>
+<span id="cb56-154"><a href="#cb56-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-155"><a href="#cb56-155" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-156"><a href="#cb56-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span>
+<span id="cb56-157"><a href="#cb56-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-158"><a href="#cb56-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-159"><a href="#cb56-159" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Concordance (`concordance`, `partisan_identity`, `news_slant`)</span></span>
+<span id="cb56-160"><a href="#cb56-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-161"><a href="#cb56-161" aria-hidden="true" tabindex="-1"></a>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</span>
+<span id="cb56-162"><a href="#cb56-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-165"><a href="#cb56-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-166"><a href="#cb56-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
+<span id="cb56-167"><a href="#cb56-167" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
+<span id="cb56-168"><a href="#cb56-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-169"><a href="#cb56-169" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-170"><a href="#cb56-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-171"><a href="#cb56-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
+<span id="cb56-172"><a href="#cb56-172" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
+<span id="cb56-173"><a href="#cb56-173" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
+<span id="cb56-174"><a href="#cb56-174" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
+<span id="cb56-175"><a href="#cb56-175" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
+<span id="cb56-176"><a href="#cb56-176" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
+<span id="cb56-177"><a href="#cb56-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
+<span id="cb56-178"><a href="#cb56-178" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb56-179"><a href="#cb56-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-180"><a href="#cb56-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-181"><a href="#cb56-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-182"><a href="#cb56-182" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Conditions (`intervention_label`, `condition`)</span></span>
+<span id="cb56-183"><a href="#cb56-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-186"><a href="#cb56-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-187"><a href="#cb56-187" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-188"><a href="#cb56-188" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span>
+<span id="cb56-189"><a href="#cb56-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-190"><a href="#cb56-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-193"><a href="#cb56-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-194"><a href="#cb56-194" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-195"><a href="#cb56-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">intervention_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb56-196"><a href="#cb56-196" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"Before"</span> <span class="sc">~</span> <span class="st">"prebunking"</span>, </span>
+<span id="cb56-197"><a href="#cb56-197" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"During"</span> <span class="sc">~</span> <span class="st">"veracity_labels"</span>, </span>
+<span id="cb56-198"><a href="#cb56-198" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"After"</span> <span class="sc">~</span> <span class="st">"debunking"</span>, </span>
+<span id="cb56-199"><a href="#cb56-199" aria-hidden="true" tabindex="-1"></a>           <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb56-200"><a href="#cb56-200" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb56-201"><a href="#cb56-201" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"Control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>)) </span>
+<span id="cb56-202"><a href="#cb56-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-203"><a href="#cb56-203" aria-hidden="true" tabindex="-1"></a><span class="co">#check</span></span>
+<span id="cb56-204"><a href="#cb56-204" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>intervention_label, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
+<span id="cb56-205"><a href="#cb56-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-206"><a href="#cb56-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-207"><a href="#cb56-207" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `age`</span></span>
+<span id="cb56-208"><a href="#cb56-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-209"><a href="#cb56-209" aria-hidden="true" tabindex="-1"></a>There is no age variable in the data. </span>
+<span id="cb56-210"><a href="#cb56-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-211"><a href="#cb56-211" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `year`</span></span>
+<span id="cb56-212"><a href="#cb56-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-213"><a href="#cb56-213" aria-hidden="true" tabindex="-1"></a>There is no date variable in the data. It's not clear from the paper, the supplement, or the pre-registraiton when the data has been collected. We have to rely on the publication date.</span>
+<span id="cb56-214"><a href="#cb56-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-217"><a href="#cb56-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-218"><a href="#cb56-218" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-219"><a href="#cb56-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span>)</span>
+<span id="cb56-220"><a href="#cb56-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-221"><a href="#cb56-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-222"><a href="#cb56-222" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `scale`</span></span>
+<span id="cb56-223"><a href="#cb56-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-226"><a href="#cb56-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-227"><a href="#cb56-227" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy_raw, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
+<span id="cb56-228"><a href="#cb56-228" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-229"><a href="#cb56-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-232"><a href="#cb56-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-233"><a href="#cb56-233" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span></span>
+<span id="cb56-234"><a href="#cb56-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>)</span>
+<span id="cb56-235"><a href="#cb56-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-236"><a href="#cb56-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-237"><a href="#cb56-237" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Identifiers (`subject_id`, `experiment_id`) </span></span>
+<span id="cb56-238"><a href="#cb56-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-241"><a href="#cb56-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-242"><a href="#cb56-242" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-243"><a href="#cb56-243" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
+<span id="cb56-244"><a href="#cb56-244" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">1</span>) </span>
+<span id="cb56-245"><a href="#cb56-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-246"><a href="#cb56-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-247"><a href="#cb56-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-248"><a href="#cb56-248" aria-hidden="true" tabindex="-1"></a><span class="fu">### Study 2</span></span>
+<span id="cb56-249"><a href="#cb56-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-252"><a href="#cb56-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-253"><a href="#cb56-253" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"brashier_2021-study_2.xlsx"</span>, </span>
+<span id="cb56-254"><a href="#cb56-254" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sheet =</span> <span class="st">"Sorted"</span>)</span>
+<span id="cb56-255"><a href="#cb56-255" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span>
+<span id="cb56-256"><a href="#cb56-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-257"><a href="#cb56-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-258"><a href="#cb56-258" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `accuracy_raw`, `veracity`</span></span>
+<span id="cb56-259"><a href="#cb56-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-260"><a href="#cb56-260" aria-hidden="true" tabindex="-1"></a>The data comes in wide format, with one column per headline. We first change this to long format. </span>
+<span id="cb56-261"><a href="#cb56-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-264"><a href="#cb56-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-265"><a href="#cb56-265" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the wide columns into long format</span></span>
+<span id="cb56-266"><a href="#cb56-266" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb56-267"><a href="#cb56-267" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb56-268"><a href="#cb56-268" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^(A|B)[0-9]+</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s(Initial|Final)$"</span>),</span>
+<span id="cb56-269"><a href="#cb56-269" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"prefix"</span>, <span class="st">"item"</span>, <span class="st">"time"</span>),</span>
+<span id="cb56-270"><a href="#cb56-270" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"(A|B)([0-9]+) - (Initial|Final)"</span>,</span>
+<span id="cb56-271"><a href="#cb56-271" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"accuracy"</span></span>
+<span id="cb56-272"><a href="#cb56-272" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb56-273"><a href="#cb56-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-274"><a href="#cb56-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-275"><a href="#cb56-275" aria-hidden="true" tabindex="-1"></a>From the stata code provided by the authors, we know that variables preceeded by "A" are false news, and those preceeded by "B" are true news. </span>
+<span id="cb56-276"><a href="#cb56-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-279"><a href="#cb56-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-280"><a href="#cb56-280" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-281"><a href="#cb56-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-282"><a href="#cb56-282" aria-hidden="true" tabindex="-1"></a>    <span class="at">veracity =</span> <span class="fu">if_else</span>(prefix <span class="sc">==</span> <span class="st">"A"</span>, <span class="st">"false"</span>, <span class="st">"true"</span>)</span>
+<span id="cb56-283"><a href="#cb56-283" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb56-284"><a href="#cb56-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-285"><a href="#cb56-285" aria-hidden="true" tabindex="-1"></a><span class="co"># plausibility check</span></span>
+<span id="cb56-286"><a href="#cb56-286" aria-hidden="true" tabindex="-1"></a><span class="co"># data_long |&gt; </span></span>
+<span id="cb56-287"><a href="#cb56-287" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(veracity) |&gt; </span></span>
+<span id="cb56-288"><a href="#cb56-288" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(mean_accuracy = mean(accuracy, na.rm=TRUE))</span></span>
+<span id="cb56-289"><a href="#cb56-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-290"><a href="#cb56-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-293"><a href="#cb56-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-294"><a href="#cb56-294" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
+<span id="cb56-295"><a href="#cb56-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-296"><a href="#cb56-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-297"><a href="#cb56-297" aria-hidden="true" tabindex="-1"></a>This time, 31 people gave an accuracy rating of <span class="in">`0`</span>. Again, this is likely a coding error, and we'll remove these observations.</span>
+<span id="cb56-298"><a href="#cb56-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-301"><a href="#cb56-301" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-302"><a href="#cb56-302" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-303"><a href="#cb56-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb56-304"><a href="#cb56-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">accuracy_raw =</span> accuracy)</span>
+<span id="cb56-305"><a href="#cb56-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-306"><a href="#cb56-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-307"><a href="#cb56-307" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `news_id`</span></span>
+<span id="cb56-308"><a href="#cb56-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-311"><a href="#cb56-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-312"><a href="#cb56-312" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-313"><a href="#cb56-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> <span class="fu">paste0</span>(veracity, <span class="st">"_"</span>, item))</span>
+<span id="cb56-314"><a href="#cb56-314" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-315"><a href="#cb56-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-316"><a href="#cb56-316" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Time point</span></span>
+<span id="cb56-317"><a href="#cb56-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-318"><a href="#cb56-318" aria-hidden="true" tabindex="-1"></a>As before, we want to exclude the ratings at the second time point ("Final").</span>
+<span id="cb56-319"><a href="#cb56-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-322"><a href="#cb56-322" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-323"><a href="#cb56-323" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>time)</span>
+<span id="cb56-324"><a href="#cb56-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-325"><a href="#cb56-325" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-326"><a href="#cb56-326" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">"Initial"</span>)</span>
+<span id="cb56-327"><a href="#cb56-327" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-328"><a href="#cb56-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-329"><a href="#cb56-329" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Concordance (`concordance`, `partisan_identity`, `news_slant`)</span></span>
+<span id="cb56-330"><a href="#cb56-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-331"><a href="#cb56-331" aria-hidden="true" tabindex="-1"></a>From the stata code, we know the political slant of the headlines. We combine this with participants partisan identity to code concordance</span>
+<span id="cb56-332"><a href="#cb56-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-335"><a href="#cb56-335" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-336"><a href="#cb56-336" aria-hidden="true" tabindex="-1"></a><span class="co"># Then code whether the headline is pro-Democratic:</span></span>
+<span id="cb56-337"><a href="#cb56-337" aria-hidden="true" tabindex="-1"></a>pro_democrat_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">36</span>)</span>
+<span id="cb56-338"><a href="#cb56-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-339"><a href="#cb56-339" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-340"><a href="#cb56-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-341"><a href="#cb56-341" aria-hidden="true" tabindex="-1"></a>    <span class="at">news_slant =</span> <span class="fu">ifelse</span>(news_id <span class="sc">%in%</span> pro_democrat_items, <span class="st">"democrat"</span>, <span class="st">"republican"</span>),</span>
+<span id="cb56-342"><a href="#cb56-342" aria-hidden="true" tabindex="-1"></a>    <span class="at">partisan_identity =</span> <span class="fu">case_when</span>(</span>
+<span id="cb56-343"><a href="#cb56-343" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Dem"</span> <span class="sc">~</span> <span class="st">"democrat"</span>, </span>
+<span id="cb56-344"><a href="#cb56-344" aria-hidden="true" tabindex="-1"></a>      Party <span class="sc">==</span> <span class="st">"Repub"</span> <span class="sc">~</span> <span class="st">"republican"</span>, </span>
+<span id="cb56-345"><a href="#cb56-345" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>), </span>
+<span id="cb56-346"><a href="#cb56-346" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make concordance variable</span></span>
+<span id="cb56-347"><a href="#cb56-347" aria-hidden="true" tabindex="-1"></a>    <span class="at">concordance =</span> <span class="fu">ifelse</span>(partisan_identity <span class="sc">==</span> news_slant, <span class="st">"concordant"</span>, <span class="st">"discordant"</span>)</span>
+<span id="cb56-348"><a href="#cb56-348" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb56-349"><a href="#cb56-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-350"><a href="#cb56-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-351"><a href="#cb56-351" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Conditions (`intervention_label`, `condition`)</span></span>
+<span id="cb56-352"><a href="#cb56-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-355"><a href="#cb56-355" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-356"><a href="#cb56-356" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-357"><a href="#cb56-357" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Condition)</span>
+<span id="cb56-358"><a href="#cb56-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-359"><a href="#cb56-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-362"><a href="#cb56-362" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-363"><a href="#cb56-363" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-364"><a href="#cb56-364" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">intervention_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb56-365"><a href="#cb56-365" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"Before"</span> <span class="sc">~</span> <span class="st">"prebunking"</span>, </span>
+<span id="cb56-366"><a href="#cb56-366" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"During"</span> <span class="sc">~</span> <span class="st">"veracity_labels"</span>, </span>
+<span id="cb56-367"><a href="#cb56-367" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"After"</span> <span class="sc">~</span> <span class="st">"debunking"</span>, </span>
+<span id="cb56-368"><a href="#cb56-368" aria-hidden="true" tabindex="-1"></a>           <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb56-369"><a href="#cb56-369" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb56-370"><a href="#cb56-370" aria-hidden="true" tabindex="-1"></a>         <span class="at">condition =</span> <span class="fu">ifelse</span>(Condition <span class="sc">==</span> <span class="st">"Control"</span>, <span class="st">"control"</span>, <span class="st">"treatment"</span>)) </span>
+<span id="cb56-371"><a href="#cb56-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-372"><a href="#cb56-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-373"><a href="#cb56-373" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `age`</span></span>
+<span id="cb56-374"><a href="#cb56-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-375"><a href="#cb56-375" aria-hidden="true" tabindex="-1"></a>There is no age variable in the data. </span>
+<span id="cb56-376"><a href="#cb56-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-377"><a href="#cb56-377" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `year`</span></span>
+<span id="cb56-378"><a href="#cb56-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-379"><a href="#cb56-379" aria-hidden="true" tabindex="-1"></a>There is no date variable in the data. It's not clear from the paper, the supplement, or the pre-registraiton when the data has been collected. We have to rely on the publication date.</span>
+<span id="cb56-380"><a href="#cb56-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-383"><a href="#cb56-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-384"><a href="#cb56-384" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-385"><a href="#cb56-385" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span>)</span>
+<span id="cb56-386"><a href="#cb56-386" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-387"><a href="#cb56-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-388"><a href="#cb56-388" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `scale`</span></span>
+<span id="cb56-389"><a href="#cb56-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-392"><a href="#cb56-392" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-393"><a href="#cb56-393" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data_long<span class="sc">$</span>accuracy_raw, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
+<span id="cb56-394"><a href="#cb56-394" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-395"><a href="#cb56-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-398"><a href="#cb56-398" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-399"><a href="#cb56-399" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span></span>
+<span id="cb56-400"><a href="#cb56-400" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>)</span>
+<span id="cb56-401"><a href="#cb56-401" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-402"><a href="#cb56-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-403"><a href="#cb56-403" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Identifiers (`subject_id`, `experiment_id`) </span></span>
+<span id="cb56-404"><a href="#cb56-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-407"><a href="#cb56-407" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-408"><a href="#cb56-408" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb56-409"><a href="#cb56-409" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subject_id =</span> P, </span>
+<span id="cb56-410"><a href="#cb56-410" aria-hidden="true" tabindex="-1"></a>         <span class="at">experiment_id =</span> <span class="dv">2</span>) </span>
+<span id="cb56-411"><a href="#cb56-411" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-412"><a href="#cb56-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-413"><a href="#cb56-413" aria-hidden="true" tabindex="-1"></a><span class="fu">### Combine and add identifiers (`country`, `paper_id`)</span></span>
+<span id="cb56-414"><a href="#cb56-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-415"><a href="#cb56-415" aria-hidden="true" tabindex="-1"></a>We combine both studies. </span>
+<span id="cb56-416"><a href="#cb56-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-419"><a href="#cb56-419" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-420"><a href="#cb56-420" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine + add remaining variables</span></span>
+<span id="cb56-421"><a href="#cb56-421" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(d1, d2) <span class="sc">|&gt;</span> </span>
+<span id="cb56-422"><a href="#cb56-422" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="st">"United States"</span>,</span>
+<span id="cb56-423"><a href="#cb56-423" aria-hidden="true" tabindex="-1"></a>         <span class="at">paper_id =</span> <span class="st">"brashier_2021"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb56-424"><a href="#cb56-424" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add_intervention_info </span></span>
+<span id="cb56-425"><a href="#cb56-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
+<span id="cb56-426"><a href="#cb56-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span>
+<span id="cb56-427"><a href="#cb56-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-428"><a href="#cb56-428" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb56-429"><a href="#cb56-429" aria-hidden="true" tabindex="-1"></a><span class="co"># brashier_2021 |&gt;</span></span>
+<span id="cb56-430"><a href="#cb56-430" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(paper_id, experiment_id) |&gt;</span></span>
+<span id="cb56-431"><a href="#cb56-431" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n_observations = n()) </span></span>
+<span id="cb56-432"><a href="#cb56-432" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-433"><a href="#cb56-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-434"><a href="#cb56-434" aria-hidden="true" tabindex="-1"></a>Since in both studies the same news have been used (with the same labels), we can just keep the labels</span>
+<span id="cb56-435"><a href="#cb56-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-438"><a href="#cb56-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-439"><a href="#cb56-439" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="sc">|&gt;</span> </span>
+<span id="cb56-440"><a href="#cb56-440" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(news_id) <span class="sc">|&gt;</span> </span>
+<span id="cb56-441"><a href="#cb56-441" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span>
+<span id="cb56-442"><a href="#cb56-442" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-443"><a href="#cb56-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-444"><a href="#cb56-444" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `news_selection`</span></span>
+<span id="cb56-445"><a href="#cb56-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-448"><a href="#cb56-448" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-449"><a href="#cb56-449" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine + add remaining variables</span></span>
+<span id="cb56-450"><a href="#cb56-450" aria-hidden="true" tabindex="-1"></a>brashier_2021 <span class="ot">&lt;-</span> brashier_2021 <span class="sc">|&gt;</span> </span>
+<span id="cb56-451"><a href="#cb56-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_selection =</span> <span class="st">"researchers"</span>) </span>
+<span id="cb56-452"><a href="#cb56-452" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-453"><a href="#cb56-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-454"><a href="#cb56-454" aria-hidden="true" tabindex="-1"></a><span class="fu">## Write out data</span></span>
+<span id="cb56-455"><a href="#cb56-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-458"><a href="#cb56-458" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-459"><a href="#cb56-459" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(brashier_2021)</span>
+<span id="cb56-460"><a href="#cb56-460" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

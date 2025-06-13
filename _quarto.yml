@@ -11,8 +11,10 @@ website:
   
   navbar:
     left:
-      - file: data/data.qmd
-      - file: literature_search/literature_search.qmd
+      - text: "Data"
+        file: data/codebook.qmd
+      - text: "Literature Search"
+        file: literature_search/literature_search.qmd
     right:
       - icon: github
         aria-label: github
@@ -23,8 +25,9 @@ website:
       style: "docked"
       #search: false
       contents:
-        - data/data.qmd
+        - data/codebook.qmd
         - data/list_studies.qmd
+        - data/combine_data.qmd
     - title: "Literature Search"
       style: "docked"
       #search: false
