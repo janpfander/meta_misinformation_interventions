@@ -15,10 +15,12 @@ website:
         file: data/codebook.qmd
       - text: "Literature Search"
         file: literature_search/literature_search.qmd
+      - text: "Preregistration"
+        file: preregistration/preregistration.qmd
     right:
       - icon: github
         aria-label: github
-        href: https://github.com/andrewheiss/lemon-lucifer
+        href: https://github.com/janpfander/meta_misinformation_interventions
         
   sidebar:
     - title: "Data"
@@ -34,7 +36,13 @@ website:
       contents:
         - literature_search/literature_search.qmd
         - literature_search/identify_studies.qmd
-
+    - title: "Preregistration"
+      style: "docked"
+      #search: false
+      contents:
+        - text: "Preregistration"
+          file: preregistration/preregistration.qmd
+        - preregistration/simulation.qmd
 
   page-footer:
     left: |
@@ -44,7 +52,7 @@ website:
       [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
     right: |
       Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
-      [View the source at {{< fa brands github >}} GitHub](https://github.com/andrewheiss/lemon-lucifer)
+      [View the source at {{< fa brands github >}} GitHub](https://github.com/janpfander/meta_misinformation_interventions)
 
 
 format:

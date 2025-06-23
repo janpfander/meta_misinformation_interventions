@@ -1,0 +1,1409 @@
+---
+title: |
+  Data simulation for preregistration
+title-block-banner: true
+execute:
+  message: false
+  warning: false
+  
+bibliography: ../references.bib
+---
+
+```{r packages}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  
+library(lme4)
+library(lmerTest)
+library(afex)
+library(broom)
+library(broom.mixed)
+library(metafor)   
+```
+
+```{r functions}
+# load plot theme
+source("../R/plot_theme.R") 
+
+# load other functions
+source("../R/custom_functions.R")
+```
+
+
+```{r}
+# Set a seed
+set.seed(1234)
+```
+
+
+# Introduction
+
+We will generate participant-level data for a set different papers with different numbers of experiments.
+
+This simulation involves three steps:
+
+1. simulate data for a single experiment
+2. simulate several experiments
+3. simulate several papers 
+
+To give an overview of the data generating task: 
+
+We model our dependent variable `accuracy` based on the variables `veracity` (false vs. true), `condition` (control vs. intervention), and their interaction. We have random effects for `subject_id`, `experiment_id` and `paper_id`. 
+
+# Building a simulation function
+
+## Data generating process
+
+### Variables
+
+- `paper_id` (identifier of the published paper)
+- `experiment_id` (identifier of experiments within a paper)
+- `subject_id` (identifier of subjects within an experiment)
+- `veracity`  (true vs. fake news)
+- `accuracy` (numeric accuracy rating, ranging from 0 to 1)^[for binary variables, this is the probability of choosing accurate as an answer.]
+- `condition` (control vs. intervention)
+- `n` (number of participants per sample)
+
+### Design
+
+The important parts of the design are:
+
+* Random factors : 
+    * `subject_id` 
+    * `experiment_id`
+    * `paper_id`
+* Fixed factor 1: `veracity` (levels = false, true)
+    * within subject_id 
+    * within experiment_id
+    * within paper_id
+    
+* Fixed factor 2: `condition` (levels: control, intervention)
+    * between subject_id
+    * within experiment_id
+    * within paper_id
+    
+* Fixed factor 3: `condition\*veracity` 
+    * between subject_id
+    * within experiment_id
+    * within paper_id
+
+We assume that,
+
+* `veracity` varies _within_ participants, i.e. all participants see both `fake` and `true` news 
+* `condition` varies _between_ participants, i.e. a participant is either in the control group or a treatment group
+* an experiment involves only one control group, but a varying number of treatment groups (up to 3)
+* we assume _random effects_ only for participants (`subject_id`), experiments (`experiment_id`) and papers (`paper_id`). We do *not* assume, random effects for different intervention types, nor for different news headlines
+* the sample size per experimental condition is 100
+* each participant rates 12 news items in total, with equal numbers of `fake` and `true` items
+    
+### Model
+
+We use a generalized linear mixed model (GLMM) to generate accuracy responses. In this model, our parameters are z-values. For the interpretation of our model parameters below in terms of Signal Detection Theory (SDT) outcomes (sensitivity "d prime" and the response bias "c"), it is crucial that we use deviation coding for our veracity variable (fake = -0.5, true = 0.5), and for condition (-0.5 = control, 0.5 = intervention).
+
+\begin{align*}
+\eta_i &= (\beta_0 + b_{0_\text{Subject}} + b_{0_\text{Experiment}} + b_{0_\text{Paper}}) \\
+&\quad+ (\beta_v + b_{v_\text{Subject}} + b_{v_\text{Experiment}} + b_{v_\text{Paper}}) \text{Veracity} \\
+&\quad+ (\beta_c + b_{c_\text{Experiment}} + b_{c_\text{Paper}}) \text{Condition} \\
+&\quad+ (\beta_{cv} + b_{cv_\text{Experiment}} + b_{cv_\text{Paper}}) \text{Condition*Veracity} + \epsilon
+\end{align*}
+
+with^[Note that the distributions here are assumed to be independent. Below, we specify that they are from multivariate distributions.]:
+
+-   \(b_{0_{\text{Subject}}} \sim N(0, \tau_{\text{subj}_0})\)
+-   \(b_{v_{\text{Subject}}} \sim N(0, \tau_{\text{subj}_v})\)
+-   \(b_{0_{\text{Experiment}}} \sim N(0, \tau_{\text{exp}_0})\) 
+-   \(b_{v_{\text{Experiment}}} \sim N(0, \tau_{\text{exp}_v})\)
+-   \(b_{c_{\text{Experiment}}} \sim N(0, \tau_{\text{exp}_c})\)
+-   \(b_{cv_{\text{Experiment}}} \sim N(0, \tau_{\text{exp}_cv})\)
+-   \(b_{0_{\text{Paper}}} \sim N(0, \tau_{\text{paper}_0})\)
+-   \(b_{v_{\text{Paper}}} \sim N(0, \tau_{\text{paper}_v})\)
+-   \(b_{c_{\text{Paper}}} \sim N(0, \tau_{\text{paper}_c})\)
+-   \(b_{cv_{\text{Paper}}} \sim N(0, \tau_{\text{paper}_cv})\)
+-   \(\epsilon \sim N(0, \sigma)\)
+
+where:
+
+- \eta_i is a z-score that can be transformed to a probability for an accuracy answer, using the probit function
+
+-   \(\beta_0\) represents - the average response bias (c), pooled across conditions
+
+-   \(b_{0_{\text{Subject}}}\), \(b_{0_{\text{Experiment}}}\), and \(b_{0_{\text{Paper}}}\) are the subject-, experiment-, and paper-specific deviations from the average intercept.
+
+-   \(\beta_v\) represents the average sensitivity (d') across the conditions
+
+-   \(b_{v_{\text{Subject}}}\), \(b_{v_{\text{Experiment}}}\), and \(b_{v_{\text{Paper}}}\) are the subject-, experiment-, and paper-specific deviations from the average sensitivity (d')
+
+-   \(\beta_c\) reflects -$\Delta c$, i.e. the change in -response bias between control and treatment
+
+-   \(b_{c_{\text{Experiment}}}\) and \(b_{c_{\text{Paper}}}\) are the experiment-, and paper-specific deviations from -$\Delta c$
+
+-   \(\beta_{cv}\) reflects $\Delta d'$, i.e. the change in sensitivity between treatment and control
+
+-   \(b_{cv_{\text{Experiment}}}\) and \(b_{cv_{\text{Paper}}}\) are the experiment-, and paper-specific deviations from the average $\Delta d'$
+
+-   $\epsilon$ is the error term that represents noise not accounted for by the random effects
+
+-   $\sigma$ is the standard deviation of the normal distribution that of the error term.
+
+-   $\tau$'s are the respective standard deviations of the normal distributions of the random effects. We assume that the deviations of subjects are normally distributed around the average effects (hence a mean of `0`). Some subjects will have a positive deviation (i.e. larger values than the average); some will have a negative offset (i.e. smaller values than the average).
+
+The modelling of random effects as described above was simplified. It suggested that all random effects are described by independent normal distributions. But in fact, should expect that all random effects, of for example a single subject, are correlated. For example, subjects with a relatively *small intercept* (i.e. assigning very low accuracy when to false news) might assign all the more accuracy to true news (i.e shows a *larger effect for veracity*). In this case, the random effect distributions of the intercept and the effect of veracity for subjects are *negatively* correlated.
+
+For each random effect factor (subjects, experiments, papers) we therefore model multivariate normal distributions.
+
+\[
+\langle b_{0_{\text{Subject}}}, b_{v_{\text{Subject}}} \rangle \sim N(\langle 0, 0 \rangle, \Sigma)
+\]
+
+with variance-covariance matrix
+
+\[
+\Sigma = \begin{bmatrix} \tau_{0_{\text{subj}}}^2 & \rho_{0v_{\text{subj}}} \tau_{0_{\text{subj}}} \tau_{v_{\text{subj}}} \\ \rho_{0v_{\text{subj}}} \tau_{0_{\text{subj}}} \tau_{v_{\text{subj}}} & \tau_{v_{\text{subj}}}^2 \end{bmatrix}
+\]
+
+\[
+\langle b_{0_{\text{Experiment}}}, b_{v_{\text{Experiment}}}, b_{c_{\text{Experiment}}}, b_{cv_{\text{Experiment}}} \rangle \sim N(\langle 0, 0, 0 \rangle, \Sigma)
+\]
+
+with variance-covariance matrix
+
+\[
+\Sigma = \begin{bmatrix} 
+\tau_{0_{\text{exp}}}^2 & \rho_{0v_{\text{exp}}} \tau_{0_{\text{exp}}} \tau_{v_{\text{exp}}} & \rho_{0c_{\text{exp}}} \tau_{0_{\text{exp}}} \tau_{c_{\text{exp}}} & \rho_{0cv_{\text{exp}}} \tau_{0_{\text{exp}}} \tau_{cv_{\text{exp}}} \\
+\rho_{0v_{\text{exp}}} \tau_{0_{\text{exp}}} \tau_{v_{\text{exp}}} & \tau_{v_{\text{exp}}}^2 & \rho_{vc_{\text{exp}}} \tau_{v_{\text{exp}}} \tau_{c_{\text{exp}}} & \rho_{vcv_{\text{exp}}} \tau_{v_{\text{exp}}} \tau_{cv_{\text{exp}}} \\
+\rho_{0c_{\text{exp}}} \tau_{0_{\text{exp}}} \tau_{c_{\text{exp}}} & \rho_{vc_{\text{exp}}} \tau_{v_{\text{exp}}} \tau_{c_{\text{exp}}} & \tau_{c_{\text{exp}}}^2  & \rho_{ccv_{\text{exp}}} \tau_{c_{\text{exp}}} \tau_{cv_{\text{exp}}} \\
+\rho_{0cv_{\text{exp}}} \tau_{0_{\text{exp}}} \tau_{cv_{\text{exp}}} & \rho_{vcv_{\text{exp}}} \tau_{v_{\text{exp}}} \tau_{cv_{\text{exp}}} & \rho_{ccv_{\text{exp}}} \tau_{c_{\text{exp}}} \tau_{cv_{\text{exp}}} & \tau_{cv_{\text{exp}}}^2 
+\end{bmatrix}
+\]
+
+\[
+\langle b_{0_{\text{Paper}}}, b_{v_{\text{Paper}}}, b_{c_{\text{Paper}}}, b_{cv_{\text{Paper}}} \rangle \sim N(\langle 0, 0, 0 \rangle, \Sigma)
+\]
+
+with variance-covariance matrix
+
+\[
+\Sigma = \begin{bmatrix} 
+\tau_{0_{\text{paper}}}^2 & \rho_{0v_{\text{paper}}} \tau_{0_{\text{paper}}} \tau_{v_{\text{paper}}} & \rho_{0c_{\text{paper}}} \tau_{0_{\text{paper}}} \tau_{c_{\text{paper}}} & \rho_{0cv_{\text{paper}}} \tau_{0_{\text{paper}}} \tau_{cv_{\text{paper}}} \\
+\rho_{0v_{\text{paper}}} \tau_{0_{\text{paper}}} \tau_{v_{\text{paper}}} & \tau_{v_{\text{paper}}}^2 & \rho_{vc_{\text{paper}}} \tau_{v_{\text{paper}}} \tau_{c_{\text{paper}}} & \rho_{vcv_{\text{paper}}} \tau_{v_{\text{paper}}} \tau_{cv_{\text{paper}}} \\
+\rho_{0c_{\text{paper}}} \tau_{0_{\text{paper}}} \tau_{c_{\text{paper}}} & \rho_{vc_{\text{paper}}} \tau_{v_{\text{paper}}} \tau_{c_{\text{paper}}} & \tau_{c_{\text{paper}}}^2  & \rho_{ccv_{\text{paper}}} \tau_{c_{\text{paper}}} \tau_{cv_{\text{paper}}} \\
+\rho_{0cv_{\text{paper}}} \tau_{0_{\text{paper}}} \tau_{cv_{\text{paper}}} & \rho_{vcv_{\text{paper}}} \tau_{v_{\text{paper}}} \tau_{cv_{\text{paper}}} & \rho_{ccv_{\text{paper}}} \tau_{c_{\text{paper}}} \tau_{cv_{\text{paper}}} & \tau_{cv_{\text{paper}}}^2 
+\end{bmatrix}
+\]
+
+where
+
+-   $\tau$'s are the standard deviations of the random effects distributions
+
+-   $\rho$'s are the correlation coefficients.
+
+We then transform the z-values $\eta_i$ to probabilities using the probit function.
+
+$$p_i = \Phi(\eta_i)$$
+where $\Phi$ is the cumulative distribution function (CDF) of the standard normal distribution (or probit function). It maps the z-scores ($\eta_i$) to probabilities.
+
+$$
+\Phi(\eta_i) = \int_{-\infty}^{\eta_i} \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} \, dz
+$$
+
+The integral calculates the area under the standard normal curve from negative infinity up to the value $\eta_i$ and thus translates the z-value into a cumulative probability, which represents the likelihood of observing a value less than or equal to $\eta_i$.
+
+Based on these probabilities, we simulate binary response (accurate = 1 or not accurate = 0), by using a Bernoulli (i.e. a binomial with one trial) function.  
+
+$$y_i \sim Bernoulli(p_i)$$
+
+### Parameters
+
+We use the following prefixes to designate model parameters and sampled values: 
+
+- `beta_*`: fixed effect parameters
+- `subj_*`: random effect parameters associated with subjects
+- `exp_*`: random effect parameters associated with experiment
+- `paper_*`: random effect parameters associated with paper
+- `SU_*`: sampled values for subject random effects
+- `EXP_*`: sampled values for experiment random effects
+- `PAP_*`: sampled values for paper random effects
+- `B_*`: sums of added beta's
+- `e_*`: residual sd
+
+We use the following suffices to refer to certain variables:
+
+- `*_0`: intercept
+- `*_v`: veracity
+- `*_c`: condition
+- `*_cv`: condition\*veracity (interaction)
+
+Other terms:
+
+- `*_rho`: correlations for that group's random effects
+- `n_*`: sample size
+- `sigma`: residual (error) sd
+
+Below, we set our parameters. The values are probably off, but the main point is to see how well our analysis does in uncovering them. 
+
+```{r}
+# parameters
+
+# fixed effects
+beta_0   = -0 # intercept (- average response bias )
+beta_v   = 1 # average sensitivity (d prime) 
+beta_c   = -0.5 # - delta response bias (i.e. - delta c)
+beta_cv   = 0.5 # delta sensitivity (i.e. delta d prime)
+# random effects
+# subjects
+subj_0   = 0.1 # by-subject intercept sd
+subj_v   = 0.1 # by-subject sensitivity (d prime) sd
+subj_rho_0v = 0 # correlation between intercept (- average response bias) and sensitivity (d prime)
+# experiments
+exp_0   = 0.1 # by-experiment intercept sd
+exp_v   = 0.1 # by-experiment sensitivity (d prime) sd
+exp_c   = 0.1 # by-experiment - delta response bias (i.e. - delta c) sd
+exp_cv   = 0.1 # by-experiment delta sensitivity (i.e. delta d prime) sd
+exp_rho_0v = 0 # correlation between intercept (- average response bias) and sensitivity (d prime)
+exp_rho_0c = 0 # correlation between intercept and - delta response bias (i.e. - delta c)
+exp_rho_0cv = 0 # correlation between intercept (- average response bias) and delta sensitivity (i.e. delta d prime)
+exp_rho_vc = 0 # correlation between sensitivity (d prime) and - delta response bias (i.e. - delta c)
+exp_rho_vcv = 0 # correlation between sensitivity (d prime) and delta sensitivity (i.e. delta d prime)
+exp_rho_ccv = 0 # correlation between - delta response bias (i.e. - delta c) and delta sensitivity (i.e. delta d prime)
+# papers
+paper_0   = 0.1 # analogous to experiment random effects
+paper_v   = 0.1 
+paper_c   = 0.1 
+paper_cv   = 0.1 
+paper_rho_0v = 0 
+paper_rho_0c = 0 
+paper_rho_0cv = 0 
+paper_rho_vc = 0 
+paper_rho_vcv = 0 
+paper_rho_ccv = 0 
+sigma    = 0.5 # residual (error) sd (i.e. all variation that the model cannot account for)
+# simulation related
+n_subj  = 100 # number of subjects for each experimental arm (i.e. an experiment with a control and one intervention group has n = 400)
+n_fake  =  5 # number of fake news items 
+n_true  =  5 # number of true news items
+n_max_conditions = 4 # maximum number of possible conditions for a single experiment
+n_max_experiments = 4 # maximum number of possible experiments within a single paper
+n_papers = 10 # number of papers in the meta analysis
+```
+
+We store a complete list of parameters in a list so that we can call them for functions later.
+
+```{r}
+# complete list of parameters (including some that will be introduced later)
+parameters <- list(
+  # fixed effects
+  beta_0   = -0.5, # intercept (- average response bias )
+  beta_v   = 1, # average sensitivity (d prime) 
+  beta_c   = - 0.1, # - delta response bias (i.e. - delta c)
+  beta_cv   = 0.1, # delta sensitivity (i.e. delta d prime)
+  # random effects
+  # subjects
+  subj_0   = 0.1, # by-subject intercept sd
+  subj_v   = 0.1, # by-subject sensitivity (d prime) sd
+  subj_rho_0v = 0, # correlation between intercept (- average response bias) and sensitivity (d prime)
+  # experiments
+  exp_0   = 0.1, # by-experiment intercept sd
+  exp_v   = 0.1, # by-experiment sensitivity (d prime) sd
+  exp_c   = 0.1, # by-experiment - delta response bias (i.e. - delta c) sd
+  exp_cv   = 0.1, # by-experiment delta sensitivity (i.e. delta d prime) sd
+  exp_rho_0v = 0, # correlation between intercept (- average response bias) and sensitivity (d prime)
+  exp_rho_0c = 0, # correlation between intercept and - delta response bias (i.e. - delta c)
+  exp_rho_0cv = 0, # correlation between intercept (- average response bias) and delta sensitivity (i.e. delta d prime)
+  exp_rho_vc = 0, # correlation between sensitivity (d prime) and - delta response bias (i.e. - delta c)
+  exp_rho_vcv = 0, # correlation between sensitivity (d prime) and delta sensitivity (i.e. delta d prime)
+  exp_rho_ccv = 0, # correlation between - delta response bias (i.e. - delta c) and delta sensitivity (i.e. delta d prime)
+  # papers
+  paper_0   = 0.1, # analogous to experiment random effects
+  paper_v   = 0.1, 
+  paper_c   = 0.1, 
+  paper_cv   = 0.1, 
+  paper_rho_0v = 0, 
+  paper_rho_0c = 0, 
+  paper_rho_0cv = 0, 
+  paper_rho_vc = 0, 
+  paper_rho_vcv = 0, 
+  paper_rho_ccv = 0, 
+  sigma    = 0.5, # residual (error) sd (i.e. all variation that the model cannot account for)
+  # simulation related
+  n_subj  = 100, # number of subjects for each experimental arm (i.e. an experiment with a control and one intervention group has n = 200)
+  n_fake  =  5, # number of fake news items 
+  n_true  =  5, # number of true news items
+  n_max_conditions = 4, # maximum number of possible conditions for a single experiment
+  n_max_experiments = 4, # maximum number of possible experiments within a single paper
+  n_papers = 10 # number of papers in the meta analysis
+)
+```
+
+## Simulate a single sample
+
+### Stimuli (news items)
+
+```{r}
+# simulate a sample of items
+n_items <- n_fake + n_true
+
+items <- data.frame(
+  item_id = seq_len(n_items),
+  veracity = rep(c("fake", "true"), c(n_fake, n_true)),
+  # get a numeric version of veracity that is effect-coded (i.e. not 0 vs. 1, 
+  # but -0.5 and 0.5)
+  veracity_effect_code = rep(c(-0.5, 0.5), c(n_fake, n_true))
+)
+```
+
+### Sujects
+
+We use the function `MASS::mvrnorm` to calculate the variance-covariance matrix between the two by-subject random effects.
+
+```{r}
+# simulate a sample of subjects
+
+# calculate random intercept / random slope covariance
+covar <- subj_rho_0v * subj_0 * subj_v
+
+# put values into variance-covariance matrix
+cov_mx  <- matrix(
+  c(subj_0^2, covar,
+    covar,   subj_v^2),
+  nrow = 2, byrow = TRUE)
+
+# generate the by-subject random effects
+subject_rfx <- MASS::mvrnorm(n = n_subj,
+                             mu = c(SU_0 = 0, SU_v = 0),
+                             Sigma = cov_mx)
+
+# combine with subject IDs
+subjects <- data.frame(subject_id = seq_len(n_subj),
+                       subject_rfx)
+```
+
+Check values.
+
+```{r}
+data.frame(
+  parameter = c("subj_0", "subj_v", "subj_rho_0v"),
+  value = c(subj_0, subj_v, subj_rho_0v),
+  simulated = c(
+    sd(subjects$SU_0),
+    sd(subjects$SU_v), 
+    cor(subjects$SU_0, subjects$SU_v)
+  )
+)
+```
+
+### Trials (Subjects x Stimuli)
+
+We combine the two data frames `subjects` and `items` we generated. We also draw a residual error for each trial/observation (`e_s` for error term for each combination of subject and stimulus).
+
+```{r}
+# cross subject and item IDs; add an error term
+# nrow(.) is the number of rows in the table
+trials <- crossing(subjects, items)  %>%
+  mutate(e_s = rnorm(nrow(.), mean = 0, sd = sigma))
+```
+
+### Function
+
+We put all the previous steps in a function. 
+
+```{r}
+# set up the custom data simulation function
+draw_sample <- function(
+# fixed effects
+  beta_0,
+  beta_v,
+  beta_c,
+  beta_cv,
+  # random effects
+  subj_0,
+  subj_v,
+  subj_rho_0v,
+  # simulation related
+  n_subj,
+  n_fake,
+  n_true,
+  sigma,
+  ...  # This allows additional parameters to be ignored
+) { 
+  
+  # simulate a sample of items
+  n_items <- n_fake + n_true
+  
+  items <- data.frame(
+    item_id = seq_len(n_items),
+    veracity = rep(c("fake", "true"), c(n_fake, n_true)),
+    # get a numeric version of veracity that is effect-coded (i.e. not 0 vs. 1, 
+    # but -0.5 and 0.5)
+    veracity_effect_code = rep(c(-0.5, 0.5), c(n_fake, n_true))
+  )
+  
+  # simulate a sample of subjects
+  
+  # calculate random intercept / random slope covariance
+  covar <- subj_rho_0v * subj_0 * subj_v
+  
+  # put values into variance-covariance matrix
+  cov_mx  <- matrix(
+    c(subj_0^2, covar,
+      covar,   subj_v^2),
+    nrow = 2, byrow = TRUE)
+  
+  # generate the by-subject random effects
+  subject_rfx <- MASS::mvrnorm(n = n_subj,
+                               mu = c(SU_0 = 0, SU_v = 0),
+                               Sigma = cov_mx)
+  
+  # combine with subject IDs
+  subjects <- data.frame(subject_id = seq_len(n_subj),
+                         subject_rfx)
+  
+  # cross subject and item IDs and calculate accuracy
+  crossing(subjects, items)  %>%
+    mutate(e_s = rnorm(nrow(.), mean = 0, sd = sigma))
+}
+
+# test function
+# test <- do.call(draw_sample, parameters)
+```
+
+
+## Simulate an experiment
+
+We know how to generate a sample, which corresponds to all participants assigned to the same experimental condition. However, an experiment consists of several conditions, and thus several samples. 
+
+For example, we might have three conditions, one control group, and two intervention groups.
+
+```{r}
+n_conditions <- 3
+
+n_interventions <- n_conditions - 1 # we assume always one control group
+
+# draw control condition
+control <- do.call(draw_sample, parameters) %>% 
+  mutate(condition = "control")
+
+# draw interventions
+interventions <-  1:n_interventions %>%
+    map_dfr(function(x) {
+
+      # To keep track of progress
+      print(paste("drawing intervention number ", x))
+      
+      single_intervention <- do.call(draw_sample, parameters) %>% 
+        mutate(condition = "intervention", 
+               intervention_id = x)
+      
+      return(single_intervention)
+    })
+
+# combine control and interventions data
+experiment <- bind_rows(control, interventions)
+```
+
+### Function
+
+In our function, we allow the number of conditions to vary. 
+
+```{r}
+# simulate an experiment
+draw_experiment <- function(n_max_conditions = NULL, ...) {
+  
+  # generate random number of conditions
+  possible_n_conditions <- seq(from = 2, to = n_max_conditions, by = 1)
+  n_conditions <- sample(possible_n_conditions, size = 1)
+  
+  n_interventions <- n_conditions - 1 # we assume always one control group
+  
+  # draw control condition
+  control <- draw_sample(...) %>% 
+    mutate(condition = "control")
+  
+# draw interventions
+interventions <-  1:n_interventions %>%
+    map_dfr(function(x) {
+
+      # To keep track of progress
+      print(paste("drawing intervention number ", x))
+      
+      single_intervention <- draw_sample(...) %>% 
+        mutate(condition = "intervention", 
+               intervention_id = x)
+      
+      return(single_intervention)
+    })
+
+# combine control and interventions data
+experiment <- bind_rows(control, interventions)
+
+} 
+# test  
+# test <- do.call(draw_experiment, parameters)
+```
+
+## Simulate various experiments (within a single paper)
+
+A single paper can contain multiple experiments. For example, we might have three experiments. 
+
+```{r}
+n_experiments <- 3
+
+# draw experiments
+experiments <-  1:n_experiments %>%
+    map_dfr(function(x) {
+
+      # To keep track of progress
+      print(paste("drawing experiment number ", x))
+      
+      single_experiment <- do.call(draw_experiment, parameters) %>% 
+        mutate(experiment_id = x)
+      
+      return(single_experiment)
+    })
+
+experiments %>% 
+  group_by(experiment_id, intervention_id) %>% 
+  count()
+```
+
+We assume experiments to have random effects. 
+
+```{r}
+# Calculate covariances
+covar_0v_exp <- exp_rho_0v * exp_0 * exp_v
+covar_0c_exp <- exp_rho_0c * exp_0 * exp_c
+covar_0cv_exp <- exp_rho_0cv * exp_0 * exp_cv
+covar_vc_exp <- exp_rho_vc * exp_v * exp_c
+covar_vcv_exp <- exp_rho_vcv * exp_v * exp_cv
+covar_cc_exp <- exp_rho_ccv * exp_c * exp_cv
+
+# Create the variance-covariance matrix
+cov_mx_exp <- matrix(
+  c(exp_0^2, covar_0v_exp, covar_0c_exp, covar_0cv_exp,
+    covar_0v_exp, exp_v^2, covar_vc_exp, covar_vcv_exp,
+    covar_0c_exp, covar_vc_exp, exp_c^2, covar_cc_exp,
+    covar_0cv_exp, covar_vcv_exp, covar_cc_exp, exp_cv^2),
+  nrow = 4, byrow = TRUE
+)
+
+# Generate the by-experiment random effects
+exp_rfx <- MASS::mvrnorm(n = n_experiments,
+                         mu = c(EXP_0 = 0, EXP_v = 0, EXP_c = 0, EXP_cv = 0),
+                         Sigma = cov_mx_exp)
+
+# Check the value of n_experiments
+if (n_experiments == 1) {
+  # Reshape to wide format
+  exp_rfx <- data.frame(exp_rfx) %>%
+    mutate(effect = rownames(.)) %>% 
+    pivot_wider(names_from = effect, values_from = "exp_rfx")
+}
+
+# Combine with experiment IDs
+exp_rfx <- data.frame(experiment_id = seq_len(n_experiments), exp_rfx)
+
+# add random effects to experiment data
+experiments <- left_join(experiments, exp_rfx, by = "experiment_id")
+```
+
+### Function
+
+```{r}
+# simulate multiple experiments
+draw_multiple_experiments <- function(
+    n_max_experiments, 
+    exp_0, # by-experiment intercept sd
+    exp_v, # by-experiment sensitivity (d prime) sd
+    exp_c, # by-experiment - delta response bias (i.e. - delta c) sd
+    exp_cv, # by-experiment delta sensitivity (i.e. delta d prime) sd
+    exp_rho_0v, # correlation between intercept (- average response bias) and sensitivity (d prime)
+    exp_rho_0c, # correlation between intercept and - delta response bias (i.e. - delta c)
+    exp_rho_0cv, # correlation between intercept (- average response bias) and delta sensitivity (i.e. delta d prime)
+    exp_rho_vc, # correlation between sensitivity (d prime) and - delta response bias (i.e. - delta c)
+    exp_rho_vcv, # correlation between sensitivity (d prime) and delta sensitivity (i.e. delta d prime)
+    exp_rho_ccv, # correlation between - delta response bias (i.e. - delta c) and delta sensitivity (i.e. delta d prime)
+    ...) {
+  
+  # generate random number of experiments
+  possible_n_experiments <- seq(from = 1, to = n_max_experiments, by = 1)
+  n_experiments <- sample(possible_n_experiments, size = 1)
+  
+  # draw experiments
+  experiments <-  1:n_experiments %>%
+    map_dfr(function(x) {
+      
+      # To keep track of progress
+      print(paste("drawing experiment number ", x))
+      
+      single_experiment <- draw_experiment(...) %>% 
+        mutate(experiment_id = x)
+      
+      return(single_experiment)
+    })
+  
+  # Calculate covariances
+  covar_0v_exp <- exp_rho_0v * exp_0 * exp_v
+  covar_0c_exp <- exp_rho_0c * exp_0 * exp_c
+  covar_0cv_exp <- exp_rho_0cv * exp_0 * exp_cv
+  covar_vc_exp <- exp_rho_vc * exp_v * exp_c
+  covar_vcv_exp <- exp_rho_vcv * exp_v * exp_cv
+  covar_cc_exp <- exp_rho_ccv * exp_c * exp_cv
+  
+  # Create the variance-covariance matrix
+  cov_mx_exp <- matrix(
+    c(exp_0^2, covar_0v_exp, covar_0c_exp, covar_0cv_exp,
+      covar_0v_exp, exp_v^2, covar_vc_exp, covar_vcv_exp,
+      covar_0c_exp, covar_vc_exp, exp_c^2, covar_cc_exp,
+      covar_0cv_exp, covar_vcv_exp, covar_cc_exp, exp_cv^2),
+    nrow = 4, byrow = TRUE
+  )
+  
+  # Generate the by-experiment random effects
+  exp_rfx <- MASS::mvrnorm(n = n_experiments,
+                           mu = c(EXP_0 = 0, EXP_v = 0, EXP_c = 0, EXP_cv = 0),
+                           Sigma = cov_mx_exp)
+  
+  # Check the value of n_experiments
+  if (n_experiments == 1) {
+    # if n == 1, mvnorm seems to return a vector, which data.frame then turns 
+    # into long format data (instead of wide-format when n_experiments > 1)
+    # Reshape to wide format
+    exp_rfx <- data.frame(exp_rfx) %>%
+      mutate(effect = rownames(.)) %>% 
+      pivot_wider(names_from = effect, values_from = "exp_rfx")
+  }
+  
+  # Combine with experiment IDs
+  exp_rfx <- data.frame(experiment_id = seq_len(n_experiments), exp_rfx)
+  
+  # add random effects to experiment data
+  experiments <- left_join(experiments, exp_rfx, by = "experiment_id")
+  
+  return(experiments)
+}
+
+# test 
+# test <- do.call(draw_multiple_experiments, parameters)
+```
+
+## Simulate various papers
+
+Finally, we have various papers. As for experiments, we expect random effects for papers (because of authors, country, time, etc.). 
+
+For example, we might have 20 papers. 
+
+```{r}
+n_papers <- 20
+
+# draw papers
+papers <-  1:n_papers %>%
+    map_dfr(function(x) {
+
+      # To keep track of progress
+      print(paste("drawing paper number ", x))
+      
+      single_paper <- do.call(draw_multiple_experiments, parameters) %>% 
+        mutate(paper_id = x)
+      
+      return(single_paper)
+    })
+```
+
+And the random effects random effects. 
+
+```{r}
+# Calculate covariances
+covar_0v_paper <- paper_rho_0v * paper_0 * paper_v
+covar_0c_paper <- paper_rho_0c * paper_0 * paper_c
+covar_0cv_paper <- paper_rho_0cv * paper_0 * paper_cv
+covar_vc_paper <- paper_rho_vc * paper_v * paper_c
+covar_vcv_paper <- paper_rho_vcv * paper_v * paper_cv
+covar_cc_paper <- paper_rho_ccv * paper_c * paper_cv
+
+# Create the variance-covariance matrix
+cov_mx_paper <- matrix(
+  c(paper_0^2, covar_0v_paper, covar_0c_paper, covar_0cv_paper,
+    covar_0v_paper, paper_v^2, covar_vc_paper, covar_vcv_paper,
+    covar_0c_paper, covar_vc_paper, paper_c^2, covar_cc_paper,
+    covar_0cv_paper, covar_vcv_paper, covar_cc_paper, paper_cv^2),
+  nrow = 4, byrow = TRUE
+)
+
+# Generate the by-paper random effects
+paper_rfx <- MASS::mvrnorm(n = n_papers,
+                         mu = c(PAP_0 = 0, PAP_v = 0, PAP_c = 0, PAP_cv = 0),
+                         Sigma = cov_mx_paper)
+
+# Combine with paper IDs
+paper_rfx <- data.frame(paper_id = seq_len(n_papers), paper_rfx)
+
+# add random effects to paper data
+papers <- left_join(papers, paper_rfx)
+```
+
+Finally, we want to be able to uniquely identify participants and experiments across papers (for now, there is a participant labeled "1" in each experiment, and there is an experiment "1" in each paper).
+
+```{r}
+papers <- papers %>% 
+  mutate(    
+    # unique experiment identifier
+    unique_experiment_id = paste(paper_id, experiment_id, sep = "_"), 
+    # unique participant identifier
+    unique_subject_id = paste0(paper_id, "_", experiment_id, intervention_id, "_", subject_id), 
+    # unique intervention identifier
+    unique_intervention_id = paste(paper_id, experiment_id, intervention_id, sep = "_"))
+```
+
+### Function
+
+```{r}
+# simulate papers
+draw_papers <- function(
+    paper_0, # analogous to experiment random effects
+    paper_v,
+    paper_c,
+    paper_cv,
+    paper_rho_0v,
+    paper_rho_0c,
+    paper_rho_0cv,
+    paper_rho_vc,
+    paper_rho_vcv, 
+    paper_rho_ccv,
+    n_papers = 10, # number of papers in the meta analysis
+    ...) {
+  
+  # draw papers
+  papers <-  1:n_papers %>%
+    map_dfr(function(x) {
+      
+      # To keep track of progress
+      print(paste("drawing paper number ", x))
+      
+      single_paper <- do.call(draw_multiple_experiments, parameters) %>% 
+        mutate(paper_id = x)
+      
+      return(single_paper)
+    })
+  
+  # Calculate covariances
+  covar_0v_paper <- paper_rho_0v * paper_0 * paper_v
+  covar_0c_paper <- paper_rho_0c * paper_0 * paper_c
+  covar_0cv_paper <- paper_rho_0cv * paper_0 * paper_cv
+  covar_vc_paper <- paper_rho_vc * paper_v * paper_c
+  covar_vcv_paper <- paper_rho_vcv * paper_v * paper_cv
+  covar_cc_paper <- paper_rho_ccv * paper_c * paper_cv
+  
+  # Create the variance-covariance matrix
+  cov_mx_paper <- matrix(
+    c(paper_0^2, covar_0v_paper, covar_0c_paper, covar_0cv_paper,
+      covar_0v_paper, paper_v^2, covar_vc_paper, covar_vcv_paper,
+      covar_0c_paper, covar_vc_paper, paper_c^2, covar_cc_paper,
+      covar_0cv_paper, covar_vcv_paper, covar_cc_paper, paper_cv^2),
+    nrow = 4, byrow = TRUE
+  )
+  
+  # Generate the by-paper random effects
+  paper_rfx <- MASS::mvrnorm(n = n_papers,
+                             mu = c(PAP_0 = 0, PAP_v = 0, PAP_c = 0, PAP_cv = 0),
+                             Sigma = cov_mx_paper)
+  
+  # Combine with paper IDs
+  paper_rfx <- data.frame(paper_id = seq_len(n_papers), paper_rfx)
+  
+  # add random effects to paper data
+  papers <- left_join(papers, paper_rfx) %>% 
+  mutate(    
+    # unique experiment identifier
+    unique_experiment_id = paste(paper_id, experiment_id, sep = "_"), 
+    # unique participant identifier
+    unique_subject_id = paste0(paper_id, "_", experiment_id, intervention_id, "_", subject_id), 
+    # unique intervention identifier
+    unique_intervention_id = paste(paper_id, experiment_id, intervention_id, sep = "_"))
+}
+
+# test 
+# test <- do.call(draw_papers, parameters)
+```
+
+## Model accuracy ratings
+
+At this point, we have simulated data with all necessary information to generate accuracy ratings, according to our model. 
+
+```{r}
+# Calculate accuracy
+final_data <- papers %>% 
+  mutate(
+    # make numeric helper variables using deviation coding
+    veracity_numeric = ifelse(veracity == "true", 0.5, -0.5),
+    condition_numeric = ifelse(condition == "intervention",  0.5, -0.5),
+    # calculate z-value accuracy
+    accuracy_z_value = 
+      (beta_0 + SU_0 + EXP_0 + PAP_0) +
+      (beta_v + SU_v + EXP_v + PAP_v)*veracity_numeric +
+      (beta_c + EXP_c + PAP_c )*condition_numeric+
+      (beta_cv + EXP_cv + PAP_cv)*(condition_numeric*veracity_numeric) +
+      e_s,
+    # use the probit function (i.e. cumulative distribution function of the standard normal distribution)
+    # to optain probabilities from the z-values
+    accuracy_probability = pnorm(accuracy_z_value), 
+    # generate a binary accuracy response by sampling from a bernoulli distribution
+    # (i.e. binomial distribution with one trial)
+    accuracy = rbinom(nrow(.), 1, accuracy_probability)
+  ) %>% 
+  # remove random effect variables
+  select(-matches("SU|EXP|PAP", ignore.case = FALSE))
+```
+
+#### Function
+
+```{r}
+# calculate accuracy outcomes
+calculate_accuracy <- function(
+    data, 
+    # fixed effects
+    beta_0, # intercept (- average response bias )
+    beta_v, # average sensitivity (d prime) 
+    beta_c, # - delta response bias (i.e. - delta c)
+    beta_cv, # delta sensitivity (i.e. delta d prime)
+    ...
+    ){
+    
+    data <- data %>% 
+    mutate(
+      # make numeric helper variables using deviation coding
+      veracity_numeric = ifelse(veracity == "true", 0.5, -0.5),
+      condition_numeric = ifelse(condition == "intervention",  0.5, -0.5),
+      # calculate z-value accuracy
+      accuracy_z_value = 
+        (beta_0 + SU_0 + EXP_0 + PAP_0) +
+        (beta_v + SU_v + EXP_v + PAP_v)*veracity_numeric +
+        (beta_c + EXP_c + PAP_c )*condition_numeric+
+        (beta_cv + EXP_cv + PAP_cv)*(condition_numeric*veracity_numeric) +
+        e_s,
+      # use the probit function (i.e. cumulative distribution function of the standard normal distribution)
+      # to optain probabilities from the z-values
+      accuracy_probability = pnorm(accuracy_z_value), 
+      # generate a binary accuracy response by sampling from a bernoulli distribution
+      # (i.e. binomial distribution with one trial)
+      accuracy = rbinom(nrow(.), 1, accuracy_probability)
+    ) %>% 
+    # remove random effect variables
+    select(-matches("SU|EXP|PAP", ignore.case = FALSE))
+}
+
+# test
+# test <- calculate_accuracy(papers)
+```
+
+# Simulation of a single data set for pre-registration
+
+We to use all the previous functions in a single simulation, we combine the `draw_papers()` and `call_accuracy()` functions. We call the final function `simulate_data()`.
+
+```{r}
+# final data simulation function
+simulate_data <- function(...) {
+  papers <- draw_papers(...)
+  
+  final_data <- calculate_accuracy(papers, ...)
+  
+  return(final_data)
+}
+```
+
+We can then simulate our participant-level data, based on the previously set parameters.
+
+```{r}
+data <- do.call(simulate_data, parameters)
+```
+
+## Add moderators
+
+### Within-experiment moderator
+
+The most important within-participant moderator we will look at is political concordance. Let's assume that half our our news item ratings were politically concordant and half not.
+
+```{r}
+# add some other variables for demonstration purpose
+data <- data %>% 
+  mutate(
+    # political concordance
+    political_concordance = ifelse(item_id %% 2 == 0, "concordant", "discordant"),
+    # add a deviation coded version for the political concordance variable
+    concordance_numeric = ifelse(political_concordance == "discordant", 
+                                 -0.5, ifelse(!is.na(political_concordance), 
+                                              0.5, 
+                                              NA)
+    )
+  ) 
+
+# check
+# data %>% 
+#   select(concordance_numeric, political_concordance)
+```
+
+A second moderator that varies within experiments, but between participants, is age. 
+
+```{r}
+# randomly assing intervention types
+participant_ages <- data %>%
+# Get unique combinations of unique_experiment_id and condition
+  distinct(unique_subject_id) %>% 
+  mutate(
+    # Sample from intervention types only when condition is not "control"
+    age = sample(seq(18:70), size = nrow(.), replace = TRUE)
+  )
+
+# add intervention types to data
+data <- left_join(data, participant_ages)
+```
+
+### Between-experiment moderator
+
+The most important between-experiment moderator we will look at is intervention type. To illustrate, let's assume that all used interventions can be classified as one out of three broad categories of interventions (let's call them "literacy tips", "priming", "warning labels").
+
+Sometimes, within the same experiment, researchers might have tested different interventions. Since we will likely have to deal with that case, we should simulate it here. 
+
+```{r}
+# randomly assing intervention types
+intervention_types <- data %>%
+# Get unique combinations of unique_experiment_id and condition
+  distinct(unique_intervention_id, condition) %>% 
+  mutate(
+    # Sample from intervention types only when condition is not "control"
+    intervention_type = ifelse(condition != "control",
+                               sample(c("literacy tips", "priming", "warning labels"), 
+                                      size = sum(condition != "control"), 
+                                      replace = TRUE),
+                               "control")
+  )
+
+# add intervention types to data
+data <- left_join(data, intervention_types)
+```
+
+## Store simulated data
+
+```{r}
+# store individual level data
+filename <- "../data/simulations/individual_level.csv" 
+write_csv(data, filename)
+```
+
+# Sensitivity analysis and parameter recovery
+
+We will run a kind of sensitivity analysis. 
+
+For the simulation, we--conservatively--assumed that the meta-analysis sample will consist of 10 papers. We assumed that each paper has between 1 and 4 experiments, and each experiment can have between two and four experimental arms (one of which is always the control condition). For each experimental arm, we assumed a sample size of 100 participants. The number of experiments per paper and arms per experiments was chosen randomly for each study. We further assumed that participants always saw 5 true and 5 false news. For details about other parameter assumptions, see the parameter list specified above. Although our final sample of papers will probably have properties quite different from what we assumed here, we believe these assumptions are rather conservative. 
+
+In our simulations, we vary the values for the true effect sizes for d'prime and c in the data. For each combination of effect sizes, we run 100 iterations, i.e. 100 times we generate a different sample of 10 papers, and run our meta-analysis on that sample. The aim of the sensitivity analysis consists in checking how many of these 100 meta-analyses find a significant effect. The share of analyses that detect the true effect is the statistical power.
+
+Instead of only checking whether our models find a significant effect or not, we also descriptively check how well our model estimates recover the data generating parameters. 
+
+## Estimator
+
+We start by defining the model we use to estimate our effects, and select the outcomes of interest. We will run a participant-level meta analysis using a two-stage approach: First, for each experiment, we calculate the above mixed model. The resulting estimates are our effect sizes. Second, we run a meta analysis on these effect sizes.
+
+### Define the model
+
+We first write a function for calculating the model for each experiment.
+
+```{r}
+# calculate model function
+calculate_SDT_model <- function(data) {
+  
+  time <- system.time({
+    model <- glmer(accuracy ~ veracity_numeric + condition_numeric + 
+                     veracity_numeric*condition_numeric +
+                     (1 + veracity_numeric | unique_subject_id),
+                   data = data, 
+                   family = binomial(link = "probit")
+    )
+  })
+  
+  time <- round(time[3]/60, digits = 2)
+  
+  # get a tidy version
+  model <- tidy(model, conf.int = TRUE) %>% 
+    # add time
+    mutate(time_minutes = time)
+  
+  # give nicer names in SDT terminology to estimates (! and reverse estimates for response bias !)
+  model <- model %>% 
+    mutate(
+      # reverse c and delta c estimates
+      estimate = ifelse(term == "(Intercept)" | term == "condition_numeric", 
+                        -1*estimate, estimate),
+      term = case_when(term == "(Intercept)" ~ "average response bias (c)", 
+                       term == "veracity_numeric" ~ "average sensitivity (d')", 
+                       term == "condition_numeric" ~ "delta c",
+                       term == "veracity_numeric:condition_numeric" ~ "delta d'",
+                       TRUE ~ term
+      ),
+      sampling_variance = std.error^2
+    ) 
+  
+  return(model)
+  
+}
+# test
+# mixed_model <- calculate_SDT_model(data %>% filter(unique_experiment_id == "1_1"))
+# mixed_model
+```
+
+### Run the loop
+
+We then run a for loop, to calculate one model per experiment and store the results in a common data frame.
+
+```{r}
+# loop over experiments
+run_SDT_model_loop <- function(data){
+  
+  # make a vector with all unique experiment ids
+  experiments <- data %>% 
+    distinct(unique_experiment_id) %>% 
+    # slice(1:3) %>% # to test loop
+    pull()
+  
+  time <- system.time({
+    
+    # run one model per experiment and store the results in a common data frame
+    results <- experiments %>%
+      map_dfr(function(x) {
+        
+        # restrict data to only the respective experiment
+        experiment <- data %>% filter(unique_experiment_id == x)
+        
+        # extract paper id
+        paper_id <- unique(experiment$paper_id)
+        
+        # To keep track of progress
+        print(paste("calculating model for experiment ", x))
+        
+        model_experiment <- calculate_SDT_model(experiment) %>%
+          mutate(unique_experiment_id = x,
+                 paper_id = paper_id)
+        
+        return(model_experiment)
+      })
+  })
+  
+  print(paste("Elapsed time: ", round(time[3]/60, digits = 2), " minutes"))
+  
+  return(results)
+}
+
+
+# test
+# experiment_ids_to_test <- data %>% distinct(unique_experiment_id) %>% slice(1:5) %>% pull()
+# test <- run_SDT_model_loop(data%>% filter(unique_experiment_id %in% experiment_ids_to_test))
+# test
+```
+
+### Run the meta-analysis
+
+```{r}
+# Function to calculate meta models
+calculate_meta_model <- function(data, yi, vi, robust = TRUE) {
+  
+  # provide metafor compatible names
+  metafor_data <- data %>% 
+    rename(yi = {{yi}}, 
+           vi = {{vi}})
+  
+  # Multilevel random effect model for accuracy
+  model <-  metafor::rma.mv(yi, vi, random = ~ 1 | paper_id / unique_experiment_id, 
+                            data = metafor_data)
+  
+  return(model)
+  
+  if(robust == TRUE) {
+    # with robust standard errors clustered at the paper level 
+    robust_model <- robust(model, cluster = data$paper_id)
+    
+    return(robust_model)
+  }
+}
+# test 
+
+# generate some model output
+# experiment_ids_to_test <- data %>% distinct(unique_experiment_id) %>% slice(1:5) %>% pull()
+# test_model_output <- run_SDT_model_loop(data%>% filter(unique_experiment_id %in% experiment_ids_to_test))
+# 
+# # model for delta dprime
+# delta_dprime <- calculate_meta_model(data = test_model_output  %>% 
+#                                        filter(term == "delta d'"), yi = estimate, 
+#                                      vi = sampling_variance, robust = TRUE) %>% 
+#   tidy() %>% 
+#   mutate(term = ifelse(term == "overall", "delta d'", NA))
+# 
+# # model for delta c
+# delta_c <- calculate_meta_model(data = test_model_output  %>% 
+#                                   filter(term == "delta c"), yi = estimate, 
+#                                 vi = sampling_variance, robust = TRUE) %>% 
+#   tidy() %>% 
+#   mutate(term = ifelse(term == "overall", "delta c", NA))
+```
+
+We combine all these analysis steps in a single estimate function. 
+
+```{r}
+# final function for running all models 
+get_meta_estimates <- function(data){
+  
+  # generate outcome data for all experiments
+  outcome_data <- run_SDT_model_loop(data)
+  
+  # calculate meta model for delta dprime
+  delta_dprime <- calculate_meta_model(data = outcome_data  %>% 
+                                         filter(term == "delta d'"), 
+                                       yi = estimate, 
+                                       vi = sampling_variance, 
+                                       robust = TRUE) %>% 
+    tidy() %>% 
+    mutate(term = ifelse(term == "overall", "delta d'", NA))
+  
+  # calculate meta model for delta c
+  delta_c <- calculate_meta_model(data = outcome_data  %>% 
+                                    filter(term == "delta c"), 
+                                  yi = estimate, 
+                                  vi = sampling_variance, 
+                                  robust = TRUE) %>% 
+    tidy() %>% 
+    mutate(term = ifelse(term == "overall", "delta c", NA))
+  
+  estimates <- bind_rows(delta_dprime, delta_c)
+  
+  return(estimates)
+  
+}
+
+# test 
+
+# reduce data to some experiments only
+# experiment_ids_to_test <- data %>% distinct(unique_experiment_id) %>% slice(1:5) %>% pull()
+# 
+# result <- get_meta_estimates(data %>% filter(unique_experiment_id %in% experiment_ids_to_test))
+# result
+```
+
+## Run iterations
+
+For each combination of effect sizes, we run several iterations, so that we can get an impression of how well different meta-analytic samples recover the parameters. For each iteration, the function first generates a set of studies to run the meta-analysis on, and then runs the meta-analysis. The results will be stored in a single data frame, in which iterations are labeled.
+
+```{r}
+# repeat the process and store some information on it (e.g. time taken, number of iteration)
+iterate <- function(iterations, ...) {
+  
+  # create data frame with model results for generated samples
+  result <- 1:iterations %>%
+    purrr::map_df(function(x) {
+      
+      # Measure time for each iteration
+      iteration_time <- system.time({
+        # generate data
+        participant_level_data <- simulate_data(...)
+        
+        # run models on the data
+        estimates <- get_meta_estimates(participant_level_data)
+      })
+      
+      # Add iteration number and time in minutes to estimates
+      estimates <- estimates %>%
+        mutate(iteration = x,
+               time_taken_minutes = iteration_time[3] / 60)  # Convert time to minutes
+      
+      # To keep track of progress
+      if (x %% 2 == 0) {print(paste("iteration number ", x))}
+      
+      return(estimates)
+    })
+  
+  return(result)
+}
+# test
+# note that even for just 10 meta-analyses, this takes quite a while, ~1min per iteration
+# test <- do.call(iterate, c(parameters, list(iterations = 4)))
+# 
+# ggplot(test %>% filter(term == "delta d'"), aes(x = estimate)) +
+#   geom_histogram() +
+#   geom_vline(xintercept = parameters$beta_cv, linetype = "dotted", color = "black")
+# 
+# ggplot(test %>% filter(term == "delta c"), aes(x = estimate)) +
+#   geom_histogram() +
+#   geom_vline(xintercept = -parameters$beta_c, linetype = "dotted", color = "black")
+```
+
+# Sensitivity analysis
+
+For a start, we will have three different effect sizes (small = 0.1, medium = 0.5, large = 1) and run 100 meta-analyses on each combination. We will check calculate the statistical power we have for each effect.
+
+```{r}
+# run sensitivity analysis
+sensitivity_analysis <- function(file_name, effect_sizes_to_try, iterations, ...) {
+  
+  # make full file name
+  full_file_name <- paste0("../data/simulations/", file_name)
+  
+  # only run analysis if a file with that name does not yet exists
+  if (!file.exists(full_file_name)) {
+    
+    sensitivity_data <- pmap_df(effect_sizes_to_try, function(delta_d_prime, delta_c) {
+      
+      # To keep track of progress
+      print(paste("test for delta c = ", delta_c, "; delta d' = ", delta_d_prime))
+      
+      # calculate the results for a specific combination of parameters
+      combination_result <-  iterate(iterations = iterations, 
+                                     beta_cv = delta_d_prime, 
+                                     # make sure to reverse the data generating parameter for response bias
+                                     beta_c = -delta_c, 
+                                     ...
+                                     )
+      
+      # add combination of parameters to data frame
+      combination_result <- combination_result %>% 
+        mutate(parameter_delta_d_prime = delta_d_prime, 
+               parameter_delta_c = delta_c)
+      
+    })
+    
+    write_csv(sensitivity_data, full_file_name)
+    
+    return(sensitivity_data)
+  }
+}
+
+# test
+
+# the code below tests the function content, not the function itself
+
+# # make a data frame with sample sizes
+# effect_sizes_to_try <- crossing(delta_d_prime = c(0.1, 1),
+#                                 # reverse response bias estimates
+#                                 delta_c = c(-0.1, -1))
+# 
+# # Remove initial parameters from list since we want to replace it
+# # with the respective effect size combination every time.
+# parameters[["beta_cv"]] <- NULL
+# parameters[["beta_c"]] <- NULL
+# 
+# sensitivity_data <- pmap_df(effect_sizes_to_try, function(delta_d_prime, delta_c) {
+#   
+#   # To keep track of progress
+#   print(paste("test for delta c = ", delta_c, "; delta d' = ", delta_d_prime))
+#   
+#   # calculate the results for a specific combination of parameters
+#   combination_result <-  do.call(iterate, 
+#                                  c(parameters,
+#                                    list(beta_cv = delta_d_prime, 
+#                                         # make sure to reverse the data generating parameter for response bias
+#                                         beta_c = -delta_c), 
+#                                    list(iterations = 2)
+#                                  )
+#   ) 
+#   
+#   # add combination of parameters to data frame
+#   combination_result <- combination_result %>% 
+#     mutate(parameter_delta_d_prime = delta_d_prime, 
+#            parameter_delta_c = delta_c)
+#   
+# })
+```
+
+We first make changes to the parameter list. Since we are now varying the effect sizes of delta d' and delta c, we remove them from the orgininal parameter list. 
+
+```{r}
+# Remove initial parameters from list since we want to replace it
+# with the respective effect size combination every time.
+parameters[["beta_cv"]] <- NULL
+parameters[["beta_c"]] <- NULL
+```
+
+We can then run the sensitivity analysis. Note that while we could feed the whole data frame of `effect_sizes_to_try` into the function, this would take very long. For each pair of effect sizes (i.e. one row in the data frame), the model takes approx. half a minute per iteration on my machine. 
+
+```{r}
+# run sensitivity analysis
+
+# you could just run this, but it would take reaaaally long
+# effect_sizes_to_try <- crossing(delta_d_prime = c(0.2, 0.5, 0.8),
+#                                 delta_c = c(0.2, 0.5, 0.8))
+# 
+# do.call(sensitivity_analysis, c(parameters, 
+#                                 list(file_name = "sensitivity_analysis.csv", 
+#                                      effect_sizes_to_try = effect_sizes_to_try, 
+#                                      iterations = 2)
+# )
+#                 )
+# 
+# sensitivity_data <- read_csv("data/sensitivity_analysis.csv")
+```
+
+Since I'm running this code locally on my computer, I have two different solutions. The first is to run the code in several chunks, exporting a each data frame and appending it to a common result data frame. To do this, we need to slightly modify the function from before. 
+
+```{r}
+# modified function to run the simulation chunk by chunk
+# sensitivity_analysis <- function(file_name, effect_sizes_to_try, iterations, ...) {
+#   
+#   sensitivity_data <- pmap_df(effect_sizes_to_try, function(delta_d_prime, delta_c) {
+#     
+#     # To keep track of progress
+#     print(paste("test for delta c = ", delta_c, "; delta d' = ", delta_d_prime))
+#     
+#     # calculate the results for a specific combination of parameters
+#     combination_result <-  iterate(iterations = iterations, 
+#                                    beta_cv = delta_d_prime, 
+#                                    # make sure to reverse the data generating parameter for response bias
+#                                    beta_c = -delta_c, 
+#                                    ...
+#     )
+#     
+#     # add combination of parameters to data frame
+#     combination_result <- combination_result %>% 
+#       mutate(parameter_delta_d_prime = delta_d_prime, 
+#              parameter_delta_c = delta_c)
+#     
+#   })
+#   
+#   # make full file name
+#   full_file_name <- paste0("data/simulations/", file_name)
+#   
+#   # Check if the CSV file already exists
+#   if (file.exists(full_file_name)) {
+#     # Append to the existing CSV
+#     write_csv(sensitivity_data, full_file_name, append = TRUE)
+#   } else {
+#     # Write a new CSV file if it doesn't exist
+#     write_csv(sensitivity_data, full_file_name)
+#   }
+#   
+#   return(sensitivity_data)
+#   
+# }
+# 
+# # check current combinations
+# sensitivity_data <- read_csv("data/simulations/sensitivity_analysis.csv")
+# sensitivity_data %>% distinct(parameter_delta_c, parameter_delta_d_prime)
+# 
+# # run sensitivity analysis chunk by chunk
+# 
+# effect_sizes_to_try <- crossing(delta_d_prime = c(0.1, 0.5, 1),
+#                                 delta_c = c(0.1, 0.5, 1))
+# 
+# do.call(sensitivity_analysis, c(parameters, 
+#                                 list(file_name = "sensitivity_analysis.csv", 
+#                                      effect_sizes_to_try = effect_sizes_to_try %>% 
+#                                        # modify this for new analyses
+#                                        slice(1)
+#                                        , 
+#                                      iterations = 2)
+# )
+#                 )
+# 
+# sensitivity_data <- read_csv("data/simulations/sensitivity_analysis.csv")
+```
+
+The second option, which I have used for our project, is to run the simulation based on an R script in the console. This way, R can run the simulation in the background, while you can use the computer as normal (given that the computations are not too heavy for your computer to handle it all at the same time). To do so, we first copy all the function from this .qmd file to a separate .R script, which we call `sensitivity_simulation.R`. 
+
+We then run this script in the terminal (`Rscript sensitivity_simulation.R`), by making sure to specify the correct project working directory (`cd YOUR/DIRECTORY`). 
+
+If you do this, make sure to not let your computer go to sleep, e.g. by using ['caffeinate'](https://www.theapplegeek.co.uk/blog/caffeinate), or [amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704?mt=12). 

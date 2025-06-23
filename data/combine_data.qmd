@@ -12,6 +12,7 @@ execute:
 library(tidyverse)
 library(kableExtra)  # for tables
 library(readr)
+library(haven)
 ```
 
 ## A single data frame
@@ -32,6 +33,8 @@ files <- list.files(
 # Load each file into a named list
 studies_data <- lapply(files, function(file) {
   readRDS(file) |> 
+    # remove old labels from stata files 
+    haven::zap_labels() |> 
     # ensure all identifier variables are of same variable type
     mutate(subject_id = as.character(subject_id), 
            scale = as.character(scale))
@@ -66,6 +69,11 @@ names(data)
 #   )
 
 ```
+
+
+## Exclude long_term effects
+
+Some studies measured long_term effects. We want to exclude these from the main analysis (including them would likely reduce the detected average treatment effect, as effects tend to regress over time). 
 
 
 

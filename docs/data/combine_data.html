@@ -132,10 +132,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="../literature_search/literature_search.html"> 
 <span class="menu-text">Literature Search</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../preregistration/preregistration.html"> 
+<span class="menu-text">Preregistration</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/andrewheiss/lemon-lucifer"> <i class="bi bi-github" role="img" aria-label="github">
+    <a class="nav-link" href="https://github.com/janpfander/meta_misinformation_interventions"> <i class="bi bi-github" role="img" aria-label="github">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -208,6 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#a-single-data-frame" id="toc-a-single-data-frame" class="nav-link active" data-scroll-target="#a-single-data-frame">A single data frame</a></li>
   <li><a href="#control-and-intervention-group-selection" id="toc-control-and-intervention-group-selection" class="nav-link" data-scroll-target="#control-and-intervention-group-selection">Control and intervention group selection</a></li>
+  <li><a href="#exclude-long_term-effects" id="toc-exclude-long_term-effects" class="nav-link" data-scroll-target="#exclude-long_term-effects">Exclude long_term effects</a></li>
   </ul>
 </nav>
     </div>
@@ -237,18 +242,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Load each file into a named list</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>studies_data <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(file) {</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(file) <span class="sc">|&gt;</span> </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ensure all identifier variables are of same variable type</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">subject_id =</span> <span class="fu">as.character</span>(subject_id), </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">scale =</span> <span class="fu">as.character</span>(scale))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Name list elements based on filenames (without extension or path)</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(studies_data) <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">basename</span>(files))</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(studies_data)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remove old labels from stata files </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    haven<span class="sc">::</span><span class="fu">zap_labels</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ensure all identifier variables are of same variable type</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">subject_id =</span> <span class="fu">as.character</span>(subject_id), </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">scale =</span> <span class="fu">as.character</span>(scale))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Name list elements based on filenames (without extension or path)</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(studies_data) <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">basename</span>(files))</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># build additional variables</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data, <span class="st">"data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(studies_data)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># build additional variables</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data, <span class="st">"data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -272,19 +279,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  [9] "intervention_description"              
 [10] "intervention_selection"                
 [11] "intervention_selection_description"    
-[12] "accuracy_raw"                          
-[13] "scale"                                 
-[14] "originally_identified_treatment_effect"
-[15] "partisan_identity"                     
-[16] "age"                                   
-[17] "concordance"                           
-[18] "news_slant"                            
-[19] "accuracy"                              
-[20] "control_selection"                     
-[21] "age_range"                             
-[22] "id"                                    
-[23] "year"                                  
-[24] "control_selection_description"         </code></pre>
+[12] "control_format"                        
+[13] "accuracy_raw"                          
+[14] "scale"                                 
+[15] "originally_identified_treatment_effect"
+[16] "partisan_identity"                     
+[17] "age"                                   
+[18] "news_selection"                        
+[19] "concordance"                           
+[20] "news_slant"                            
+[21] "year"                                  
+[22] "accuracy"                              
+[23] "recycled_news"                         
+[24] "recycled_news_reference"               
+[25] "control_selection"                     
+[26] "control_selection_description"         
+[27] "age_range"                             
+[28] "id"                                    
+[29] "long_term"                             
+[30] "time_elapsed"                          </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -297,6 +310,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
+<section id="exclude-long_term-effects" class="level2">
+<h2 class="anchored" data-anchor-id="exclude-long_term-effects">Exclude long_term effects</h2>
+<p>Some studies measured long_term effects. We want to exclude these from the main analysis (including them would likely reduce the detected average treatment effect, as effects tend to regress over time).</p>
 
 
 <!-- -->
@@ -786,65 +803,73 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)  <span class="co"># for tables</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## A single data frame</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>After having cleaned all individual studies and put the data into a shared format, we combine the studies into a single data frame. </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># combine data</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co"># List all matching files recursively</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"papers"</span>, </span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"^cleaned.*</span><span class="sc">\\</span><span class="st">.rds$"</span>, </span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Load each file into a named list</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>studies_data <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(file) {</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(file) <span class="sc">|&gt;</span> </span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ensure all identifier variables are of same variable type</span></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">subject_id =</span> <span class="fu">as.character</span>(subject_id), </span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">scale =</span> <span class="fu">as.character</span>(scale))</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Name list elements based on filenames (without extension or path)</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(studies_data) <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">basename</span>(files))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## A single data frame</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>After having cleaned all individual studies and put the data into a shared format, we combine the studies into a single data frame. </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># combine data</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># List all matching files recursively</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"papers"</span>, </span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"^cleaned.*</span><span class="sc">\\</span><span class="st">.rds$"</span>, </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Load each file into a named list</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>studies_data <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(file) {</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(file) <span class="sc">|&gt;</span> </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remove old labels from stata files </span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    haven<span class="sc">::</span><span class="fu">zap_labels</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ensure all identifier variables are of same variable type</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">subject_id =</span> <span class="fu">as.character</span>(subject_id), </span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>           <span class="at">scale =</span> <span class="fu">as.character</span>(scale))</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(studies_data)</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="co"># build additional variables</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data, <span class="st">"data.csv"</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Name list elements based on filenames (without extension or path)</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(studies_data) <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">basename</span>(files))</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(studies_data)</span>
 <span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="co"># build additional variables</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(data, <span class="st">"data.csv"</span>)</span>
 <span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="fu">## Control and intervention group selection</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>Several experiments have multiple control and/or intervention groups. For our meta-analysis, for each experiment, we only pair one control and one treatment group. In a case where we needed to make a selection, we have coded our selection choice in the variables <span class="in">`intervention_selection`</span> and  <span class="in">`control_selection`</span>. </span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Control and intervention group selection</span></span>
 <span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co"># data |&gt; </span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">#     # for cases where there was an intervention selection, make sure to only pick the selected intervention</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co">#     is.na(intervention_selection) | intervention_label == intervention_selection,</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="co">#     # same but for the control</span></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co">#     is.na(control_selection) | control_label == control_selection</span></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>Several experiments have multiple control and/or intervention groups. For our meta-analysis, for each experiment, we only pair one control and one treatment group. In a case where we needed to make a selection, we have coded our selection choice in the variables <span class="in">`intervention_selection`</span> and  <span class="in">`control_selection`</span>. </span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co"># data |&gt; </span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co">#     # for cases where there was an intervention selection, make sure to only pick the selected intervention</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">#     is.na(intervention_selection) | intervention_label == intervention_selection,</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co">#     # same but for the control</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co">#     is.na(control_selection) | control_label == control_selection</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
 <span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exclude long_term effects</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>Some studies measured long_term effects. We want to exclude these from the main analysis (including them would likely reduce the detected average treatment effect, as effects tend to regress over time). </span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -857,7 +882,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/andrewheiss/lemon-lucifer">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/janpfander/meta_misinformation_interventions">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
 </div>
   </div>
 </footer>

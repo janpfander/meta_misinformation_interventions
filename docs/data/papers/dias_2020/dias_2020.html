@@ -156,10 +156,14 @@ div.csl-indent {
     <a class="nav-link" href="../../../literature_search/literature_search.html"> 
 <span class="menu-text">Literature Search</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../preregistration/preregistration.html"> 
+<span class="menu-text">Preregistration</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/andrewheiss/lemon-lucifer"> <i class="bi bi-github" role="img" aria-label="github">
+    <a class="nav-link" href="https://github.com/janpfander/meta_misinformation_interventions"> <i class="bi bi-github" role="img" aria-label="github">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -212,14 +216,37 @@ div.csl-indent {
   <ul>
   <li><a href="#reference" id="toc-reference" class="nav-link active" data-scroll-target="#reference">Reference</a></li>
   <li><a href="#intervention" id="toc-intervention" class="nav-link" data-scroll-target="#intervention">Intervention</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
   </ul></li>
   <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a>
+  <ul>
+  <li><a href="#study-1" id="toc-study-1" class="nav-link" data-scroll-target="#study-1">Study 1</a>
   <ul class="collapse">
-  <li><a href="#study-1" id="toc-study-1" class="nav-link" data-scroll-target="#study-1">Study 1</a></li>
-  <li><a href="#study-2" id="toc-study-2" class="nav-link" data-scroll-target="#study-2">Study 2</a></li>
-  <li><a href="#combine-studies" id="toc-combine-studies" class="nav-link" data-scroll-target="#combine-studies">Combine Studies</a></li>
+  <li><a href="#accuracy_raw-veracity" id="toc-accuracy_raw-veracity" class="nav-link" data-scroll-target="#accuracy_raw-veracity"><code>accuracy_raw</code>, <code>veracity</code></a></li>
+  <li><a href="#scale" id="toc-scale" class="nav-link" data-scroll-target="#scale"><code>scale</code></a></li>
+  <li><a href="#conditions-intervention_label-control_label-condition" id="toc-conditions-intervention_label-control_label-condition" class="nav-link" data-scroll-target="#conditions-intervention_label-control_label-condition">Conditions (<code>intervention_label</code>, <code>control_label</code>, <code>condition</code>)</a></li>
+  <li><a href="#news_id" id="toc-news_id" class="nav-link" data-scroll-target="#news_id"><code>news_id</code></a></li>
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age"><code>age</code></a></li>
+  <li><a href="#year" id="toc-year" class="nav-link" data-scroll-target="#year"><code>year</code></a></li>
+  <li><a href="#identifiers-subject_id-experiment_id-removing-respondents-with-mutliple-surveys" id="toc-identifiers-subject_id-experiment_id-removing-respondents-with-mutliple-surveys" class="nav-link" data-scroll-target="#identifiers-subject_id-experiment_id-removing-respondents-with-mutliple-surveys">Identifiers (<code>subject_id</code>, <code>experiment_id</code>) &amp; removing respondents with mutliple surveys</a></li>
+  </ul></li>
+  <li><a href="#study-2" id="toc-study-2" class="nav-link" data-scroll-target="#study-2">Study 2</a>
+  <ul class="collapse">
+  <li><a href="#accuracy_raw-veracity-1" id="toc-accuracy_raw-veracity-1" class="nav-link" data-scroll-target="#accuracy_raw-veracity-1"><code>accuracy_raw</code>, <code>veracity</code></a></li>
+  <li><a href="#scale-1" id="toc-scale-1" class="nav-link" data-scroll-target="#scale-1"><code>scale</code></a></li>
+  <li><a href="#conditions-intervention_label-control_label-condition-1" id="toc-conditions-intervention_label-control_label-condition-1" class="nav-link" data-scroll-target="#conditions-intervention_label-control_label-condition-1">Conditions (<code>intervention_label</code>, <code>control_label</code>, <code>condition</code>)</a></li>
+  <li><a href="#news_id-1" id="toc-news_id-1" class="nav-link" data-scroll-target="#news_id-1"><code>news_id</code></a></li>
+  <li><a href="#age-1" id="toc-age-1" class="nav-link" data-scroll-target="#age-1"><code>age</code></a></li>
+  <li><a href="#year-1" id="toc-year-1" class="nav-link" data-scroll-target="#year-1"><code>year</code></a></li>
+  <li><a href="#identifiers-subject_id-experiment_id-removing-respondents-with-mutliple-surveys-1" id="toc-identifiers-subject_id-experiment_id-removing-respondents-with-mutliple-surveys-1" class="nav-link" data-scroll-target="#identifiers-subject_id-experiment_id-removing-respondents-with-mutliple-surveys-1">Identifiers (<code>subject_id</code>, <code>experiment_id</code>) &amp; removing respondents with mutliple surveys</a></li>
+  </ul></li>
+  <li><a href="#combine-studies" id="toc-combine-studies" class="nav-link" data-scroll-target="#combine-studies">Combine Studies</a>
+  <ul class="collapse">
+  <li><a href="#combine-and-add-identifiers-country-paper_id" id="toc-combine-and-add-identifiers-country-paper_id" class="nav-link" data-scroll-target="#combine-and-add-identifiers-country-paper_id">Combine and add identifiers (<code>country</code>, <code>paper_id</code>)</a></li>
+  <li><a href="#additional-news-identifiers-recycled_news-recycled_news_reference" id="toc-additional-news-identifiers-recycled_news-recycled_news_reference" class="nav-link" data-scroll-target="#additional-news-identifiers-recycled_news-recycled_news_reference">Additional news identifiers (<code>recycled_news</code>, <code>recycled_news_reference</code>)</a></li>
+  <li><a href="#news_selection" id="toc-news_selection" class="nav-link" data-scroll-target="#news_selection"><code>news_selection</code></a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#write-out-data" id="toc-write-out-data" class="nav-link" data-scroll-target="#write-out-data">Write out data</a></li>
   </ul>
@@ -247,13 +274,13 @@ Dias, Nicholas, Gordon Pennycook, and David G. Rand. 2020. <span>“Emphasizing 
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'Study 1: In the control condition, participants saw Facebook-like news posts, with the source domain shwon in gray text. Two treatment conditions: in one the logo of publisher outlet was shown in a bright banner (logo banner); in the other no source was shown (neither gray text, nor logo banner). Study 2: Like study 1, but without the "no source" condition.'</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"facebook"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection_description =</span> <span class="st">"For Study 1, we will use the Facebook like condition (facebook) and NOT the condition without a source (no_source) as a control group, since it matches the control group of Study 2, is more comparable with other studies</span><span class="sc">\'</span><span class="st"> control groups, and is closer to real-world settings."</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(intervention_description, control_selection_description) <span class="sc">|&gt;</span> </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_format =</span> <span class="st">"facebook"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"facebook"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection_description =</span> <span class="st">"For Study 1, we will use the Facebook like condition (facebook) and NOT the condition without a source (no_source) as a control group, since it matches the control group of Study 2, is more comparable with other studies</span><span class="sc">\'</span><span class="st"> control groups, and is closer to real-world settings."</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">show_conditions</span>(intervention_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1317,13 +1344,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb52-40"><a href="#cb52-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb52-41"><a href="#cb52-41" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb52-42"><a href="#cb52-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'Study 1: In the control condition, participants saw Facebook-like news posts, with the source domain shwon in gray text. Two treatment conditions: in one the logo of publisher outlet was shown in a bright banner (logo banner); in the other no source was shown (neither gray text, nor logo banner). Study 2: Like study 1, but without the "no source" condition.'</span>,</span>
-<span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"facebook"</span>,</span>
-<span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection_description =</span> <span class="st">"For Study 1, we will use the Facebook like condition (facebook) and NOT the condition without a source (no_source) as a control group, since it matches the control group of Study 2, is more comparable with other studies</span><span class="sc">\'</span><span class="st"> control groups, and is closer to real-world settings."</span>,</span>
-<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
-<span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(intervention_description, control_selection_description) <span class="sc">|&gt;</span> </span>
-<span id="cb52-49"><a href="#cb52-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()</span>
+<span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_format =</span> <span class="st">"facebook"</span>,</span>
+<span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"facebook"</span>,</span>
+<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection_description =</span> <span class="st">"For Study 1, we will use the Facebook like condition (facebook) and NOT the condition without a source (no_source) as a control group, since it matches the control group of Study 2, is more comparable with other studies</span><span class="sc">\'</span><span class="st"> control groups, and is closer to real-world settings."</span>,</span>
+<span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb52-49"><a href="#cb52-49" aria-hidden="true" tabindex="-1"></a><span class="fu">show_conditions</span>(intervention_info)</span>
 <span id="cb52-50"><a href="#cb52-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-51"><a href="#cb52-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-52"><a href="#cb52-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes</span></span>
@@ -1680,7 +1707,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/andrewheiss/lemon-lucifer">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/janpfander/meta_misinformation_interventions">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
 </div>
   </div>
 </footer>

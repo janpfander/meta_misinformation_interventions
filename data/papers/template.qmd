@@ -1,0 +1,68 @@
+---
+title: Template.
+date: "2021"
+author: 
+  - Author, 
+categories:
+  - some label
+draft: true 
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(kableExtra)
+library(readxl)      # read excel files
+
+```
+
+## Reference
+
+::: {#refs}
+:::
+
+## Intervention
+
+```{r}
+intervention_info <- tibble(
+    intervention_description = 'In Study 1, participants were randomly assigned to one of the five following conditions: (i) the Control Condition in which no headline was labeled, (ii) the correct label condition in which all AI-generated headlines were labeled (`intervention_label` = "Correct"), (iii) the missing label condition in which only half of AI-generated headlines were labeled (`intervention_label` = "Missing"), (iv) the noisy label condition in which half of AI-generated headlines were labeled and half of human-generated headlines were mislabeled (`intervention_label` = "Noise "), and (v) the false label condition in which false headlines were labeled as false (`intervention_label` = "FalseLabel")',
+    intervention_selection = "FalseLabel",
+    intervention_selection_description = 'The paper\'s main goal is to test how AI labels affect accuracy judgments. However, this is not the main interest of our study. We will therefor reduce the treatment to the condition in Study 1 where false headlines are labeled as false (`intervention_label` = "FalseLabel").',
+    #the authors did not measure discernment 
+    originally_identified_treatment_effect = NA,
+    control_format = "picture, lede")
+
+
+```
+
+### Notes
+
+The authors did not find evidence that emotion regulation helped people distinguish false from true news headlines, in any of the studies.
+
+## Data Cleaning
+
+### Study 1
+
+#### `accuracy_raw`, `veracity`
+
+#### `scale`
+
+#### `news_id`, `news_selection`, `recycled_news`, `recycled_news_reference`
+
+#### Concordance (`concordance`, `partisan_identity`, `news_slant`)
+
+#### Conditions (`intervention_label`, `condition`)
+
+#### `long_term`, `time_elapsed`
+
+#### `age`
+
+#### `year`
+
+#### Identifiers (`subject_id`, `experiment_id`) 
+
+### Combine and add identifiers (`country`, `paper_id`)
+
+We combine both studies. 

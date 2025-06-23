@@ -156,10 +156,14 @@ div.csl-indent {
     <a class="nav-link" href="../../../literature_search/literature_search.html"> 
 <span class="menu-text">Literature Search</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../preregistration/preregistration.html"> 
+<span class="menu-text">Preregistration</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/andrewheiss/lemon-lucifer"> <i class="bi bi-github" role="img" aria-label="github">
+    <a class="nav-link" href="https://github.com/janpfander/meta_misinformation_interventions"> <i class="bi bi-github" role="img" aria-label="github">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -212,16 +216,18 @@ div.csl-indent {
   <ul>
   <li><a href="#reference" id="toc-reference" class="nav-link active" data-scroll-target="#reference">Reference</a></li>
   <li><a href="#intervention" id="toc-intervention" class="nav-link" data-scroll-target="#intervention">Intervention</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
   </ul></li>
   <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a>
-  <ul class="collapse">
-  <li><a href="#interventions" id="toc-interventions" class="nav-link" data-scroll-target="#interventions">Interventions</a></li>
-  <li><a href="#veracity" id="toc-veracity" class="nav-link" data-scroll-target="#veracity">Veracity</a></li>
-  <li><a href="#news-id" id="toc-news-id" class="nav-link" data-scroll-target="#news-id">News id</a></li>
-  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">Age</a></li>
-  <li><a href="#clean-data" id="toc-clean-data" class="nav-link" data-scroll-target="#clean-data">Clean data</a></li>
+  <ul>
+  <li><a href="#conditions-intervention_label-control_label-condition" id="toc-conditions-intervention_label-control_label-condition" class="nav-link" data-scroll-target="#conditions-intervention_label-control_label-condition">Conditions (<code>intervention_label</code>, <code>control_label</code>, <code>condition</code>)</a></li>
+  <li><a href="#veracity-accuracy_raw" id="toc-veracity-accuracy_raw" class="nav-link" data-scroll-target="#veracity-accuracy_raw"><code>veracity</code>, <code>accuracy_raw</code></a></li>
+  <li><a href="#scale" id="toc-scale" class="nav-link" data-scroll-target="#scale"><code>scale</code></a></li>
+  <li><a href="#news_idand-news_selection" id="toc-news_idand-news_selection" class="nav-link" data-scroll-target="#news_idand-news_selection"><code>news_id</code>and <code>news_selection</code></a></li>
+  <li><a href="#age-age_range" id="toc-age-age_range" class="nav-link" data-scroll-target="#age-age_range"><code>age</code>, <code>age_range</code></a></li>
+  <li><a href="#year" id="toc-year" class="nav-link" data-scroll-target="#year"><code>year</code></a></li>
+  <li><a href="#identifiers-subject_id-experiment_id-paper_id-country" id="toc-identifiers-subject_id-experiment_id-paper_id-country" class="nav-link" data-scroll-target="#identifiers-subject_id-experiment_id-paper_id-country">Identifiers (<code>subject_id</code>, <code>experiment_id</code>, <code>paper_id</code>, <code>country</code>)</a></li>
   <li><a href="#write-out-data" id="toc-write-out-data" class="nav-link" data-scroll-target="#write-out-data">Write out data</a></li>
   </ul></li>
   </ul>
@@ -249,15 +255,16 @@ Clayton, Katherine, Spencer Blair, Jonathan A. Busam, Samuel Forstner, John Glan
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'"The experiment used a 2× 3 between-subjects design that also includes a pure control group. Participants were randomly assigned with equal probability to a pure control group or to one of six experimental conditions (see Table 1). We manipulated whether participants were exposed to a general warning about misleading articles or not (middle column of Table 1). We also independently randomized noncontrols into one of three headline conditions: a condition in which no fact-checking tags were presented (first two rows of Table 1), a specific warning condition that included tags labeling articles as “Disputed” (second two rows of Table 1), and a specific warning condition in which they were instead labeled as “Rated false” (last two rows of Table 1)."'</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"control_no_warning"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"labels_false_no_warning"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">"We believe the warning tag intervention to be more interesting than the general warning intervention. We therefor use only the ones where there is no general warning. We also discard the pure control group in which participants didn't read any news items. There are two types of warning tag interventions: One that labels false articles as 'disputed' and another that labels them as 'rated false'. We will merge these two conditions as they seem sufficiently similar to be part of a warning tag category."</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the author measured detection of misinformation, not discernment  </span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">NA</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(intervention_description, intervention_selection_description) <span class="sc">|&gt;</span> </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"false_no_warning"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">"We believe the warning tag intervention to be more interesting than the general warning intervention. We therefor use only conditions where there is NO general warning. We also discard the pure control group in which participants didn't read any news items. There are two types of warning tag interventions: One that labels false articles as 'disputed' and another that labels them as 'rated false'. We will merge these two conditions as they seem sufficiently similar to be part of a warning tag category."</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"control_no_warning"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection_description =</span> <span class="st">"We decide to measure the effect of warning tag interventions. We use the control condition where there is NO general warning."</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_format =</span> <span class="st">"picture, lede"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the author measured detection of misinformation, not discernment  </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">NA</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">show_conditions</span>(intervention_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
@@ -265,12 +272,14 @@ Clayton, Katherine, Spencer Blair, Jonathan A. Busam, Samuel Forstner, John Glan
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">intervention_description</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">intervention_selection_description</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">control_selection_description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">"The experiment used a 2× 3 between-subjects design that also includes a pure control group. Participants were randomly assigned with equal probability to a pure control group or to one of six experimental conditions (see Table 1). We manipulated whether participants were exposed to a general warning about misleading articles or not (middle column of Table 1). We also independently randomized noncontrols into one of three headline conditions: a condition in which no fact-checking tags were presented (first two rows of Table 1), a specific warning condition that included tags labeling articles as “Disputed” (second two rows of Table 1), and a specific warning condition in which they were instead labeled as “Rated false” (last two rows of Table 1)."</td>
-<td style="text-align: left;">We believe the warning tag intervention to be more interesting than the general warning intervention. We therefor use only the ones where there is no general warning. We also discard the pure control group in which participants didn't read any news items. There are two types of warning tag interventions: One that labels false articles as 'disputed' and another that labels them as 'rated false'. We will merge these two conditions as they seem sufficiently similar to be part of a warning tag category.</td>
+<td style="text-align: left;">We believe the warning tag intervention to be more interesting than the general warning intervention. We therefor use only conditions where there is NO general warning. We also discard the pure control group in which participants didn't read any news items. There are two types of warning tag interventions: One that labels false articles as 'disputed' and another that labels them as 'rated false'. We will merge these two conditions as they seem sufficiently similar to be part of a warning tag category.</td>
+<td style="text-align: left;">We decide to measure the effect of warning tag interventions. We use the control condition where there is NO general warning.</td>
 </tr>
 </tbody>
 </table>
@@ -315,25 +324,25 @@ Table&nbsp;1: Table: Participant Counts by Tag and General Warning
 <td style="text-align: left;">“Disputed”</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: right;">413</td>
-<td style="text-align: left;">labels_disputed_no_warning</td>
+<td style="text-align: left;">disputed_no_warning</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“Disputed”</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: right;">429</td>
-<td style="text-align: left;">labels_disputed_warning</td>
+<td style="text-align: left;">disputed_warning</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“Rated false”</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: right;">429</td>
-<td style="text-align: left;">labels_false_no_warning</td>
+<td style="text-align: left;">false_no_warning</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“Rated false”</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: right;">397</td>
-<td style="text-align: left;">labels_false_warning</td>
+<td style="text-align: left;">false_warning</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Pure control</td>
@@ -355,45 +364,29 @@ Table&nbsp;1: Table: Participant Counts by Tag and General Warning
 </section>
 <section id="data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define variables to select</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper_id"</span>, <span class="st">"experiment_id"</span>, <span class="st">"subject_id"</span>, <span class="st">"news_id"</span>, <span class="st">"country"</span>, <span class="st">"year"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"veracity"</span>, <span class="st">"condition"</span>, <span class="st">"intervention_label"</span>, <span class="st">"intervention_description"</span>, </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection_description"</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"control_selection"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"accuracy_raw"</span>, <span class="st">"scale"</span>, <span class="st">"originally_identified_treatment_effect"</span>, </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"concordance"</span>, <span class="st">"partisan_identity"</span>, <span class="st">"news_slant"</span>, <span class="st">"age"</span>, <span class="st">"age_range"</span>, <span class="st">"identified_via"</span>, <span class="st">"id"</span>, </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"unique_experiment_id"</span>, <span class="st">"accuracy"</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 <p>Read data.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import data </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"clayton_2020.RData"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># by default, the data frame is called "table" </span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># rename</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import data </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"clayton_2020.RData"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># by default, the data frame is called "table" </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># rename</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="interventions" class="level3">
-<h3 class="anchored" data-anchor-id="interventions">Interventions</h3>
+<section id="conditions-intervention_label-control_label-condition" class="level3">
+<h3 class="anchored" data-anchor-id="conditions-intervention_label-control_label-condition">Conditions (<code>intervention_label</code>, <code>control_label</code>, <code>condition</code>)</h3>
 <p>We first need to indentiy the different experimental conditions. This is a bit tricky because the documentation is bad.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-reading paper and stata code, these seem to be the relevant variables for condition</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-reading paper and stata code, these seem to be the relevant variables for condition</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,994 × 8
@@ -414,11 +407,11 @@ Table&nbsp;1: Table: Participant Counts by Tag and General Warning
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-check sample sizes with what is reported in the paper to be sure these are the conditions</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n_per_condition =</span> <span class="fu">n</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-check sample sizes with what is reported in the paper to be sure these are the conditions</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n_per_condition =</span> <span class="fu">n</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'cond', 'nocorr_condition',
@@ -446,44 +439,48 @@ You can override using the `.groups` argument.</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make new easy-to-read condition variable</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">condition =</span> <span class="fu">case_when</span>(cond <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"pure_control"</span>, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"control_no_warning"</span>, </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"control_warning"</span>, </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"disputed_no_warning"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"disputed_warning"</span>, </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"false_no_warning"</span>, </span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"false_warning"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># check for correct sample size</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make new easy-to-read condition variable</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"disputed_no_warning"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"disputed_warning"</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"false_no_warning"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"false_warning"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"pure_control"</span>, </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"control_no_warning"</span>, </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"control_warning"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">if_else</span>(cond <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="st">"control"</span>, <span class="st">"treatment"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># check for correct sample size</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 2
-  condition               n
-  &lt;chr&gt;               &lt;int&gt;
-1 control_no_warning    469
-2 control_warning       424
-3 disputed_no_warning   413
-4 disputed_warning      429
-5 false_no_warning      429
-6 false_warning         397
-7 pure_control          433</code></pre>
+<pre><code># A tibble: 2 × 2
+  condition     n
+  &lt;chr&gt;     &lt;int&gt;
+1 control    1326
+2 treatment  1668</code></pre>
 </div>
 </div>
 </section>
-<section id="veracity" class="level3">
-<h3 class="anchored" data-anchor-id="veracity">Veracity</h3>
+<section id="veracity-accuracy_raw" class="level3">
+<h3 class="anchored" data-anchor-id="veracity-accuracy_raw"><code>veracity</code>, <code>accuracy_raw</code></h3>
 <p>As a next step, we need to identify which variables code instances of news ratings</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trying to identify news ratings  </span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(belief_old_fake_news, belief_real_news, real_civil_war_belief,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                 real_syria_belief, real_gorsuch_belief, draft_belief, bee_belief, </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                 chaf_belief, protester_belief, marines_belief, fbiagent_belief) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trying to identify news ratings  </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(belief_old_fake_news, belief_real_news, real_civil_war_belief,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                 real_syria_belief, real_gorsuch_belief, draft_belief, bee_belief, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                 chaf_belief, protester_belief, marines_belief, fbiagent_belief) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,994 × 11
@@ -509,111 +506,168 @@ You can override using the `.groups` argument.</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bring data to long format</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an id variable</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.)) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(real_civil_war_belief, real_syria_belief, real_gorsuch_belief, </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                 draft_belief, bee_belief, chaf_belief, protester_belief, </span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                 marines_belief, fbiagent_belief), </span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"item"</span>,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"ratings"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an binary 'veracity' variable identifying true and fake</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">veracity =</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">'real'</span>, item), <span class="st">'true'</span>, <span class="st">'false'</span>))</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># check that veracity corresponds to correct items</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(item, veracity) %&gt;% </span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n = n())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bring data to long format</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an id variable</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.)) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(real_civil_war_belief, real_syria_belief, real_gorsuch_belief, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                 draft_belief, bee_belief, chaf_belief, protester_belief, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                 marines_belief, fbiagent_belief), </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"item"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"accuracy_raw"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an binary 'veracity' variable identifying true and fake</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">veracity =</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">'real'</span>, item), <span class="st">'true'</span>, <span class="st">'false'</span>))</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># check that veracity corresponds to correct items</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(item, veracity) %&gt;% </span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n = n())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="news-id" class="level3">
-<h3 class="anchored" data-anchor-id="news-id">News id</h3>
+<section id="scale" class="level3">
+<h3 class="anchored" data-anchor-id="scale"><code>scale</code></h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(long_data<span class="sc">$</span>accuracy_raw, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    4 &lt;NA&gt; 
+8890 6446 5302 6159  149 </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data<span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="news_idand-news_selection" class="level3">
+<h3 class="anchored" data-anchor-id="news_idand-news_selection"><code>news_id</code>and <code>news_selection</code></h3>
 <p>In the previous section, we have already created a news identifier <code>item</code>. Here we just rename this identifier.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> item, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">news_selection =</span> <span class="st">"researchers"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="age" class="level3">
-<h3 class="anchored" data-anchor-id="age">Age</h3>
+<section id="age-age_range" class="level3">
+<h3 class="anchored" data-anchor-id="age-age_range"><code>age</code>, <code>age_range</code></h3>
 <p>Age is only provided in bins. We make a cleaner version of the variable.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract labels from the variable's attributes</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">attr</span>(long_data<span class="sc">$</span>agegroup, <span class="st">"labels"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the numeric values as levels and their names as labels</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_range =</span> <span class="fu">factor</span>(agegroup, </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> labels, </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">names</span>(labels)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract labels from the variable's attributes</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">attr</span>(long_data<span class="sc">$</span>agegroup, <span class="st">"labels"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the numeric values as levels and their names as labels</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_range =</span> <span class="fu">factor</span>(agegroup, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> labels, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">names</span>(labels)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Based on this bin variable, we take the age category mid-point as a proxy for age.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define midpoints for each age group</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Under 18"</span> <span class="ot">=</span> <span class="dv">17</span>,             </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"18 - 24"</span> <span class="ot">=</span> (<span class="dv">18</span> <span class="sc">+</span> <span class="dv">24</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"25 - 34"</span> <span class="ot">=</span> (<span class="dv">25</span> <span class="sc">+</span> <span class="dv">34</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"35 - 44"</span> <span class="ot">=</span> (<span class="dv">35</span> <span class="sc">+</span> <span class="dv">44</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"45 - 54"</span> <span class="ot">=</span> (<span class="dv">45</span> <span class="sc">+</span> <span class="dv">54</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"55 - 64"</span> <span class="ot">=</span> (<span class="dv">55</span> <span class="sc">+</span> <span class="dv">64</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"65 - 74"</span> <span class="ot">=</span> (<span class="dv">65</span> <span class="sc">+</span> <span class="dv">74</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"75 - 84"</span> <span class="ot">=</span> (<span class="dv">75</span> <span class="sc">+</span> <span class="dv">84</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"85 or older"</span> <span class="ot">=</span> <span class="dv">85</span>          </span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Map numeric codes to labels, then to midpoints</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">as.numeric</span>(age_midpoints), <span class="fu">names</span>(labels))</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace agegroup with midpoints</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(age_range), age_midpoints[age_range], <span class="cn">NA</span>))</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(age, age_range)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define midpoints for each age group</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Under 18"</span> <span class="ot">=</span> <span class="dv">17</span>,             </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"18 - 24"</span> <span class="ot">=</span> (<span class="dv">18</span> <span class="sc">+</span> <span class="dv">24</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"25 - 34"</span> <span class="ot">=</span> (<span class="dv">25</span> <span class="sc">+</span> <span class="dv">34</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"35 - 44"</span> <span class="ot">=</span> (<span class="dv">35</span> <span class="sc">+</span> <span class="dv">44</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"45 - 54"</span> <span class="ot">=</span> (<span class="dv">45</span> <span class="sc">+</span> <span class="dv">54</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"55 - 64"</span> <span class="ot">=</span> (<span class="dv">55</span> <span class="sc">+</span> <span class="dv">64</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"65 - 74"</span> <span class="ot">=</span> (<span class="dv">65</span> <span class="sc">+</span> <span class="dv">74</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"75 - 84"</span> <span class="ot">=</span> (<span class="dv">75</span> <span class="sc">+</span> <span class="dv">84</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"85 or older"</span> <span class="ot">=</span> <span class="dv">85</span>          </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Map numeric codes to labels, then to midpoints</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">as.numeric</span>(age_midpoints), <span class="fu">names</span>(labels))</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace agegroup with midpoints</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(age_range), age_midpoints[age_range], <span class="cn">NA</span>))</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(age, age_range)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="clean-data" class="level3">
-<h3 class="anchored" data-anchor-id="clean-data">Clean data</h3>
+<section id="year" class="level3">
+<h3 class="anchored" data-anchor-id="year"><code>year</code></h3>
+<p><code>V8</code> is the StartDate variable</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make final data</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>clayton_2020 <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subject_id =</span> id,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make sure that the control conditions has no intervention label</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_label =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(condition, <span class="st">"control"</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                                <span class="cn">NA</span>,</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(<span class="st">"labels_"</span>, condition)), </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keep different labels for control conditions, code treatment as "treatment"</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(condition, <span class="st">"control"</span>), condition, <span class="st">"treatment"</span>),</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy_raw =</span> ratings,</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment_id =</span> <span class="dv">1</span>,</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale =</span> <span class="dv">4</span>, </span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">"United States"</span>,</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">paper_id =</span> <span class="st">"Clayton_2020"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add_intervention_info </span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># check conditions</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># clayton_2020 |&gt;</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(condition) |&gt;</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   reframe(unique(intervention_label))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_data<span class="sc">$</span>V8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2017-05-08 07:31:27 UTC" "2017-05-08 07:31:27 UTC"
+[3] "2017-05-08 07:31:27 UTC" "2017-05-08 07:31:27 UTC"
+[5] "2017-05-08 07:31:27 UTC" "2017-05-08 07:31:27 UTC"</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(V8)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>long_data <span class="sc">|&gt;</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(V8, year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 26,946 × 2
+   V8                   year
+   &lt;dttm&gt;              &lt;dbl&gt;
+ 1 2017-05-08 07:31:27  2017
+ 2 2017-05-08 07:31:27  2017
+ 3 2017-05-08 07:31:27  2017
+ 4 2017-05-08 07:31:27  2017
+ 5 2017-05-08 07:31:27  2017
+ 6 2017-05-08 07:31:27  2017
+ 7 2017-05-08 07:31:27  2017
+ 8 2017-05-08 07:31:27  2017
+ 9 2017-05-08 07:31:27  2017
+10 2017-05-08 07:51:57  2017
+# ℹ 26,936 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="identifiers-subject_id-experiment_id-paper_id-country" class="level3">
+<h3 class="anchored" data-anchor-id="identifiers-subject_id-experiment_id-paper_id-country">Identifiers (<code>subject_id</code>, <code>experiment_id</code>, <code>paper_id</code>, <code>country</code>)</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make final data</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>clayton_2020 <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span>  </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subject_id =</span> id,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment_id =</span> <span class="dv">1</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">"United States"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">paper_id =</span> <span class="st">"Clayton_2020"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add_intervention_info </span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># check conditions</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># clayton_2020 |&gt;</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(condition) |&gt;</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   reframe(unique(intervention_label))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -622,7 +676,7 @@ You can override using the `.groups` argument.</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(clayton_2020)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(clayton_2020)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
@@ -1101,257 +1155,278 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Real Solutions for Fake News? Measuring the Effectiveness of General Warnings and Fact-Check Tags in Reducing Belief in False Stories on Social Media."</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2020"</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - Clayton, Katherine</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - literacy</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../../references.bib</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="an">nocite:</span><span class="co"> |</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">  @claytonRealSolutionsFake2020</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false </span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)      <span class="co"># read excel files</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co"># load functions</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../../R/custom_functions.R"</span>)</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intervention</span></span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'"The experiment used a 2× 3 between-subjects design that also includes a pure control group. Participants were randomly assigned with equal probability to a pure control group or to one of six experimental conditions (see Table 1). We manipulated whether participants were exposed to a general warning about misleading articles or not (middle column of Table 1). We also independently randomized noncontrols into one of three headline conditions: a condition in which no fact-checking tags were presented (first two rows of Table 1), a specific warning condition that included tags labeling articles as “Disputed” (second two rows of Table 1), and a specific warning condition in which they were instead labeled as “Rated false” (last two rows of Table 1)."'</span>,</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"control_no_warning"</span>,</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"labels_false_no_warning"</span>,</span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">"We believe the warning tag intervention to be more interesting than the general warning intervention. We therefor use only the ones where there is no general warning. We also discard the pure control group in which participants didn't read any news items. There are two types of warning tag interventions: One that labels false articles as 'disputed' and another that labels them as 'rated false'. We will merge these two conditions as they seem sufficiently similar to be part of a warning tag category."</span>,</span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the author measured detection of misinformation, not discernment  </span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">NA</span>)</span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="sc">|&gt;</span> </span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(intervention_description, intervention_selection_description) <span class="sc">|&gt;</span> </span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>()</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes</span></span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>The study tested the effect of a literacy intervention. For an overview of the labels we've assigned, see the <span class="in">`intervention_label`</span> column in Table @tbl-clayton-conditions.</span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{r clayton-conditions, echo=FALSE}</span></span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: tbl-clayton-conditions</span></span>
-<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="in"># Create the data frame</span></span>
-<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a><span class="in">data &lt;- data.frame(</span></span>
-<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="in">  Tag = c("None", "None", "“Disputed”", "“Disputed”", "“Rated false”", "“Rated false”", "Pure control"),</span></span>
-<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="in">  General_warning = c("No", "Yes", "No", "Yes", "No", "Yes", NA),</span></span>
-<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="in">  N = c(469, 424, 413, 429, 429, 397, 433), </span></span>
-<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a><span class="in">  intervention_label = c("NA", "NA", "labels_disputed_no_warning", "labels_disputed_warning", "labels_false_no_warning", "labels_false_warning", "NA")</span></span>
-<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="in"># Generate the table</span></span>
-<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="in">kable(data, col.names = c("Tag", "General warning", "N", "intervention_label"), </span></span>
-<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="in">      caption = "Table: Participant Counts by Tag and General Warning") # or format = "latex" for PDF</span></span>
-<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "In the pure control group, respondents were exposed to no images, no articles, no general warning, no tags, and no headlines, and proceeded directly to the questions measuring the outcome variable (discussed in the next section)."</span></span>
-<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="at">"In the general warning condition, participants were shown a message warning them about misleading articles and providing advice for identifying false information (see Online Appendix A for exact wording and design)."</span></span>
-<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Cleaning</span></span>
-<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Define variables to select</span></span>
-<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper_id"</span>, <span class="st">"experiment_id"</span>, <span class="st">"subject_id"</span>, <span class="st">"news_id"</span>, <span class="st">"country"</span>, <span class="st">"year"</span>, </span>
-<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">"veracity"</span>, <span class="st">"condition"</span>, <span class="st">"intervention_label"</span>, <span class="st">"intervention_description"</span>, </span>
-<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection"</span>,</span>
-<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>    <span class="st">"intervention_selection_description"</span>,</span>
-<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>    <span class="st">"control_selection"</span>,</span>
-<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">"accuracy_raw"</span>, <span class="st">"scale"</span>, <span class="st">"originally_identified_treatment_effect"</span>, </span>
-<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">"concordance"</span>, <span class="st">"partisan_identity"</span>, <span class="st">"news_slant"</span>, <span class="st">"age"</span>, <span class="st">"age_range"</span>, <span class="st">"identified_via"</span>, <span class="st">"id"</span>, </span>
-<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a>    <span class="st">"unique_experiment_id"</span>, <span class="st">"accuracy"</span></span>
-<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>Read data.</span>
-<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a><span class="co"># import data </span></span>
-<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"clayton_2020.RData"</span>)</span>
-<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a><span class="co"># by default, the data frame is called "table" </span></span>
-<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a><span class="co"># rename</span></span>
-<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> table</span>
-<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interventions</span></span>
-<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>We first need to indentiy the different experimental conditions. This is a bit tricky because the documentation is bad.</span>
-<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-reading paper and stata code, these seem to be the relevant variables for condition</span></span>
-<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
-<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning)</span>
-<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-check sample sizes with what is reported in the paper to be sure these are the conditions</span></span>
-<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
-<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n_per_condition =</span> <span class="fu">n</span>()) </span>
-<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a>Based on this information, we build a condition variable with more meaningful value labels.</span>
-<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a><span class="co"># make new easy-to-read condition variable</span></span>
-<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">condition =</span> <span class="fu">case_when</span>(cond <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"pure_control"</span>, </span>
-<span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"control_no_warning"</span>, </span>
-<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"control_warning"</span>, </span>
-<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"disputed_no_warning"</span>,</span>
-<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"disputed_warning"</span>, </span>
-<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"false_no_warning"</span>, </span>
-<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a>                               cond <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"false_warning"</span>)</span>
-<span id="cb19-139"><a href="#cb19-139" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-140"><a href="#cb19-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-141"><a href="#cb19-141" aria-hidden="true" tabindex="-1"></a><span class="co"># check for correct sample size</span></span>
-<span id="cb19-142"><a href="#cb19-142" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>())</span>
-<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### Veracity</span></span>
-<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a>As a next step, we need to identify which variables code instances of news ratings</span>
-<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-152"><a href="#cb19-152" aria-hidden="true" tabindex="-1"></a><span class="co"># trying to identify news ratings  </span></span>
-<span id="cb19-153"><a href="#cb19-153" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(belief_old_fake_news, belief_real_news, real_civil_war_belief,</span>
-<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a>                 real_syria_belief, real_gorsuch_belief, draft_belief, bee_belief, </span>
-<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a>                 chaf_belief, protester_belief, marines_belief, fbiagent_belief) </span>
-<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a>It seems that all true news are preceded by 'real'. Next, we bring the data into long format to build a veracity variable.</span>
-<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-162"><a href="#cb19-162" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a><span class="co"># bring data to long format</span></span>
-<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an id variable</span></span>
-<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.)) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(real_civil_war_belief, real_syria_belief, real_gorsuch_belief, </span>
-<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a>                 draft_belief, bee_belief, chaf_belief, protester_belief, </span>
-<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a>                 marines_belief, fbiagent_belief), </span>
-<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"item"</span>,</span>
-<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"ratings"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an binary 'veracity' variable identifying true and fake</span></span>
-<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">veracity =</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">'real'</span>, item), <span class="st">'true'</span>, <span class="st">'false'</span>))</span>
-<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-175"><a href="#cb19-175" aria-hidden="true" tabindex="-1"></a><span class="co"># check that veracity corresponds to correct items</span></span>
-<span id="cb19-176"><a href="#cb19-176" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
-<span id="cb19-177"><a href="#cb19-177" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(item, veracity) %&gt;% </span></span>
-<span id="cb19-178"><a href="#cb19-178" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n = n())</span></span>
-<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### News id</span></span>
-<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a>In the previous section, we have already created a news identifier <span class="in">`item`</span>. Here we just rename this identifier.</span>
-<span id="cb19-184"><a href="#cb19-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span> </span>
-<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> item)</span>
-<span id="cb19-190"><a href="#cb19-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-191"><a href="#cb19-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-192"><a href="#cb19-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### Age</span></span>
-<span id="cb19-193"><a href="#cb19-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a>Age is only provided in bins. We make a cleaner version of the variable.</span>
-<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract labels from the variable's attributes</span></span>
-<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">attr</span>(long_data<span class="sc">$</span>agegroup, <span class="st">"labels"</span>)</span>
-<span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the numeric values as levels and their names as labels</span></span>
-<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
-<span id="cb19-204"><a href="#cb19-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_range =</span> <span class="fu">factor</span>(agegroup, </span>
-<span id="cb19-205"><a href="#cb19-205" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> labels, </span>
-<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">names</span>(labels)))</span>
-<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a>Based on this bin variable, we take the age category mid-point as a proxy for age.</span>
-<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-213"><a href="#cb19-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-214"><a href="#cb19-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Define midpoints for each age group</span></span>
-<span id="cb19-215"><a href="#cb19-215" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb19-216"><a href="#cb19-216" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Under 18"</span> <span class="ot">=</span> <span class="dv">17</span>,             </span>
-<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a>  <span class="st">"18 - 24"</span> <span class="ot">=</span> (<span class="dv">18</span> <span class="sc">+</span> <span class="dv">24</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a>  <span class="st">"25 - 34"</span> <span class="ot">=</span> (<span class="dv">25</span> <span class="sc">+</span> <span class="dv">34</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a>  <span class="st">"35 - 44"</span> <span class="ot">=</span> (<span class="dv">35</span> <span class="sc">+</span> <span class="dv">44</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-220"><a href="#cb19-220" aria-hidden="true" tabindex="-1"></a>  <span class="st">"45 - 54"</span> <span class="ot">=</span> (<span class="dv">45</span> <span class="sc">+</span> <span class="dv">54</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-221"><a href="#cb19-221" aria-hidden="true" tabindex="-1"></a>  <span class="st">"55 - 64"</span> <span class="ot">=</span> (<span class="dv">55</span> <span class="sc">+</span> <span class="dv">64</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-222"><a href="#cb19-222" aria-hidden="true" tabindex="-1"></a>  <span class="st">"65 - 74"</span> <span class="ot">=</span> (<span class="dv">65</span> <span class="sc">+</span> <span class="dv">74</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-223"><a href="#cb19-223" aria-hidden="true" tabindex="-1"></a>  <span class="st">"75 - 84"</span> <span class="ot">=</span> (<span class="dv">75</span> <span class="sc">+</span> <span class="dv">84</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a>  <span class="st">"85 or older"</span> <span class="ot">=</span> <span class="dv">85</span>          </span>
-<span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Map numeric codes to labels, then to midpoints</span></span>
-<span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">as.numeric</span>(age_midpoints), <span class="fu">names</span>(labels))</span>
-<span id="cb19-229"><a href="#cb19-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-230"><a href="#cb19-230" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace agegroup with midpoints</span></span>
-<span id="cb19-231"><a href="#cb19-231" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
-<span id="cb19-232"><a href="#cb19-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(age_range), age_midpoints[age_range], <span class="cn">NA</span>))</span>
-<span id="cb19-233"><a href="#cb19-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-234"><a href="#cb19-234" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
-<span id="cb19-235"><a href="#cb19-235" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
-<span id="cb19-236"><a href="#cb19-236" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(age, age_range)</span></span>
-<span id="cb19-237"><a href="#cb19-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-238"><a href="#cb19-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-239"><a href="#cb19-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### Clean data</span></span>
-<span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a><span class="co"># make final data</span></span>
-<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a>clayton_2020 <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a>    <span class="at">subject_id =</span> id,</span>
-<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make sure that the control conditions has no intervention label</span></span>
-<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_label =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(condition, <span class="st">"control"</span>),</span>
-<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a>                                <span class="cn">NA</span>,</span>
-<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(<span class="st">"labels_"</span>, condition)), </span>
-<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keep different labels for control conditions, code treatment as "treatment"</span></span>
-<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(condition, <span class="st">"control"</span>), condition, <span class="st">"treatment"</span>),</span>
-<span id="cb19-254"><a href="#cb19-254" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy_raw =</span> ratings,</span>
-<span id="cb19-255"><a href="#cb19-255" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment_id =</span> <span class="dv">1</span>,</span>
-<span id="cb19-256"><a href="#cb19-256" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale =</span> <span class="dv">4</span>, </span>
-<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">"United States"</span>,</span>
-<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a>    <span class="at">paper_id =</span> <span class="st">"Clayton_2020"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add_intervention_info </span></span>
-<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
-<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span>
-<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-264"><a href="#cb19-264" aria-hidden="true" tabindex="-1"></a><span class="co"># check conditions</span></span>
-<span id="cb19-265"><a href="#cb19-265" aria-hidden="true" tabindex="-1"></a><span class="co"># clayton_2020 |&gt;</span></span>
-<span id="cb19-266"><a href="#cb19-266" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(condition) |&gt;</span></span>
-<span id="cb19-267"><a href="#cb19-267" aria-hidden="true" tabindex="-1"></a><span class="co">#   reframe(unique(intervention_label))</span></span>
-<span id="cb19-268"><a href="#cb19-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-269"><a href="#cb19-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-270"><a href="#cb19-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a><span class="fu">### Write out data</span></span>
-<span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-276"><a href="#cb19-276" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(clayton_2020)</span>
-<span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb25" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Real Solutions for Fake News? Measuring the Effectiveness of General Warnings and Fact-Check Tags in Reducing Belief in False Stories on Social Media."</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2020"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - Clayton, Katherine</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - literacy</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../../references.bib</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="an">nocite:</span><span class="co"> |</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">  @claytonRealSolutionsFake2020</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false </span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)      <span class="co"># read excel files</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co"># load functions</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../../R/custom_functions.R"</span>)</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co"># load target variables</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../../R/variables.R"</span>)</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intervention</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>intervention_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_description =</span> <span class="st">'"The experiment used a 2× 3 between-subjects design that also includes a pure control group. Participants were randomly assigned with equal probability to a pure control group or to one of six experimental conditions (see Table 1). We manipulated whether participants were exposed to a general warning about misleading articles or not (middle column of Table 1). We also independently randomized noncontrols into one of three headline conditions: a condition in which no fact-checking tags were presented (first two rows of Table 1), a specific warning condition that included tags labeling articles as “Disputed” (second two rows of Table 1), and a specific warning condition in which they were instead labeled as “Rated false” (last two rows of Table 1)."'</span>,</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection =</span> <span class="st">"false_no_warning"</span>,</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_selection_description =</span> <span class="st">"We believe the warning tag intervention to be more interesting than the general warning intervention. We therefor use only conditions where there is NO general warning. We also discard the pure control group in which participants didn't read any news items. There are two types of warning tag interventions: One that labels false articles as 'disputed' and another that labels them as 'rated false'. We will merge these two conditions as they seem sufficiently similar to be part of a warning tag category."</span>,</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection =</span> <span class="st">"control_no_warning"</span>,</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_selection_description =</span> <span class="st">"We decide to measure the effect of warning tag interventions. We use the control condition where there is NO general warning."</span>,</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_format =</span> <span class="st">"picture, lede"</span>,</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the author measured detection of misinformation, not discernment  </span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">originally_identified_treatment_effect =</span> <span class="cn">NA</span>)</span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="fu">show_conditions</span>(intervention_info)</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes</span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>The study tested the effect of a literacy intervention. For an overview of the labels we've assigned, see the <span class="in">`intervention_label`</span> column in Table @tbl-clayton-conditions.</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r clayton-conditions, echo=FALSE}</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: tbl-clayton-conditions</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="in"># Create the data frame</span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a><span class="in">data &lt;- data.frame(</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="in">  Tag = c("None", "None", "“Disputed”", "“Disputed”", "“Rated false”", "“Rated false”", "Pure control"),</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="in">  General_warning = c("No", "Yes", "No", "Yes", "No", "Yes", NA),</span></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a><span class="in">  N = c(469, 424, 413, 429, 429, 397, 433), </span></span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a><span class="in">  intervention_label = c("NA", "NA", "disputed_no_warning", "disputed_warning", "false_no_warning", "false_warning", "NA")</span></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a><span class="in"># Generate the table</span></span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a><span class="in">kable(data, col.names = c("Tag", "General warning", "N", "intervention_label"), </span></span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a><span class="in">      caption = "Table: Participant Counts by Tag and General Warning") # or format = "latex" for PDF</span></span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "In the pure control group, respondents were exposed to no images, no articles, no general warning, no tags, and no headlines, and proceeded directly to the questions measuring the outcome variable (discussed in the next section)."</span></span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a><span class="at">"In the general warning condition, participants were shown a message warning them about misleading articles and providing advice for identifying false information (see Online Appendix A for exact wording and design)."</span></span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Cleaning</span></span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>Read data.</span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a><span class="co"># import data </span></span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"clayton_2020.RData"</span>)</span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a><span class="co"># by default, the data frame is called "table" </span></span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a><span class="co"># rename</span></span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> table</span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conditions (`intervention_label`, `control_label`, `condition`)</span></span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>We first need to indentiy the different experimental conditions. This is a bit tricky because the documentation is bad.</span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-reading paper and stata code, these seem to be the relevant variables for condition</span></span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning)</span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a><span class="co"># cross-check sample sizes with what is reported in the paper to be sure these are the conditions</span></span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond, nocorr_condition, disputed_condition, false_condition, </span>
+<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a>                   flag_cond, purecontrol, warning, nowarning) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n_per_condition =</span> <span class="fu">n</span>()) </span>
+<span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-112"><a href="#cb25-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-113"><a href="#cb25-113" aria-hidden="true" tabindex="-1"></a>Based on this information, we build a condition variable with more meaningful value labels.</span>
+<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-117"><a href="#cb25-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-118"><a href="#cb25-118" aria-hidden="true" tabindex="-1"></a><span class="co"># make new easy-to-read condition variable</span></span>
+<span id="cb25-119"><a href="#cb25-119" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb25-120"><a href="#cb25-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-121"><a href="#cb25-121" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-122"><a href="#cb25-122" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"disputed_no_warning"</span>,</span>
+<span id="cb25-123"><a href="#cb25-123" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"disputed_warning"</span>, </span>
+<span id="cb25-124"><a href="#cb25-124" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"false_no_warning"</span>, </span>
+<span id="cb25-125"><a href="#cb25-125" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"false_warning"</span>,</span>
+<span id="cb25-126"><a href="#cb25-126" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-127"><a href="#cb25-127" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-128"><a href="#cb25-128" aria-hidden="true" tabindex="-1"></a>    <span class="at">control_label =</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-129"><a href="#cb25-129" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"pure_control"</span>, </span>
+<span id="cb25-130"><a href="#cb25-130" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"control_no_warning"</span>, </span>
+<span id="cb25-131"><a href="#cb25-131" aria-hidden="true" tabindex="-1"></a>      cond <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"control_warning"</span>,</span>
+<span id="cb25-132"><a href="#cb25-132" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb25-133"><a href="#cb25-133" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">if_else</span>(cond <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="st">"control"</span>, <span class="st">"treatment"</span>)</span>
+<span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-137"><a href="#cb25-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-138"><a href="#cb25-138" aria-hidden="true" tabindex="-1"></a><span class="co"># check for correct sample size</span></span>
+<span id="cb25-139"><a href="#cb25-139" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>())</span>
+<span id="cb25-140"><a href="#cb25-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-141"><a href="#cb25-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-142"><a href="#cb25-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### `veracity`, `accuracy_raw`</span></span>
+<span id="cb25-143"><a href="#cb25-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-144"><a href="#cb25-144" aria-hidden="true" tabindex="-1"></a>As a next step, we need to identify which variables code instances of news ratings</span>
+<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-148"><a href="#cb25-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-149"><a href="#cb25-149" aria-hidden="true" tabindex="-1"></a><span class="co"># trying to identify news ratings  </span></span>
+<span id="cb25-150"><a href="#cb25-150" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(belief_old_fake_news, belief_real_news, real_civil_war_belief,</span>
+<span id="cb25-151"><a href="#cb25-151" aria-hidden="true" tabindex="-1"></a>                 real_syria_belief, real_gorsuch_belief, draft_belief, bee_belief, </span>
+<span id="cb25-152"><a href="#cb25-152" aria-hidden="true" tabindex="-1"></a>                 chaf_belief, protester_belief, marines_belief, fbiagent_belief) </span>
+<span id="cb25-153"><a href="#cb25-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-154"><a href="#cb25-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-155"><a href="#cb25-155" aria-hidden="true" tabindex="-1"></a>It seems that all true news are preceded by 'real'. Next, we bring the data into long format to build a veracity variable.</span>
+<span id="cb25-156"><a href="#cb25-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-159"><a href="#cb25-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-160"><a href="#cb25-160" aria-hidden="true" tabindex="-1"></a><span class="co"># bring data to long format</span></span>
+<span id="cb25-161"><a href="#cb25-161" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb25-162"><a href="#cb25-162" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an id variable</span></span>
+<span id="cb25-163"><a href="#cb25-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-164"><a href="#cb25-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(real_civil_war_belief, real_syria_belief, real_gorsuch_belief, </span>
+<span id="cb25-165"><a href="#cb25-165" aria-hidden="true" tabindex="-1"></a>                 draft_belief, bee_belief, chaf_belief, protester_belief, </span>
+<span id="cb25-166"><a href="#cb25-166" aria-hidden="true" tabindex="-1"></a>                 marines_belief, fbiagent_belief), </span>
+<span id="cb25-167"><a href="#cb25-167" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"item"</span>,</span>
+<span id="cb25-168"><a href="#cb25-168" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"accuracy_raw"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-169"><a href="#cb25-169" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make an binary 'veracity' variable identifying true and fake</span></span>
+<span id="cb25-170"><a href="#cb25-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">veracity =</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">'real'</span>, item), <span class="st">'true'</span>, <span class="st">'false'</span>))</span>
+<span id="cb25-171"><a href="#cb25-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-172"><a href="#cb25-172" aria-hidden="true" tabindex="-1"></a><span class="co"># check that veracity corresponds to correct items</span></span>
+<span id="cb25-173"><a href="#cb25-173" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
+<span id="cb25-174"><a href="#cb25-174" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(item, veracity) %&gt;% </span></span>
+<span id="cb25-175"><a href="#cb25-175" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n = n())</span></span>
+<span id="cb25-176"><a href="#cb25-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-177"><a href="#cb25-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-178"><a href="#cb25-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### `scale`</span></span>
+<span id="cb25-179"><a href="#cb25-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-182"><a href="#cb25-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-183"><a href="#cb25-183" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(long_data<span class="sc">$</span>accuracy_raw, <span class="at">useNA =</span> <span class="st">"always"</span>)</span>
+<span id="cb25-184"><a href="#cb25-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-185"><a href="#cb25-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-188"><a href="#cb25-188" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-189"><a href="#cb25-189" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data<span class="sc">|&gt;</span></span>
+<span id="cb25-190"><a href="#cb25-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scale =</span> <span class="dv">4</span>)</span>
+<span id="cb25-191"><a href="#cb25-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-192"><a href="#cb25-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-193"><a href="#cb25-193" aria-hidden="true" tabindex="-1"></a><span class="fu">### `news_id`and `news_selection`</span></span>
+<span id="cb25-194"><a href="#cb25-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-195"><a href="#cb25-195" aria-hidden="true" tabindex="-1"></a>In the previous section, we have already created a news identifier <span class="in">`item`</span>. Here we just rename this identifier.</span>
+<span id="cb25-196"><a href="#cb25-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-199"><a href="#cb25-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-200"><a href="#cb25-200" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span> </span>
+<span id="cb25-201"><a href="#cb25-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">news_id =</span> item, </span>
+<span id="cb25-202"><a href="#cb25-202" aria-hidden="true" tabindex="-1"></a>         <span class="at">news_selection =</span> <span class="st">"researchers"</span>)</span>
+<span id="cb25-203"><a href="#cb25-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-204"><a href="#cb25-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-205"><a href="#cb25-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### `age`, `age_range`</span></span>
+<span id="cb25-206"><a href="#cb25-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-207"><a href="#cb25-207" aria-hidden="true" tabindex="-1"></a>Age is only provided in bins. We make a cleaner version of the variable.</span>
+<span id="cb25-208"><a href="#cb25-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-211"><a href="#cb25-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-212"><a href="#cb25-212" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract labels from the variable's attributes</span></span>
+<span id="cb25-213"><a href="#cb25-213" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">attr</span>(long_data<span class="sc">$</span>agegroup, <span class="st">"labels"</span>)</span>
+<span id="cb25-214"><a href="#cb25-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-215"><a href="#cb25-215" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the numeric values as levels and their names as labels</span></span>
+<span id="cb25-216"><a href="#cb25-216" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
+<span id="cb25-217"><a href="#cb25-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_range =</span> <span class="fu">factor</span>(agegroup, </span>
+<span id="cb25-218"><a href="#cb25-218" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> labels, </span>
+<span id="cb25-219"><a href="#cb25-219" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">names</span>(labels)))</span>
+<span id="cb25-220"><a href="#cb25-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-221"><a href="#cb25-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-222"><a href="#cb25-222" aria-hidden="true" tabindex="-1"></a>Based on this bin variable, we take the age category mid-point as a proxy for age.</span>
+<span id="cb25-223"><a href="#cb25-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-226"><a href="#cb25-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-227"><a href="#cb25-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Define midpoints for each age group</span></span>
+<span id="cb25-228"><a href="#cb25-228" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb25-229"><a href="#cb25-229" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Under 18"</span> <span class="ot">=</span> <span class="dv">17</span>,             </span>
+<span id="cb25-230"><a href="#cb25-230" aria-hidden="true" tabindex="-1"></a>  <span class="st">"18 - 24"</span> <span class="ot">=</span> (<span class="dv">18</span> <span class="sc">+</span> <span class="dv">24</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-231"><a href="#cb25-231" aria-hidden="true" tabindex="-1"></a>  <span class="st">"25 - 34"</span> <span class="ot">=</span> (<span class="dv">25</span> <span class="sc">+</span> <span class="dv">34</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-232"><a href="#cb25-232" aria-hidden="true" tabindex="-1"></a>  <span class="st">"35 - 44"</span> <span class="ot">=</span> (<span class="dv">35</span> <span class="sc">+</span> <span class="dv">44</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-233"><a href="#cb25-233" aria-hidden="true" tabindex="-1"></a>  <span class="st">"45 - 54"</span> <span class="ot">=</span> (<span class="dv">45</span> <span class="sc">+</span> <span class="dv">54</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-234"><a href="#cb25-234" aria-hidden="true" tabindex="-1"></a>  <span class="st">"55 - 64"</span> <span class="ot">=</span> (<span class="dv">55</span> <span class="sc">+</span> <span class="dv">64</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-235"><a href="#cb25-235" aria-hidden="true" tabindex="-1"></a>  <span class="st">"65 - 74"</span> <span class="ot">=</span> (<span class="dv">65</span> <span class="sc">+</span> <span class="dv">74</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-236"><a href="#cb25-236" aria-hidden="true" tabindex="-1"></a>  <span class="st">"75 - 84"</span> <span class="ot">=</span> (<span class="dv">75</span> <span class="sc">+</span> <span class="dv">84</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb25-237"><a href="#cb25-237" aria-hidden="true" tabindex="-1"></a>  <span class="st">"85 or older"</span> <span class="ot">=</span> <span class="dv">85</span>          </span>
+<span id="cb25-238"><a href="#cb25-238" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-239"><a href="#cb25-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-240"><a href="#cb25-240" aria-hidden="true" tabindex="-1"></a><span class="co"># Map numeric codes to labels, then to midpoints</span></span>
+<span id="cb25-241"><a href="#cb25-241" aria-hidden="true" tabindex="-1"></a>age_midpoints <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">as.numeric</span>(age_midpoints), <span class="fu">names</span>(labels))</span>
+<span id="cb25-242"><a href="#cb25-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-243"><a href="#cb25-243" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace agegroup with midpoints</span></span>
+<span id="cb25-244"><a href="#cb25-244" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
+<span id="cb25-245"><a href="#cb25-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(age_range), age_midpoints[age_range], <span class="cn">NA</span>))</span>
+<span id="cb25-246"><a href="#cb25-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-247"><a href="#cb25-247" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb25-248"><a href="#cb25-248" aria-hidden="true" tabindex="-1"></a><span class="co"># long_data %&gt;% </span></span>
+<span id="cb25-249"><a href="#cb25-249" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(age, age_range)</span></span>
+<span id="cb25-250"><a href="#cb25-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-251"><a href="#cb25-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-252"><a href="#cb25-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### `year`</span></span>
+<span id="cb25-253"><a href="#cb25-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-254"><a href="#cb25-254" aria-hidden="true" tabindex="-1"></a><span class="in">`V8`</span> is the StartDate variable</span>
+<span id="cb25-255"><a href="#cb25-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-258"><a href="#cb25-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-259"><a href="#cb25-259" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_data<span class="sc">$</span>V8)</span>
+<span id="cb25-260"><a href="#cb25-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-261"><a href="#cb25-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-264"><a href="#cb25-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-265"><a href="#cb25-265" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span> </span>
+<span id="cb25-266"><a href="#cb25-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(V8)</span>
+<span id="cb25-267"><a href="#cb25-267" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb25-268"><a href="#cb25-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-269"><a href="#cb25-269" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb25-270"><a href="#cb25-270" aria-hidden="true" tabindex="-1"></a>long_data <span class="sc">|&gt;</span> </span>
+<span id="cb25-271"><a href="#cb25-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(V8, year)</span>
+<span id="cb25-272"><a href="#cb25-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-273"><a href="#cb25-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-274"><a href="#cb25-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### Identifiers (`subject_id`, `experiment_id`, `paper_id`, `country`) </span></span>
+<span id="cb25-275"><a href="#cb25-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-278"><a href="#cb25-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-279"><a href="#cb25-279" aria-hidden="true" tabindex="-1"></a><span class="co"># make final data</span></span>
+<span id="cb25-280"><a href="#cb25-280" aria-hidden="true" tabindex="-1"></a>clayton_2020 <span class="ot">&lt;-</span> long_data <span class="sc">|&gt;</span>  </span>
+<span id="cb25-281"><a href="#cb25-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-282"><a href="#cb25-282" aria-hidden="true" tabindex="-1"></a>    <span class="at">subject_id =</span> id,</span>
+<span id="cb25-283"><a href="#cb25-283" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment_id =</span> <span class="dv">1</span>,</span>
+<span id="cb25-284"><a href="#cb25-284" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">"United States"</span>,</span>
+<span id="cb25-285"><a href="#cb25-285" aria-hidden="true" tabindex="-1"></a>    <span class="at">paper_id =</span> <span class="st">"Clayton_2020"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb25-286"><a href="#cb25-286" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add_intervention_info </span></span>
+<span id="cb25-287"><a href="#cb25-287" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(intervention_info) <span class="sc">|&gt;</span> </span>
+<span id="cb25-288"><a href="#cb25-288" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(target_variables))</span>
+<span id="cb25-289"><a href="#cb25-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-290"><a href="#cb25-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-291"><a href="#cb25-291" aria-hidden="true" tabindex="-1"></a><span class="co"># check conditions</span></span>
+<span id="cb25-292"><a href="#cb25-292" aria-hidden="true" tabindex="-1"></a><span class="co"># clayton_2020 |&gt;</span></span>
+<span id="cb25-293"><a href="#cb25-293" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(condition) |&gt;</span></span>
+<span id="cb25-294"><a href="#cb25-294" aria-hidden="true" tabindex="-1"></a><span class="co">#   reframe(unique(intervention_label))</span></span>
+<span id="cb25-295"><a href="#cb25-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-296"><a href="#cb25-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-297"><a href="#cb25-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-298"><a href="#cb25-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### Write out data</span></span>
+<span id="cb25-299"><a href="#cb25-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-302"><a href="#cb25-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-303"><a href="#cb25-303" aria-hidden="true" tabindex="-1"></a><span class="fu">save_data</span>(clayton_2020)</span>
+<span id="cb25-304"><a href="#cb25-304" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1364,7 +1439,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/andrewheiss/lemon-lucifer">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> <a href="https://github.com/janpfander/meta_misinformation_interventions">View the source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
 </div>
   </div>
 </footer>

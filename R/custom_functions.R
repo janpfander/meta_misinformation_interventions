@@ -12,6 +12,23 @@ save_data <- function(data) {
   saveRDS(data, paste0("cleaned_", filename_base, ".rds"))
 }
 
+# show conditions
+
+show_conditions <- function(intervention_info){
+  
+  # Columns of interest
+  target_cols <- c(
+    "intervention_description",
+    "intervention_selection_description",
+    "control_selection_description"
+  )
+  
+  intervention_info |> 
+    select(any_of(target_cols)) |> 
+    kbl()
+  
+}
+
 
 # get model outputs ready for inline text reporting
 text_ready <- function(model_output) {

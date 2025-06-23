@@ -4,3 +4,7 @@ title-block-banner: true
 # Date format
 date-format: "YYYY"
 
+format:
+  html:
+    toc: true
+    toc-depth: 4
