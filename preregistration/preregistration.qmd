@@ -1,7 +1,7 @@
 ---
 title: |
-  How effective are interventions designed to help people detect misinformation?
-subtitle: A Pre-data Collection Registration
+  Pre-data collection registration
+subtitle: How effective are interventions designed to help people detect misinformation?
 title-block-banner: true
 execute:
   message: false

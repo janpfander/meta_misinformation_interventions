@@ -1,0 +1,342 @@
+---
+title: How effective are interventions designed to help people detect misinformation?
+subtitle: Preliminary Analyses
+title-block-banner: true
+execute:
+  message: false
+  warning: false
+  
+abstract: |
+  
+  
+  In recent years, many studies have proposed individual-level interventions to reduce people's susceptibility for believing in misinformation. To evaluate the success of their interventions, these studies have used a simple discernment measure. The problem with this measure is that it does not allow between two different kinds of effects: First, the effect on sensitivity, which is the ability of discriminating between true and false news that researchers typically look for. Second, the effect on response bias, which is the extent to which participants become generally more or less skeptical in their accuracy ratings for all news (whether true or false). To distinguish between these two outcomes, we re-assess the findings of the misinformation intervention literature in a Signal Detection Theory (SDT) framework. We run an Individual Participant Data (IPD) meta-analysis based on a sample of studies identified by four recent systematic literature reviews following the PRISMA guidelines. We use a two-stage approach: First, we extract individual participant data and run a Signal Detection Theory analysis separately for each experiment. Second, we run a meta-analysis on the experiment-level outcomes.
+  
+bibliography: ../references.bib
+---
+
+::: {.callout-caution}
+## This manuscript is not yet at the stage of a working paper
+
+It currently shows **highly preliminary** results based on very few studies. These preliminary analyses have been performed for the project to be presented at the 15th Annual Conference of the European Political Science Association (EPSA), at Universidad Carlos III de Madrid, from June 26-28, 2025. 
+
+All analyses performed on the data are strictly in line with our preregistration, [registered on the OSF on December 2, 2024](https://osf.io/gkjuz). No additional analyses have been performed.
+:::
+
+```{r packages}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  
+library(lme4)
+library(lmerTest)
+library(afex)
+library(broom)
+library(broom.mixed)
+library(metafor)   
+library(patchwork)
+```
+
+```{r functions}
+# load plot theme
+source("../R/plot_theme.R") 
+
+# load other functions
+source("../R/custom_functions.R")
+```
+
+```{r load-data}
+# load data
+data <- readRDS("../data/data.rds")
+```
+
+# Introduction
+
+In recent years, many studies have tested interventions designed to help people detect online misinformation. However, the results are often not directly comparable, because researchers have used different modes of evaluating the effectiveness of these interventions [@guayHowThinkWhether2023]. Moreover, the most popular outcome measure--a discernment score based on Likert-scale mean differences between true and false news--has recently been shown to be biased [@highamMeanRatingDifference2024a].
+
+The aim of our paper is to re-analyze the effectiveness of individual-level interventions designed to reduce people's susceptibility for believing in misinformation. Following a recent literature [@highamMeanRatingDifference2024a; @gawronskiSignaldetectionFrameworkMisinformation2024; @modirrousta-galianGamifiedInoculationInterventions2023; @bataillerSignalDetectionApproach2019] we will use a Signal Detection Theory (SDT) framework. This allows us to evaluate two different effects of interventions: First, the effect on sensitivity, which is the ability of discriminating between true and false news. Second, the effect on response bias, which is the extent to which participants shift their general response criterion, i.e. the extent to which they become generally more/less skeptical in their accuracy ratings for all news (regardless of whether true or false).
+
+We formulate two main research questions: 
+
+RQ1: How do interventions against misinformation affect people's ability to discriminate between true and false news (sensitivity, or "d'", in a SDT framework)?
+
+RQ2: How do interventions against misinformation affect people's skepticism towards news in general (i.e. response bias, or "c", in a SDT framework)?
+
+We also test some moderator effects, such as the type of interventions, the concordance of the news with people's political identity, and age.
+
+To answer our research questions we run an [Individual Participant Data meta-analysis (IPD)](https://training.cochrane.org/handbook/current/chapter-26), using a two-stage approach: First, we extract individual participant data from relevant studies and run a Signal Detection Theory analysis separately for each experiment. Second, we run a meta-analysis on the outcomes of the experiments.
+
+# Results
+
+@tbl-sdt-vocabulary shows how instances of news ratings map onto SDT terminology. Our analysis measures the effects of misinformation interventions on two outcomes of Signal Detection Theory (SDT): $d'$ ("d prime", sensitivity), and $c$ (response bias). 
+
+```{r}
+#| label: tbl-sdt-vocabulary
+#| tbl-cap: Accuracy ratings in Signal Detection Theory terms
+
+
+# Data
+table_data <- tibble(
+  Stimulus = c("True news (target)","False news (distractor)"),
+  Accurate = c("Hit", "False alarm"),
+  `Not Accurate` = c("Miss", "Correct rejection")
+)
+
+# Set Stimulus as row names
+# rownames(table_data) <- table_data$Stimulus
+# table_data$Stimulus <- NULL
+
+# Create table using kable
+kable(table_data, 
+      booktabs = TRUE) %>%
+  kable_paper(full_width = FALSE) %>%
+  add_header_above(c(" ", "Response" = 2))
+
+
+# Data
+table_data <- tibble(
+  Stimulus = c("True news (target)", "False news (distractor)"),
+  Accurate = c("Hit", "False alarm"),
+  `Not Accurate` = c("Miss", "Correct rejection"),
+  `SDT Metric` = c("Hit rate (HR) = Hits / (Hits + Misses)", 
+             "False alarm rate (FAR) = False Alarms / (False Alarms + Correct Rejections)")
+)
+
+# Create table using kable
+kable(table_data, booktabs = TRUE, escape = FALSE) %>%
+  kable_paper(full_width = FALSE) %>%
+  add_header_above(c(" ", "Participant response" = 2, " "))
+```
+
+
+
+```{r}
+data |> 
+  filter(condition == "control") |> 
+  group_by(veracity) |> 
+  summarise(
+    not_accurate = sum(accuracy == 0, na.rm=TRUE),
+    accurate = sum(accuracy == 1, na.rm=TRUE)) |> 
+  mutate(sdt_outcome = accurate/ (accurate + not_accurate))
+
+data |> 
+  filter(condition == "treatment") |> 
+  group_by(veracity) |> 
+  summarise(
+    not_accurate = sum(accuracy == 0, na.rm=TRUE),
+    accurate = sum(accuracy == 1, na.rm=TRUE)) |> 
+  mutate(sdt_outcome = accurate/ (accurate + not_accurate))
+```
+
+
+```{r}
+# Running this model takes some time. We therefor stored the results in a data frame that we can reload. 
+filename <- "../data/models/models_by_experiment.csv" 
+
+# run a loop with the sdt model separatel for each experiment
+run_loop(data, filename)
+
+# read saved model results
+model_results <- read_csv(filename)
+```
+
+```{r }
+#| label: fig-distributions
+#| fig-cap: Distributions of Signal Detection Theory outcomes across experiments. Note that these distributions are purely descriptive - effect sizes are not weighted by sample size of the respective experiment, as they are in the meta-analysis.
+
+
+# make plot
+ggplot(model_results, aes(x = estimate, fill = SDT_term)) +
+  geom_density(alpha = 0.5, adjust = 1.5) +
+  # colors 
+  scale_fill_viridis_d(option = "inferno", begin = 0.1, end = 0.9) +
+  # labels and scales
+  labs(x = "z-Score", y = "Density") +
+  guides(fill = FALSE, color = FALSE) +
+  plot_theme +
+  theme(strip.text = element_text(size = 14)) +
+  facet_wrap(~SDT_term)
+```
+
+
+```{r}
+# model for delta dprime
+delta_dprime <- calculate_meta_model(data = model_results |> 
+                                       filter(SDT_term == "delta d'"), 
+                                     yi = SDT_estimate, 
+                                     vi = sampling_variance, 
+                                     robust = TRUE) |> 
+  tidy(conf.int=TRUE) |> 
+    mutate(term = ifelse(term == "overall", "delta d'", NA))
+
+# model for delta c
+delta_c <- calculate_meta_model(data = model_results |>
+                                  filter(SDT_term == "delta c"), 
+                                yi = SDT_estimate, 
+                                vi = sampling_variance, 
+                                robust = TRUE) |> 
+  tidy(conf.int=TRUE) |> 
+    mutate(term = ifelse(term == "overall", "delta c", NA))
+
+meta_estimates <- bind_rows(delta_dprime, delta_c)
+```
+
+```{r}
+#| label: fig-forest
+#| fig-cap: Forest plots for discernment and skepticism bias. The figure displays all effect sizes for both outcomes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level.
+
+
+## make plot data
+forest_data <- model_results |> 
+  filter(SDT_term %in% c("delta c", "delta d'")) |> 
+  # Calculate weights (e.g., inverse of standard error)
+  mutate(weight = 1 / sqrt(sampling_variance)) |> 
+  group_by(SDT_term) |> 
+  arrange(desc(SDT_estimate)) |> 
+  mutate(position = 6+row_number()) |> 
+  ungroup()
+
+## model outcome
+forest_meta <- meta_estimates |> 
+  mutate_if(is.numeric, round, digits = 2) |> 
+  mutate(
+    # rename term to be coherent with forest data
+    SDT_term = term,
+    # make label for plot
+    label = paste0(estimate, " [", conf.low, ", ", conf.high, "]"))
+
+## Plot using ggplot
+ggplot(forest_data, aes(x = SDT_estimate, y = position, xmin = SDT_conf.low, xmax = SDT_conf.high)) +
+  geom_pointrange(size = 0.1) +
+  geom_pointrange(data = forest_meta, 
+                  aes(x = estimate, y = 0, xmin = conf.low, xmax = conf.high), 
+                  shape = 5,
+                  inherit.aes = FALSE) + 
+  geom_text(data = forest_meta, 
+            aes(x = estimate , y = 1, 
+                label = label), 
+            vjust = 0, hjust = "center", size = 3, inherit.aes = FALSE) + 
+  scale_color_viridis_d(option = "plasma", name = "Article", 
+                        begin = 0.5, end = 0.9) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "Cohen's D", y = "Study") +
+  plot_theme + 
+  theme(legend.position = "left",
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank()) + 
+  facet_wrap(~SDT_term, scales = "free")
+```
+
+```{r}
+# Function to create SDT plot with baseline comparison
+create_sdt_plot <- function(hit, miss, fa, cr, baseline_dprime = NULL, 
+                            baseline_crit = NULL, show_response_regions = FALSE) {
+  # Calculate SDT parameters
+  hr <- hit / (hit + miss)
+  fr <- fa / (fa + cr)
+  discernment <- hr - fr
+  zhr <- qnorm(hr)
+  zfr <- qnorm(fr)
+  crit <- -(zhr + zfr) / 2 
+  dprime <- zhr - zfr 
+  maxl <- dnorm(0)
+  ry <- 0.01
+  
+  # Generate distributions
+  x_vals <- seq(-4, 4, length.out = 1000)
+  densities_long <- tibble(
+    x = x_vals,
+    `false` = dnorm(x_vals, mean = -dprime/2, sd = 1),
+    `true` = dnorm(x_vals, mean = dprime/2, sd = 1)
+  ) |>
+    pivot_longer(cols = c(`false`, `true`), names_to = "news", values_to = "density") 
+  
+  # Base plot
+  p <- ggplot(densities_long, aes(x = x, y = density, fill = news)) +
+    geom_area(alpha = 0.33, position = "identity") +
+    scale_fill_viridis_d() +
+    
+    # Current criterion and labels
+    geom_vline(xintercept = crit, linewidth = 0.3, linetype = "dashed") +
+    annotate("text", label = paste0("c = ", round(crit, 2)), x = crit + 0.1, y = maxl/2, vjust = -0.5) +
+
+    # Current d-prime
+    annotate("segment", x = -dprime/2, xend = dprime/2, y = maxl, yend = maxl,
+             arrow = arrow(length = unit(4, "pt"), type = "closed", ends = "both")) +
+    annotate("text", label = paste0("d' = ", round(dprime, 2)), x = 0, y = maxl, vjust = -0.5) +
+
+    # Discernment, HR, FR
+    annotate("text", 
+             label = paste0("discernment = ", round(discernment, 2), "\n",
+                            "HR = ", round(hr, 2), "\n",
+                            "FAR = ", round(fr, 2)),
+             x = 3, y = maxl/3, vjust = -0.5, size = 3)
+
+  # Response region annotations
+  if (show_response_regions) {
+    p <- p +
+      annotate("segment", x = crit + 0.2, xend = crit + 1.6, y = ry, yend = ry,
+               linewidth = 0.25, arrow = arrow(length = unit(4, "pt"), type = "closed")) +
+      annotate("text", label = '"Accurate"', x = crit + 1, y = ry, vjust = -0.5) +
+      annotate("segment", x = crit - 0.2, xend = crit - 1.6, y = ry, yend = ry,
+               linewidth = 0.4, arrow = arrow(length = unit(4, "pt"), type = "closed", ends = "last")) +
+      annotate("text", label = '"Not accurate"', x = crit - 1, y = ry, vjust = -0.5)
+  }
+
+  # Styling
+  p <- p +
+    scale_y_continuous("Density", expand = expansion(c(0, 0.15))) +
+    labs(x = "z-score") +
+    coord_cartesian(ylim = c(0, maxl)) +
+    theme_minimal() +
+    theme(
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      legend.position = "none",
+      plot.title = element_blank()
+    )
+
+  # Add baseline overlays
+  if (!is.null(baseline_dprime)) {
+    p <- p + 
+      annotate("segment", x = -baseline_dprime/2, xend = baseline_dprime/2, 
+               y = maxl * 0.9, yend = maxl * 0.9,
+               color = "gray50", linetype = "dashed", linewidth = 0.3,
+               arrow = arrow(length = unit(4, "pt"), type = "closed", ends = "both"))
+  }
+
+  if (!is.null(baseline_crit)) {
+    p <- p + 
+      geom_vline(xintercept = baseline_crit, color = "gray50", 
+                 linewidth = 0.1, linetype = "dotted") +
+      annotate("segment", x = baseline_crit, xend = crit, 
+               y = maxl * 0.5, yend = maxl * 0.5, 
+               linetype = "dashed", color = "gray50",
+               arrow = arrow(length = unit(5, "pt"), type = "closed"))
+  }
+
+  return(p)
+}
+
+
+# Generate plots
+plots <- list(
+  p1 = create_sdt_plot(60, 40, 40, 60, show_response_regions = TRUE),
+  p2 = create_sdt_plot(70, 30, 30, 70, 
+                       baseline_dprime = qnorm(0.6) - qnorm(0.4)),
+  p3 = create_sdt_plot(50, 50, 10, 90,
+                       baseline_dprime = qnorm(0.6) - qnorm(0.4),
+                       baseline_crit = -(qnorm(0.6) + qnorm(0.4)) / 2)
+)
+
+# Combine and label
+final_plot <- plots$p1 / (plots$p2 + plots$p3) + 
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A") &
+  theme(legend.position = "top")
+
+final_plot
+```
+
+# Methods
+
+

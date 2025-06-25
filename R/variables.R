@@ -11,6 +11,7 @@ target_variables <- c(
   "intervention_description", 
   "intervention_selection",
   "intervention_selection_description",
+  "control_label",
   "control_format", 
   "control_selection",
   "control_selection_description",

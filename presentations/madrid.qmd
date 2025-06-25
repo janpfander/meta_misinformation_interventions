@@ -1,0 +1,41 @@
+---
+title: "How effective are interventions designed to help people detect misinformation?"
+subtitle: "A meta-analysis"
+description: "Introducing the project at the 15th Annual Conference of the European Political Science Association, Universidad Carlos III de Madrid, Spain."
+date: 2025-06-27
+author: Jan Pfänder & Sacha Altay
+format: 
+  revealjs:
+    theme: simple
+    smaller: true
+    slide-number: true
+    chalkboard: true
+    history: false
+    # incremental: true
+    # code-link: true
+categories: [Statistics, Regression]
+image: images/madrid.jpg
+type: presentation
+toc: false
+---
+
+```{r packages}
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)  
+library(lme4)
+library(lmerTest)
+library(afex)
+library(broom)
+library(broom.mixed)
+library(metafor)   
+library(patchwork)
+```
+
+# Let's go first slide
+
+yes
+
+
+

@@ -44,39 +44,117 @@ studies_data <- lapply(files, function(file) {
 names(studies_data) <- tools::file_path_sans_ext(basename(files))
 
 data <- bind_rows(studies_data)
-
-# build additional variables
-write_csv(data, "data.csv")
-
 ```
-
 
 ## Control and intervention group selection
 
 Several experiments have multiple control and/or intervention groups. For our meta-analysis, for each experiment, we only pair one control and one treatment group. In a case where we needed to make a selection, we have coded our selection choice in the variables `intervention_selection` and  `control_selection`. 
 
-
 ```{r}
-names(data)
+data <- data |>
+  # for cases where there was an intervention selection, make sure to only pick the selected intervention
+  filter(is.na(intervention_selection) | intervention_label == intervention_selection | condition == "control") |> 
+  # same but for the control
+  filter(is.na(control_selection) | control_label == control_selection | condition == "treatment")
 
-
+# check
 # data |> 
-#   filter(
-#     # for cases where there was an intervention selection, make sure to only pick the selected intervention
-#     is.na(intervention_selection) | intervention_label == intervention_selection,
-#     # same but for the control
-#     is.na(control_selection) | control_label == control_selection
-#   )
+#   group_by(paper_id, condition) |> 
+#   summarise(sum(!is.na(accuracy_raw)))
 
+# check transformation with dias paper
+# data |> 
+#   filter(paper_id == "dias_2020") |> 
+#   filter(experiment_id == 1) |> 
+#   distinct(condition, control_label, control_selection, intervention_label, intervention_selection) 
 ```
 
+## Collapse accuracy measures
+
+```{r}
+data <- data |> 
+  # collapes all raw accuracy scores on different scales into a binary scale
+  mutate(
+    # make a numeric version of scale, for all scales that are not binary
+    scale_numeric = as.numeric(scale),
+    # add helper variable that indicates whether a scale has a midpoint
+    midpoint_scale = ifelse(scale_numeric %% 2 != 0, TRUE, FALSE),
+    accuracy = case_when(
+      # for scales with midpoints, code midpoints as NA
+      midpoint_scale == TRUE & 
+        accuracy_raw == (scale_numeric/2)+0.5 ~ NA,
+      # transform continuous scores
+      accuracy_raw <= scale_numeric/2 ~ 0, 
+      accuracy_raw > scale_numeric/2 ~ 1, 
+      TRUE ~ accuracy_raw)
+    )
+
+# check
+# data |>
+#   distinct(scale, accuracy, accuracy_raw)
+```
+
+## Make unique paper, experiment, and subject identifiers
+
+```{r}
+data <- data |> 
+    mutate(    
+    # unique experiment identifier
+    unique_experiment_id = paste(paper_id, experiment_id, sep = "_"), 
+    # unique participant identifier
+    unique_subject_id = paste0(paper_id, "_", experiment_id, "_", subject_id)
+    )
+```
+
+## Use deviation coding
+
+```{r}
+data <- data |> 
+  mutate(    
+    # make numeric helper variables using deviation coding
+    veracity_numeric = ifelse(veracity == "true", 0.5, -0.5),
+    condition_numeric = ifelse(condition == "treatment",  0.5, -0.5)
+  )
+```
 
 ## Exclude long_term effects
 
-Some studies measured long_term effects. We want to exclude these from the main analysis (including them would likely reduce the detected average treatment effect, as effects tend to regress over time). 
+Some studies measured long_term effects. 
 
+```{r}
+data |> 
+  filter(long_term == TRUE) |> 
+  distinct(paper_id)
 
+# detailed check
+# data |> 
+#   filter(paper_id == "guess_2020") |> 
+#   group_by(long_term) |> 
+#   count()
+```
 
+We want to exclude these from the main analysis (including them would likely reduce the detected average treatment effect, as effects tend to regress over time). 
 
+```{r}
+data <- data |>
+  filter(
+    # remove long term effects
+    long_term == FALSE | is.na(long_term)
+  )
+
+# check
+# table(data$long_term, useNA = "always")
+```
+
+## Save data
+
+```{r}
+# build additional variables
+# Save as CSV
+write_csv(data, "data.csv")
+
+# Save as RDS
+saveRDS(data, "data.rds")
+```
 
 

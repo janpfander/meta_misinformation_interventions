@@ -17,6 +17,8 @@ website:
         file: literature_search/literature_search.qmd
       - text: "Preregistration"
         file: preregistration/preregistration.qmd
+      - text: "Presentations"
+        file: presentations/presentations.qmd       
     right:
       - icon: github
         aria-label: github
@@ -62,7 +64,7 @@ format:
       - brand
     code-fold: true
     code-tools: true
-    css: styles.css
+    #css: styles.css
     toc: true
 
 
