@@ -1,6 +1,5 @@
 ---
 title: "How effective are interventions designed to help people detect misinformation?"
-subtitle: "A meta-analysis"
 description: "Introducing the project at the 15th Annual Conference of the European Political Science Association, Universidad Carlos III de Madrid, Spain."
 date: 2025-06-27
 author: Jan Pfänder & Sacha Altay
@@ -13,7 +12,6 @@ format:
     history: false
     # incremental: true
     # code-link: true
-categories: [Statistics, Regression]
 image: images/madrid.jpg
 type: presentation
 toc: false
@@ -33,9 +31,523 @@ library(metafor)
 library(patchwork)
 ```
 
-# Let's go first slide
+```{r functions}
+# load plot theme
+source("../R/plot_theme.R") 
 
-yes
+# load other functions
+source("../R/custom_functions.R")
+```
+
+```{r load-data}
+# load data
+data <- readRDS("../data/data.rds")
+
+# load saved model results
+model_results <- read_csv("../data/models/models_by_experiment.csv" )
+```
+
+```{r}
+# model for delta dprime
+delta_dprime <- calculate_meta_model(data = model_results |> 
+                                       filter(SDT_term == "delta d'"), 
+                                     yi = SDT_estimate, 
+                                     vi = sampling_variance, 
+                                     robust = TRUE) |> 
+  tidy(conf.int=TRUE) |> 
+    mutate(term = ifelse(term == "overall", "delta d'", NA))
+
+# model for delta c
+delta_c <- calculate_meta_model(data = model_results |>
+                                  filter(SDT_term == "delta c"), 
+                                yi = SDT_estimate, 
+                                vi = sampling_variance, 
+                                robust = TRUE) |> 
+  tidy(conf.int=TRUE) |> 
+    mutate(term = ifelse(term == "overall", "delta c", NA))
+
+meta_estimates <- bind_rows(delta_dprime, delta_c)
+```
+
+# People worry about misinformation
+
+---
+
+![](images/worry_misinfo.png){width="100%"}
+
+# ...and there has been a lot of research on people's belief in misinformation
+
+---
+
+![[Pennycook, G., Binnendyk, J., Newton, C., & Rand, D. G. (2021). A Practical Guide to Doing Behavioral Research on Fake News and Misinformation. Collabra: Psychology, 7(1), 25293.](https://doi.org/10.1525/collabra.25293)](images/example-item.jpg){fig-align="center" width="100%"}
+
+---
+
+![](images/example-item2.jpg){width="100%"}
+
+
+# People might not worry enough about information
+
+---
+
+![[Newman, N., Fletcher, R., Kalogeropoulos, A., & Nielsen, R. K. (2018). Reuters Institute Digital News Report 2018.](https://www.digitalnewsreport.org/survey/2018/)](images/reuters_2018.png){fig-align="center" width="100%"}
+
+---
+
+::::: columns
+::: {.column width="50%"}
+
+![](images/reuters_2024_a.png){width="70%"}
+
+:::
+
+::: {.column width="50%"}
+![](images/reuters_2024_b.png){width="70%"}
+:::
+:::::
+
+---
+
+![](images/spotting_doubting.png){width="100%"}
+
+---
+
+::::: columns
+::: {.column width="20%"}
+
+67 papers
+
+<br>
+
+194'438 participants
+
+<br>
+
+303 effect sizes 
+
+<br>
+
+40 countries
+
+:::
+
+::: {.column width="80%"}
+
+![](images/map.png){width="100%"}
+
+:::
+
+:::::
+
+---
+
+<br>
+<br>
+<br>
+
+Discernment = Accuracy(true news) - Accuracy(false news)
+
+---
+
+::::: columns
+::: {.column width="20%"}
+
+For 298 of the 303 effect sizes, people rated true news as (a lot) more accurate than false news
+
+:::
+
+::: {.column width="80%"}
+
+![](images/forest_discernment.png){width="70%"}
+
+:::
+
+:::::
+
+---
+
+![](images/discernment-countries.png){width="100%" .center}
+
+---
+
+<br> 
+<br> 
+<br> 
+
+On the whole, people did well in discerning true from false news…
+
+. . .
+
+<br> 
+
+but of course they still made some errors.
+
+---
+
+![](images/descriptive.png){width="100%"}
+
+---
+
+<br>
+<br>
+<br>
+
+Skepticism bias = Error(true news) - Error(false news)
+
+---
+
+::::: columns
+::: {.column width="20%"}
+
+For 203 of 303 effect sizes, people made (slightly) more errors on true news than on false news. 
+
+
+:::
+
+::: {.column width="80%"}
+
+![](images/forest_skepticism.png){width="70%"}
+
+:::
+
+:::::
+
+---
+
+![](images/bias-countries.png){width="100%" .center}
+
+---
+
+## Many individual-level interventions have been proposed to help people spot false news 
+
+. . .
+
+Bad news game, literacy tips, labels
+
+# Effectiveness of these interventions has been evaluated in terms of *discernment only*
+
+## Some misinformation interventions have been shown to foster general skepticism. 
+
+. . .
+
+Bad news game (Modirrousta)
+
+## How effective are misinformation interventions ? A(nother) meta-analysis
+
+1. Identify relevant studies
+
+2. Collect raw data. 
+
+3. Clean and bring into common format. 
+
+4. Analyze using Signal Detection Theory framework 
+
+## Signal Detection Theory 
+
+Measures:
+
+- discriminability (d') (~discernment)
+- response criterion (c) (~skepticism bias)
+
+Outcomes:
+
+- $\Delta d'$ = d'(treamtment) - d'(control)
+- $\Delta c$ = c (treatment) - c (control)
+
+---
+
+## What we have so far...
+
+---
+
+##
+
+```{r}
+#| label: tbl-studies
+data |> 
+  group_by(paper_id, experiment_id) |> 
+  drop_na(intervention_label) |> 
+  summarise(`Participants` = n_distinct(subject_id), 
+            `News headlines` = n_distinct(news_id), 
+            Intervention = unique(intervention_label)) |> 
+  rowid_to_column(" ") |> 
+  kable() |> 
+  kable_styling(font_size = 20)  # adjust number as needed
+
+```
+
+---
+
+## 
+
+```{r}
+## make plot data
+forest_data <- model_results |> 
+  filter(SDT_term %in% c("delta c", "delta d'")) |> 
+  # Calculate weights (e.g., inverse of standard error)
+  mutate(weight = 1 / sqrt(sampling_variance)) |> 
+  group_by(SDT_term) |> 
+  arrange(desc(SDT_estimate)) |> 
+  mutate(position = 6+row_number()) |> 
+  ungroup()
+
+## model outcome
+forest_meta <- meta_estimates |> 
+  mutate_if(is.numeric, round, digits = 2) |> 
+  mutate(
+    # rename term to be coherent with forest data
+    SDT_term = term,
+    # make label for plot
+    label = paste0(estimate, " [", conf.low, ", ", conf.high, "]"))
+```
+
+:::{width = "70%"}
+```{r}
+#| label: fig-forest-delta-d
+#| fig-cap: Forest plot for delta d. The figure displays all effect sizes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level.
+## Plot using ggplot
+ggplot(forest_data |> 
+         filter(SDT_term == "delta d'"), 
+       aes(x = SDT_estimate, y = position, xmin = SDT_conf.low, xmax = SDT_conf.high)) +
+  geom_pointrange(size = 0.1) +
+  geom_pointrange(data = forest_meta |> 
+         filter(SDT_term == "delta d'"), 
+                  aes(x = estimate, y = 0, xmin = conf.low, xmax = conf.high), 
+                  shape = 5,
+                  inherit.aes = FALSE) + 
+  geom_text(data = forest_meta |> 
+         filter(SDT_term == "delta d'"), 
+            aes(x = estimate , y = 1, 
+                label = label), 
+            vjust = 0, hjust = "center", size = 3, inherit.aes = FALSE) + 
+  scale_color_viridis_d(option = "plasma", name = "Article", 
+                        begin = 0.5, end = 0.9) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "z-score", y = "Study") +
+  plot_theme + 
+  theme(legend.position = "left",
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank()) + 
+  facet_wrap(~SDT_term, scales = "free")
+```
+:::
+
+---
+
+##
+
+
+:::{width = "70%"}
+```{r}
+#| label: fig-forest-delta-c
+#| fig-cap: Forest plots for delta c. The figure displays all effect sizes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level.
+## Plot using ggplot
+ggplot(forest_data |> 
+         filter(SDT_term == "delta c"), 
+       aes(x = SDT_estimate, y = position, xmin = SDT_conf.low, xmax = SDT_conf.high)) +
+  geom_pointrange(size = 0.1) +
+  geom_pointrange(data = forest_meta |> 
+         filter(SDT_term == "delta c"), 
+                  aes(x = estimate, y = 0, xmin = conf.low, xmax = conf.high), 
+                  shape = 5,
+                  inherit.aes = FALSE) + 
+  geom_text(data = forest_meta |> 
+         filter(SDT_term == "delta c"), 
+            aes(x = estimate , y = 1, 
+                label = label), 
+            vjust = 0, hjust = "center", size = 3, inherit.aes = FALSE) + 
+  scale_color_viridis_d(option = "plasma", name = "Article", 
+                        begin = 0.5, end = 0.9) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "z-score", y = "Study") +
+  plot_theme + 
+  theme(legend.position = "left",
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank()) + 
+  facet_wrap(~SDT_term, scales = "free")
+```
+:::
+
+---
+
+## Conclusion
+
+- People discern rather well between true and false news
+
+- If they err, they tend to be more skeptical of true news than gullible towards false news
+
+- It is not clear how effective individual-level misinformation interventions are
+
+- If they foster skepticism, more than discrimination ability, that would not be great
+
+---
+
+## Thank you
+
+Slides are available here: 
+
+
+
+# Backup slides
+
+---
+
+## Political concordance
+
+---
+
+## Signal Detection theory
+
+```{r}
+#| label: tbl-sdt-vocabulary
+#| tbl-cap: Accuracy ratings in Signal Detection Theory terms
+
+# Data
+table_data <- tibble(
+  Stimulus = c("True news (target)", "False news (distractor)"),
+  Accurate = c("Hit", "False alarm"),
+  `Not Accurate` = c("Miss", "Correct rejection"),
+  `SDT Metric` = c("Hit rate (HR) = Hits / (Hits + Misses)", 
+             "False alarm rate (FAR) = False Alarms / (False Alarms + Correct Rejections)")
+)
+
+# Create table using kable
+kable(table_data, booktabs = TRUE, escape = FALSE) %>%
+  kable_paper(full_width = FALSE) %>%
+  add_header_above(c(" ", "Participant response" = 2, " ")) |> 
+  kable_styling(font_size = 20)  # adjust number as needed
+```
+
+<br>
+
+$$
+d' = z(HR) - z(FAR) 
+$$
+
+<br>
+
+$$
+c = -\frac{1}{2}(\text{zHR} + \text{zFAR})
+$$
+
+---
+
+```{r}
+# Function to create SDT plot with baseline comparison
+create_sdt_plot <- function(hit, miss, fa, cr, baseline_dprime = NULL, 
+                            baseline_crit = NULL, show_response_regions = FALSE) {
+  # Calculate SDT parameters
+  hr <- hit / (hit + miss)
+  fr <- fa / (fa + cr)
+  discernment <- hr - fr
+  zhr <- qnorm(hr)
+  zfr <- qnorm(fr)
+  crit <- -(zhr + zfr) / 2 
+  dprime <- zhr - zfr 
+  maxl <- dnorm(0)
+  ry <- 0.01
+  
+  # Generate distributions
+  x_vals <- seq(-4, 4, length.out = 1000)
+  densities_long <- tibble(
+    x = x_vals,
+    `false` = dnorm(x_vals, mean = -dprime/2, sd = 1),
+    `true` = dnorm(x_vals, mean = dprime/2, sd = 1)
+  ) |>
+    pivot_longer(cols = c(`false`, `true`), names_to = "news", values_to = "density") 
+  
+  # Base plot
+  p <- ggplot(densities_long, aes(x = x, y = density, fill = news)) +
+    geom_area(alpha = 0.33, position = "identity") +
+    scale_fill_viridis_d() +
+    
+    # Current criterion and labels
+    geom_vline(xintercept = crit, linewidth = 0.3, linetype = "dashed") +
+    annotate("text", label = paste0("c = ", round(crit, 2)), x = crit + 0.1, y = maxl/2, vjust = -0.5) +
+
+    # Current d-prime
+    annotate("segment", x = -dprime/2, xend = dprime/2, y = maxl, yend = maxl,
+             arrow = arrow(length = unit(4, "pt"), type = "closed", ends = "both")) +
+    annotate("text", label = paste0("d' = ", round(dprime, 2)), x = 0, y = maxl, vjust = -0.5) +
+
+    # Discernment, HR, FR
+    annotate("text", 
+             label = paste0("discernment = ", round(discernment, 2), "\n",
+                            "HR = ", round(hr, 2), "\n",
+                            "FAR = ", round(fr, 2)),
+             x = 3, y = maxl/3, vjust = -0.5, size = 3)
+
+  # Response region annotations
+  if (show_response_regions) {
+    p <- p +
+      annotate("segment", x = crit + 0.2, xend = crit + 1.6, y = ry, yend = ry,
+               linewidth = 0.25, arrow = arrow(length = unit(4, "pt"), type = "closed")) +
+      annotate("text", label = '"Accurate"', x = crit + 1, y = ry, vjust = -0.5) +
+      annotate("segment", x = crit - 0.2, xend = crit - 1.6, y = ry, yend = ry,
+               linewidth = 0.4, arrow = arrow(length = unit(4, "pt"), type = "closed", ends = "last")) +
+      annotate("text", label = '"Not accurate"', x = crit - 1, y = ry, vjust = -0.5)
+  }
+
+  # Styling
+  p <- p +
+    scale_y_continuous("Density", expand = expansion(c(0, 0.15))) +
+    labs(x = "z-score") +
+    coord_cartesian(ylim = c(0, maxl)) +
+    theme_minimal() +
+    theme(
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      legend.position = "none",
+      plot.title = element_blank()
+    )
+
+  # Add baseline overlays
+  if (!is.null(baseline_dprime)) {
+    p <- p + 
+      annotate("segment", x = -baseline_dprime/2, xend = baseline_dprime/2, 
+               y = maxl * 0.9, yend = maxl * 0.9,
+               color = "gray50", linetype = "dashed", linewidth = 0.3,
+               arrow = arrow(length = unit(4, "pt"), type = "closed", ends = "both"))
+  }
+
+  if (!is.null(baseline_crit)) {
+    p <- p + 
+      geom_vline(xintercept = baseline_crit, color = "gray50", 
+                 linewidth = 0.1, linetype = "dotted") +
+      annotate("segment", x = baseline_crit, xend = crit, 
+               y = maxl * 0.5, yend = maxl * 0.5, 
+               linetype = "dashed", color = "gray50",
+               arrow = arrow(length = unit(5, "pt"), type = "closed"))
+  }
+
+  return(p)
+}
+
+
+# Generate plots
+plots <- list(
+  p1 = create_sdt_plot(60, 40, 40, 60, show_response_regions = TRUE),
+  p2 = create_sdt_plot(70, 30, 30, 70, 
+                       baseline_dprime = qnorm(0.6) - qnorm(0.4)),
+  p3 = create_sdt_plot(50, 50, 10, 90,
+                       baseline_dprime = qnorm(0.6) - qnorm(0.4),
+                       baseline_crit = -(qnorm(0.6) + qnorm(0.4)) / 2)
+)
+
+# Combine and label
+final_plot <- plots$p1 / (plots$p2 + plots$p3) + 
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A") &
+  theme(legend.position = "top")
+
+final_plot
+```
+
+---
+
+## Comparison SDT and Discernment/ Skepticism bias
+
+## Selection bias
 
 
 

@@ -124,6 +124,8 @@
       margin-right: 0; 
     }
   </style>
+  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -131,7 +133,6 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">How effective are interventions designed to help people detect misinformation?</h1>
-  <p class="subtitle">A meta-analysis</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -143,12 +144,417 @@ Jan Pfänder &amp; Sacha Altay
 
   <p class="date">2025-06-27</p>
 </section>
-<section id="lets-go-first-slide" class="title-slide slide level1 center">
-<h1>Let’s go first slide</h1>
-<p>yes</p>
-
+<section>
+<section id="people-worry-about-misinformation" class="title-slide slide level1 center">
+<h1>People worry about misinformation</h1>
 
 </section>
+<section class="slide level2">
+
+
+<img data-src="images/worry_misinfo.png" style="width:100.0%" class="r-stretch"></section></section>
+<section>
+<section id="and-there-has-been-a-lot-of-research-on-peoples-belief-in-misinformation" class="title-slide slide level1 center">
+<h1>…and there has been a lot of research on people’s belief in misinformation</h1>
+
+</section>
+<section class="slide level2">
+
+
+<img data-src="images/example-item.jpg" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"><a href="https://doi.org/10.1525/collabra.25293">Pennycook, G., Binnendyk, J., Newton, C., &amp; Rand, D. G. (2021). A Practical Guide to Doing Behavioral Research on Fake News and Misinformation. Collabra: Psychology, 7(1), 25293.</a></p></section>
+<section class="slide level2">
+
+
+<img data-src="images/example-item2.jpg" style="width:100.0%" class="r-stretch"></section></section>
+<section>
+<section id="people-might-not-worry-enough-about-information" class="title-slide slide level1 center">
+<h1>People might not worry enough about information</h1>
+
+</section>
+<section class="slide level2">
+
+
+<img data-src="images/reuters_2018.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"><a href="https://www.digitalnewsreport.org/survey/2018/">Newman, N., Fletcher, R., Kalogeropoulos, A., &amp; Nielsen, R. K. (2018). Reuters Institute Digital News Report 2018.</a></p></section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/reuters_2024_a.png" style="width:70.0%"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/reuters_2024_b.png" style="width:70.0%"></p>
+</div></div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="images/spotting_doubting.png" style="width:100.0%" class="r-stretch"></section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:20%;">
+<p>67 papers</p>
+<p><br></p>
+<p>194’438 participants</p>
+<p><br></p>
+<p>303 effect sizes</p>
+<p><br></p>
+<p>40 countries</p>
+</div><div class="column" style="width:80%;">
+<p><img data-src="images/map.png" style="width:100.0%"></p>
+</div></div>
+</section>
+<section class="slide level2">
+
+<p><br> <br> <br></p>
+<p>Discernment = Accuracy(true news) - Accuracy(false news)</p>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:20%;">
+<p>For 298 of the 303 effect sizes, people rated true news as (a lot) more accurate than false news</p>
+</div><div class="column" style="width:80%;">
+<p><img data-src="images/forest_discernment.png" style="width:70.0%"></p>
+</div></div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="images/discernment-countries.png" class="center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><br> <br> <br></p>
+<p>On the whole, people did well in discerning true from false news…</p>
+<div class="fragment">
+<p><br></p>
+<p>but of course they still made some errors.</p>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="images/descriptive.png" style="width:100.0%" class="r-stretch"></section>
+<section class="slide level2">
+
+<p><br> <br> <br></p>
+<p>Skepticism bias = Error(true news) - Error(false news)</p>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:20%;">
+<p>For 203 of 303 effect sizes, people made (slightly) more errors on true news than on false news.</p>
+</div><div class="column" style="width:80%;">
+<p><img data-src="images/forest_skepticism.png" style="width:70.0%"></p>
+</div></div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="images/bias-countries.png" class="center r-stretch" style="width:100.0%"></section>
+<section id="many-individual-level-interventions-have-been-proposed-to-help-people-spot-false-news" class="slide level2">
+<h2>Many individual-level interventions have been proposed to help people spot false news</h2>
+<div class="fragment">
+<p>Bad news game, literacy tips, labels</p>
+</div>
+</section></section>
+<section>
+<section id="effectiveness-of-these-interventions-has-been-evaluated-in-terms-of-discernment-only" class="title-slide slide level1 center">
+<h1>Effectiveness of these interventions has been evaluated in terms of <em>discernment only</em></h1>
+
+</section>
+<section id="some-misinformation-interventions-have-been-shown-to-foster-general-skepticism." class="slide level2">
+<h2>Some misinformation interventions have been shown to foster general skepticism.</h2>
+<div class="fragment">
+<p>Bad news game (Modirrousta)</p>
+</div>
+</section>
+<section id="how-effective-are-misinformation-interventions-another-meta-analysis" class="slide level2">
+<h2>How effective are misinformation interventions ? A(nother) meta-analysis</h2>
+<ol type="1">
+<li><p>Identify relevant studies</p></li>
+<li><p>Collect raw data.</p></li>
+<li><p>Clean and bring into common format.</p></li>
+<li><p>Analyze using Signal Detection Theory framework</p></li>
+</ol>
+</section>
+<section id="signal-detection-theory" class="slide level2">
+<h2>Signal Detection Theory</h2>
+<p>Measures:</p>
+<ul>
+<li>discriminability (d’) (~discernment)</li>
+<li>response criterion (c) (~skepticism bias)</li>
+</ul>
+<p>Outcomes:</p>
+<ul>
+<li><span class="math inline">\(\Delta d'\)</span> = d’(treamtment) - d’(control)</li>
+<li><span class="math inline">\(\Delta c\)</span> = c (treatment) - c (control)</li>
+</ul>
+</section>
+<section id="what-we-have-so-far" class="slide level2">
+<h2>What we have so far…</h2>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div id="tbl-studies" class="cell">
+<div class="cell-output-display">
+<table class="table caption-top" data-quarto-postprocess="true" style="font-size: 20px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">paper_id</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">experiment_id</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Participants</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">News headlines</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Intervention</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">altay_2023</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">FalseLabel</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">badrinathan_2021</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">818</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">literacy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">bago_2022</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">331</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">suppression</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">bago_2022</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1502</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">suppression</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">bago_2022</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1520</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">suppression</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">brashier_2021</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">397</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: left;">veracity_labels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">brashier_2021</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">422</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: left;">veracity_labels</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">clayton_2020</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">429</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">false_no_warning</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">dias_2020</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">highlight_banner</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">dias_2020</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">923</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">highlight_banner</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">guess_2020</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4907</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">literacy</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">guess_2020</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3744</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">literacy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">guess_2020</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3273</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">literacy</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<div width="70%">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-forest-delta-d" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-forest-delta-d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img data-src="madrid_files/figure-revealjs/fig-forest-delta-d-1.png" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forest-delta-d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Forest plot for delta d.&nbsp;The figure displays all effect sizes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+<div width="70%">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-forest-delta-c" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-forest-delta-c-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img data-src="madrid_files/figure-revealjs/fig-forest-delta-c-1.png" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forest-delta-c-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Forest plots for delta c.&nbsp;The figure displays all effect sizes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusion" class="slide level2">
+<h2>Conclusion</h2>
+<ul>
+<li><p>People discern rather well between true and false news</p></li>
+<li><p>If they err, they tend to be more skeptical of true news than gullible towards false news</p></li>
+<li><p>It is not clear how effective individual-level misinformation interventions are</p></li>
+<li><p>If they foster skepticism, more than discrimination ability, that would not be great</p></li>
+</ul>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank you</h2>
+<p>Slides are available here:</p>
+</section></section>
+<section>
+<section id="backup-slides" class="title-slide slide level1 center">
+<h1>Backup slides</h1>
+
+</section>
+<section id="political-concordance" class="slide level2">
+<h2>Political concordance</h2>
+</section>
+<section id="signal-detection-theory-1" class="slide level2">
+<h2>Signal Detection theory</h2>
+<div class="cell">
+<div id="tbl-sdt-vocabulary" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sdt-vocabulary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Accuracy ratings in Signal Detection Theory terms
+</figcaption>
+<div aria-describedby="tbl-sdt-vocabulary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="lightable-paper table do-not-create-environment cell caption-top" data-quarto-postprocess="true" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto; font-size: 20px; margin-left: auto; margin-right: auto;">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide;"></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #00000020; padding-bottom: 5px; ">
+Participant response
+</div></th>
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide;"></th>
+</tr>
+<tr class="even">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Stimulus</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Accurate</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Not Accurate</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">SDT Metric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">True news (target)</td>
+<td style="text-align: left;">Hit</td>
+<td style="text-align: left;">Miss</td>
+<td style="text-align: left;">Hit rate (HR) = Hits / (Hits + Misses)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">False news (distractor)</td>
+<td style="text-align: left;">False alarm</td>
+<td style="text-align: left;">Correct rejection</td>
+<td style="text-align: left;">False alarm rate (FAR) = False Alarms / (False Alarms + Correct Rejections)</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><br></p>
+<p><span class="math display">\[
+d' = z(HR) - z(FAR)
+\]</span></p>
+<p><br></p>
+<p><span class="math display">\[
+c = -\frac{1}{2}(\text{zHR} + \text{zFAR})
+\]</span></p>
+</section>
+<section class="slide level2">
+
+
+<img data-src="madrid_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<section id="comparison-sdt-and-discernment-skepticism-bias" class="slide level2">
+<h2>Comparison SDT and Discernment/ Skepticism bias</h2>
+</section>
+<section id="selection-bias" class="slide level2">
+<h2>Selection bias</h2>
+
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
