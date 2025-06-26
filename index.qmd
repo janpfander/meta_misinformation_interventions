@@ -2,6 +2,27 @@
 title: "Hi!"
 ---
 
-This is the project website for our paper: "How effective are interventions designed to help people detect misinformation?"
+::: {.callout-caution}
+## This project is very early stage
+
+Stay tuned for more :)
+:::
+
+This is the project website for our paper: "How effective are interventions designed to help people detect misinformation?".
 
 
+::::: columns
+::: {.column width="50%"}
+
+![](presentations/images/jan.jpg){width="30%"}
+Jan Pfänder
+
+:::
+
+::: {.column width="50%"}
+
+![](presentations/images/sacha.jpg){width="30%"}
+Sacha Altay
+
+:::
+:::::

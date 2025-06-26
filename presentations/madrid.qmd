@@ -99,11 +99,11 @@ meta_estimates <- bind_rows(delta_dprime, delta_c)
 
 ---
 
-![[Pennycook, G., Binnendyk, J., Newton, C., & Rand, D. G. (2021). A Practical Guide to Doing Behavioral Research on Fake News and Misinformation. Collabra: Psychology, 7(1), 25293.](https://doi.org/10.1525/collabra.25293)](images/example-item.jpg){fig-align="center" width="100%"}
+![[Pennycook, G., Binnendyk, J., Newton, C., & Rand, D. G. (2021). A Practical Guide to Doing Behavioral Research on Fake News and Misinformation. Collabra: Psychology, 7(1), 25293.](https://doi.org/10.1525/collabra.25293)](images/example-item2.jpg){fig-align="center" width="100%"}
 
 ---
 
-![](images/example-item2.jpg){width="100%"}
+![](images/example-item.jpg){width="100%"}
 
 ---
 
@@ -226,7 +226,7 @@ For 203 of 303 effect sizes, people made (slightly) more errors on true news tha
 
 
 
-# Many individual-level interventions have been proposed to reduce belief in misinformation
+# Many studies have tested individual-level interventions to reduce belief in misinformation
 
 ---
 
@@ -249,7 +249,7 @@ For 203 of 303 effect sizes, people made (slightly) more errors on true news tha
 <br> 
 
 <div style="text-align: center; font-size: 2em">
-  The effectiveness of these interventions has been evaluated in terms of **discernment only**
+  The effectiveness of these interventions has typically been evaluated **in terms of discernment only**
 </div>
 
 . . .
@@ -257,7 +257,7 @@ For 203 of 303 effect sizes, people made (slightly) more errors on true news tha
 <br> 
 
 <div style="text-align: center; font-size: 2em">
-  Some misinformation interventions have been shown to **foster general skepticism**. 
+  Some misinformation interventions have been shown to **foster general skepticism** 
 </div>
 
 ---
@@ -268,26 +268,34 @@ For 203 of 303 effect sizes, people made (slightly) more errors on true news tha
 
 ---
 
-## Steps
+## Individual Participant Data (IPD) Meta-analysis
 
 1. Identify relevant studies
 
-2. Collect raw data
+2. Download raw data
 
 3. Clean and bring into common format 
 
-4. Analyze using Signal Detection Theory framework 
+4. Analyze in a unifying framework (Signal Detection Theory)
+
+---
 
 ## Signal Detection Theory 
 
-Measures:
+<br>
+<br>
+<br>
 
-- discriminability (d') (~discernment)
-- response criterion (c) (~skepticism bias)
+**Measures**:
 
-Outcomes:
+- sensitivity (d') (~discernment)
+- response bias (c) (~skepticism bias)
 
-- $\Delta d'$ = d'(treamtment) - d'(control)
+. . .
+
+**Outcomes**:
+
+- $\Delta d'$ = d'(treatment) - d'(control)
 - $\Delta c$ = c (treatment) - c (control)
 
 ---
@@ -439,7 +447,7 @@ Sacha Altay
 :::
 
 ::: {.column width="50%"}
-Slides are available here: 
+Slides and our pre-registration are available here: 
 
 ![](images/qr_code.png){width="70%"}
 :::
@@ -474,8 +482,6 @@ Slides are available here:
 ---
 
 ## Political concordance
-
-. . .
 
 <br> 
 

@@ -337,6 +337,5 @@ final_plot <- plots$p1 / (plots$p2 + plots$p3) +
 final_plot
 ```
 
-# Methods
 
 
