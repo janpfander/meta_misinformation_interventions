@@ -1,5 +1,8 @@
 ---
-title: "How effective are interventions designed to help people detect misinformation?"
+title: |
+  Belief in  
+  & interventions against  
+  misinformation
 description: "Introducing the project at the 15th Annual Conference of the European Political Science Association, Universidad Carlos III de Madrid, Spain."
 date: 2025-06-27
 author: Jan Pfänder & Sacha Altay
@@ -180,6 +183,10 @@ For 298 of the 303 effect sizes, people rated true news as (a lot) more accurate
 
 ---
 
+![](images/descriptive.png){width="100%"}
+
+---
+
 <br>
 <div style="text-align: center; font-size: 2em; font-weight: bold; margin-top: 3em;">
   Skepticism bias = Error(true news) - Error(false news)
@@ -257,7 +264,7 @@ For 203 of 303 effect sizes, people made (slightly) more errors on true news tha
 <br> 
 
 <div style="text-align: center; font-size: 2em">
-  Some misinformation interventions have been shown to **foster general skepticism** 
+  Some misinformation interventions might be harmful if they **foster general skepticism of news** 
 </div>
 
 ---
@@ -418,14 +425,6 @@ ggplot(forest_data |>
 
 . . .
 
-- People discern rather well between true and false news
-
-. . .
-
-- If they err, they tend to be more skeptical of true news than gullible towards false news
-
-. . .
-
 - It is not (yet) clear how effective individual-level misinformation interventions are: 
   - do they help people discriminate better?
   - do they just make people more skeptical?
@@ -454,12 +453,6 @@ Slides and our pre-registration are available here:
 :::::
 
 # Backup slides
-
----
-
-## Skepticism bias
-
-![](images/descriptive.png){width="100%"}
 
 ---
 

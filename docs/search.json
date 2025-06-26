@@ -234,119 +234,112 @@
   {
     "objectID": "presentations/madrid.html#interim-conclusion",
     "href": "presentations/madrid.html#interim-conclusion",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Interim conclusion",
     "text": "Interim conclusion\n\n\n\nPeople discern rather well between true and false news\n\n\n\n\n\nIf they err, they tend to be more skeptical of true news than gullible towards false news"
   },
   {
     "objectID": "presentations/madrid.html#but",
     "href": "presentations/madrid.html#but",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "But…",
-    "text": "But…\n\n\n\nThe effectiveness of these interventions has typically been evaluated in terms of discernment only\n\n\n\n\n\nSome misinformation interventions have been shown to foster general skepticism"
+    "text": "But…\n\n\n\nThe effectiveness of these interventions has typically been evaluated in terms of discernment only\n\n\n\n\n\nSome misinformation interventions might be harmful if they foster general skepticism of news"
   },
   {
     "objectID": "presentations/madrid.html#individual-participant-data-ipd-meta-analysis",
     "href": "presentations/madrid.html#individual-participant-data-ipd-meta-analysis",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Individual Participant Data (IPD) Meta-analysis",
     "text": "Individual Participant Data (IPD) Meta-analysis\n\nIdentify relevant studies\nDownload raw data\nClean and bring into common format\nAnalyze in a unifying framework (Signal Detection Theory)"
   },
   {
     "objectID": "presentations/madrid.html#signal-detection-theory",
     "href": "presentations/madrid.html#signal-detection-theory",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Signal Detection Theory",
     "text": "Signal Detection Theory\n  \nMeasures:\n\nsensitivity (d’) (~discernment)\nresponse bias (c) (~skepticism bias)\n\n\nOutcomes:\n\n\\(\\Delta d'\\) = d’(treatment) - d’(control)\n\\(\\Delta c\\) = c (treatment) - c (control)"
   },
   {
     "objectID": "presentations/madrid.html#what-we-have-so-far",
     "href": "presentations/madrid.html#what-we-have-so-far",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "What we have so far…",
     "text": "What we have so far…"
   },
   {
     "objectID": "presentations/madrid.html#section",
     "href": "presentations/madrid.html#section",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "",
     "text": "paper_id\nexperiment_id\nParticipants\nNews headlines\nIntervention\n\n\n\n\n1\naltay_2023\n1\n198\n16\nFalseLabel\n\n\n2\nbadrinathan_2021\n1\n818\n14\nliteracy\n\n\n3\nbago_2022\n2\n331\n24\nsuppression\n\n\n4\nbago_2022\n3\n1502\n24\nsuppression\n\n\n5\nbago_2022\n4\n1520\n24\nsuppression\n\n\n6\nbrashier_2021\n1\n397\n36\nveracity_labels\n\n\n7\nbrashier_2021\n2\n422\n36\nveracity_labels\n\n\n8\nclayton_2020\n1\n429\n9\nfalse_no_warning\n\n\n9\ndias_2020\n1\n190\n24\nhighlight_banner\n\n\n10\ndias_2020\n2\n923\n24\nhighlight_banner\n\n\n11\nguess_2020\n1\n4907\n12\nliteracy\n\n\n12\nguess_2020\n2\n3744\n12\nliteracy\n\n\n13\nguess_2020\n3\n3273\n12\nliteracy"
   },
   {
     "objectID": "presentations/madrid.html#section-1",
     "href": "presentations/madrid.html#section-1",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "",
     "text": "Figure 1: Forest plot for delta d. The figure displays all effect sizes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level."
   },
   {
     "objectID": "presentations/madrid.html#section-2",
     "href": "presentations/madrid.html#section-2",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "",
     "text": "Figure 2: Forest plots for delta c. The figure displays all effect sizes. Effects are weighed by their sample size. Effect sizes are calculated as z-scores. Horizontal bars represent 95% confidence intervals. The average estimate is the result of a multilevel meta model with clustered standard errors at the paper level."
   },
   {
     "objectID": "presentations/madrid.html#conclusion",
     "href": "presentations/madrid.html#conclusion",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Conclusion",
-    "text": "Conclusion\n\n\nPeople discern rather well between true and false news\n\n\n\n\nIf they err, they tend to be more skeptical of true news than gullible towards false news\n\n\n\n\nIt is not (yet) clear how effective individual-level misinformation interventions are:\n\ndo they help people discriminate better?\ndo they just make people more skeptical?\nwhich are the most/least effective interventions?"
+    "text": "Conclusion\n\n\nIt is not (yet) clear how effective individual-level misinformation interventions are:\n\ndo they help people discriminate better?\ndo they just make people more skeptical?\nwhich are the most/least effective interventions?"
   },
   {
     "objectID": "presentations/madrid.html#thank-you",
     "href": "presentations/madrid.html#thank-you",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Thank you",
     "text": "Thank you\n\n\n Jan Pfänder\n Sacha Altay\n\nSlides and our pre-registration are available here:"
   },
   {
-    "objectID": "presentations/madrid.html#skepticism-bias",
-    "href": "presentations/madrid.html#skepticism-bias",
-    "title": "How effective are interventions designed to help people detect misinformation?",
-    "section": "Skepticism bias",
-    "text": "Skepticism bias"
-  },
-  {
     "objectID": "presentations/madrid.html#countries",
     "href": "presentations/madrid.html#countries",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Countries",
     "text": "Countries"
   },
   {
     "objectID": "presentations/madrid.html#political-concordance",
     "href": "presentations/madrid.html#political-concordance",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Political concordance",
     "text": "Political concordance"
   },
   {
     "objectID": "presentations/madrid.html#political-concordance-1",
     "href": "presentations/madrid.html#political-concordance-1",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Political concordance",
     "text": "Political concordance\n\n\nAlignment between personal political stance and the political slant of the news\n\n\n\n\nFor example, pro-republican news rated by republicans are coded as concordant"
   },
   {
     "objectID": "presentations/madrid.html#comparison-sdt-and-discernment-skepticism-bias",
     "href": "presentations/madrid.html#comparison-sdt-and-discernment-skepticism-bias",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Comparison SDT and Discernment/ Skepticism bias",
     "text": "Comparison SDT and Discernment/ Skepticism bias"
   },
   {
     "objectID": "presentations/madrid.html#selection-bias",
     "href": "presentations/madrid.html#selection-bias",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Selection bias",
     "text": "Selection bias"
   },
   {
     "objectID": "presentations/madrid.html#signal-detection-theory-1",
     "href": "presentations/madrid.html#signal-detection-theory-1",
-    "title": "How effective are interventions designed to help people detect misinformation?",
+    "title": "Belief in & interventions against misinformation",
     "section": "Signal Detection theory",
     "text": "Signal Detection theory\n\n\n\n\nTable 1: Accuracy ratings in Signal Detection Theory terms\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nParticipant response\n\n\n\n\nStimulus\nAccurate\nNot Accurate\nSDT Metric\n\n\n\n\nTrue news (target)\nHit\nMiss\nHit rate (HR) = Hits / (Hits + Misses)\n\n\nFalse news (distractor)\nFalse alarm\nCorrect rejection\nFalse alarm rate (FAR) = False Alarms / (False Alarms + Correct Rejections)\n\n\n\n\n\n\n\n\n\n\n\n\\[\nd' = z(HR) - z(FAR)\n\\]\n\n\\[\nc = -\\frac{1}{2}(\\text{zHR} + \\text{zFAR})\n\\]"
   },
@@ -647,7 +640,7 @@
     "href": "presentations/presentations.html",
     "title": "Presentations",
     "section": "",
-    "text": "How effective are interventions designed to help people detect misinformation?\n\n\n\n\n\nIntroducing the project at the 15th Annual Conference of the European Political Science Association, Universidad Carlos III de Madrid, Spain.\n\n\n\n\n\nJun 27, 2025\n\n\nJan Pfänder & Sacha Altay\n\n\n\n\n\n\nNo matching items"
+    "text": "Belief in & interventions against misinformation\n\n\n\n\n\nIntroducing the project at the 15th Annual Conference of the European Political Science Association, Universidad Carlos III de Madrid, Spain.\n\n\n\n\n\nJun 27, 2025\n\n\nJan Pfänder & Sacha Altay\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "data/list_studies.html",
