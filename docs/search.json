@@ -243,7 +243,7 @@
     "href": "presentations/madrid.html#some-misinformation-interventions-have-been-shown-to-foster-general-skepticism.",
     "title": "How effective are interventions designed to help people detect misinformation?",
     "section": "Some misinformation interventions have been shown to foster general skepticism.",
-    "text": "Some misinformation interventions have been shown to foster general skepticism.\n\nBad news game (Modirrousta)"
+    "text": "Some misinformation interventions have been shown to foster general skepticism.\n\n\n\n\nModirrousta-Galian, A., & Higham, P. A. (2023). Gamified inoculation interventions do not improve discrimination between true and fake news: Reanalyzing existing research with receiver operating characteristic analysis. Journal of Experimental Psychology: General."
   },
   {
     "objectID": "presentations/madrid.html#how-effective-are-misinformation-interventions-another-meta-analysis",
@@ -292,14 +292,14 @@
     "href": "presentations/madrid.html#conclusion",
     "title": "How effective are interventions designed to help people detect misinformation?",
     "section": "Conclusion",
-    "text": "Conclusion\n\nPeople discern rather well between true and false news\nIf they err, they tend to be more skeptical of true news than gullible towards false news\nIt is not clear how effective individual-level misinformation interventions are\nIf they foster skepticism, more than discrimination ability, that would not be great"
+    "text": "Conclusion\n\n\nPeople discern rather well between true and false news\n\n\n\n\nIf they err, they tend to be more skeptical of true news than gullible towards false news\n\n\n\n\nIt is not (yet) clear how effective individual-level misinformation interventions are:\n\ndo they help people discriminate better?\ndo they just make people more skeptical?\nwhich are the most/least effective interventions?"
   },
   {
     "objectID": "presentations/madrid.html#thank-you",
     "href": "presentations/madrid.html#thank-you",
     "title": "How effective are interventions designed to help people detect misinformation?",
     "section": "Thank you",
-    "text": "Thank you\nSlides are available here:"
+    "text": "Thank you\n\n\n Jan Pfänder\n Sacha Altay\n\nSlides are available here:"
   },
   {
     "objectID": "presentations/madrid.html#political-concordance",
@@ -729,5 +729,54 @@
     "title": "Real Solutions for Fake News? Measuring the Effectiveness of General Warnings and Fact-Check Tags in Reducing Belief in False Stories on Social Media.",
     "section": "Data Cleaning",
     "text": "Data Cleaning\nRead data.\n\n\nCode\n# import data \nload(\"clayton_2020.RData\")\n\n# by default, the data frame is called \"table\" \n# rename\n\ndata &lt;- table\n\n\n\nConditions (intervention_label, control_label, condition)\nWe first need to indentiy the different experimental conditions. This is a bit tricky because the documentation is bad.\n\n\nCode\n# cross-reading paper and stata code, these seem to be the relevant variables for condition\ndata %&gt;% \n  select(cond, nocorr_condition, disputed_condition, false_condition, \n                   flag_cond, purecontrol, warning, nowarning)\n\n\n# A tibble: 2,994 × 8\n    cond nocorr_condition disputed_condition false_condition flag_cond \n   &lt;dbl&gt;            &lt;dbl&gt;              &lt;dbl&gt;           &lt;dbl&gt; &lt;hvn_lbll&gt;\n 1     4                0                  1               0  2        \n 2     2                1                  0               0  1        \n 3     5                0                  1               0  2        \n 4     1                0                  0               0 NA        \n 5     4                0                  1               0  2        \n 6     3                1                  0               0  1        \n 7     2                1                  0               0  1        \n 8     2                1                  0               0  1        \n 9     1                0                  0               0 NA        \n10     4                0                  1               0  2        \n# ℹ 2,984 more rows\n# ℹ 3 more variables: purecontrol &lt;dbl&gt;, warning &lt;dbl&gt;, nowarning &lt;dbl&gt;\n\n\nCode\n# cross-check sample sizes with what is reported in the paper to be sure these are the conditions\ndata %&gt;% \n  group_by(cond, nocorr_condition, disputed_condition, false_condition, \n                   flag_cond, purecontrol, warning, nowarning) %&gt;% \n  summarize(n_per_condition = n()) \n\n\n`summarise()` has grouped output by 'cond', 'nocorr_condition',\n'disputed_condition', 'false_condition', 'flag_cond', 'purecontrol', 'warning'.\nYou can override using the `.groups` argument.\n\n\n# A tibble: 7 × 9\n# Groups:   cond, nocorr_condition, disputed_condition, false_condition,\n#   flag_cond, purecontrol, warning [7]\n   cond nocorr_condition disputed_condition false_condition flag_cond \n  &lt;dbl&gt;            &lt;dbl&gt;              &lt;dbl&gt;           &lt;dbl&gt; &lt;hvn_lbll&gt;\n1     1                0                  0               0 NA        \n2     2                1                  0               0  1        \n3     3                1                  0               0  1        \n4     4                0                  1               0  2        \n5     5                0                  1               0  2        \n6     6                0                  0               1  3        \n7     7                0                  0               1  3        \n# ℹ 4 more variables: purecontrol &lt;dbl&gt;, warning &lt;dbl&gt;, nowarning &lt;dbl&gt;,\n#   n_per_condition &lt;int&gt;\n\n\nBased on this information, we build a condition variable with more meaningful value labels.\n\n\nCode\n# make new easy-to-read condition variable\ndata &lt;- data |&gt;\n  mutate(\n    intervention_label = case_when(\n      cond == 4 ~ \"disputed_no_warning\",\n      cond == 5 ~ \"disputed_warning\", \n      cond == 6 ~ \"false_no_warning\", \n      cond == 7 ~ \"false_warning\",\n      TRUE ~ NA_character_\n    ),\n    control_label = case_when(\n      cond == 1 ~ \"pure_control\", \n      cond == 2 ~ \"control_no_warning\", \n      cond == 3 ~ \"control_warning\",\n      TRUE ~ NA_character_\n    ),\n    condition = if_else(cond %in% c(1,2,3), \"control\", \"treatment\")\n  )\n\n\n# check for correct sample size\ndata %&gt;% group_by(condition) %&gt;% summarise(n = n())\n\n\n# A tibble: 2 × 2\n  condition     n\n  &lt;chr&gt;     &lt;int&gt;\n1 control    1326\n2 treatment  1668\n\n\n\n\nveracity, accuracy_raw\nAs a next step, we need to identify which variables code instances of news ratings\n\n\nCode\n# trying to identify news ratings  \ndata %&gt;% select(belief_old_fake_news, belief_real_news, real_civil_war_belief,\n                 real_syria_belief, real_gorsuch_belief, draft_belief, bee_belief, \n                 chaf_belief, protester_belief, marines_belief, fbiagent_belief) \n\n\n# A tibble: 2,994 × 11\n   belief_old_fake_news belief_real_news real_civil_war_belief real_syria_belief\n                  &lt;dbl&gt;            &lt;dbl&gt;                 &lt;dbl&gt;             &lt;dbl&gt;\n 1                 1.75             2.60                     3                 3\n 2                 2.75             3.60                     3                 4\n 3                 1.25             4                        3                 3\n 4                 2                3.60                     2                 3\n 5                 1.75             3.20                     3                 4\n 6                 1                4                        3                 4\n 7                 2                4                        3                 4\n 8                 2.25             3.20                     2                 4\n 9                 2                3.80                     2                 2\n10                 2.25             2.80                     1                 4\n# ℹ 2,984 more rows\n# ℹ 7 more variables: real_gorsuch_belief &lt;dbl&gt;, draft_belief &lt;dbl&gt;,\n#   bee_belief &lt;dbl&gt;, chaf_belief &lt;dbl&gt;, protester_belief &lt;dbl&gt;,\n#   marines_belief &lt;dbl&gt;, fbiagent_belief &lt;dbl&gt;\n\n\nIt seems that all true news are preceded by ‘real’. Next, we bring the data into long format to build a veracity variable.\n\n\nCode\n# bring data to long format\nlong_data &lt;- data %&gt;% \n  # make an id variable\n  mutate(id = 1:nrow(.)) %&gt;% \n  pivot_longer(c(real_civil_war_belief, real_syria_belief, real_gorsuch_belief, \n                 draft_belief, bee_belief, chaf_belief, protester_belief, \n                 marines_belief, fbiagent_belief), \n               names_to = \"item\",\n               values_to = \"accuracy_raw\") %&gt;% \n  # make an binary 'veracity' variable identifying true and fake\n  mutate(veracity = ifelse(grepl('real', item), 'true', 'false'))\n\n# check that veracity corresponds to correct items\n# long_data %&gt;% \n#   group_by(item, veracity) %&gt;% \n#   summarize(n = n())\n\n\n\n\nscale\n\n\nCode\ntable(long_data$accuracy_raw, useNA = \"always\")\n\n\n\n   1    2    3    4 &lt;NA&gt; \n8890 6446 5302 6159  149 \n\n\n\n\nCode\nlong_data &lt;- long_data|&gt;\n  mutate(scale = 4)\n\n\n\n\nnews_idand news_selection\nIn the previous section, we have already created a news identifier item. Here we just rename this identifier.\n\n\nCode\nlong_data &lt;- long_data |&gt; \n  mutate(news_id = item, \n         news_selection = \"researchers\")\n\n\n\n\nage, age_range\nAge is only provided in bins. We make a cleaner version of the variable.\n\n\nCode\n# Extract labels from the variable's attributes\nlabels &lt;- attr(long_data$agegroup, \"labels\")\n\n# Use the numeric values as levels and their names as labels\nlong_data &lt;- long_data %&gt;%\n  mutate(age_range = factor(agegroup, \n                      levels = labels, \n                      labels = names(labels)))\n\n\nBased on this bin variable, we take the age category mid-point as a proxy for age.\n\n\nCode\n# Define midpoints for each age group\nage_midpoints &lt;- c(\n  \"Under 18\" = 17,             \n  \"18 - 24\" = (18 + 24) / 2,\n  \"25 - 34\" = (25 + 34) / 2,\n  \"35 - 44\" = (35 + 44) / 2,\n  \"45 - 54\" = (45 + 54) / 2,\n  \"55 - 64\" = (55 + 64) / 2,\n  \"65 - 74\" = (65 + 74) / 2,\n  \"75 - 84\" = (75 + 84) / 2,\n  \"85 or older\" = 85          \n)\n\n# Map numeric codes to labels, then to midpoints\nage_midpoints &lt;- setNames(as.numeric(age_midpoints), names(labels))\n\n# Replace agegroup with midpoints\nlong_data &lt;- long_data %&gt;%\n  mutate(age = ifelse(!is.na(age_range), age_midpoints[age_range], NA))\n\n# check\n# long_data %&gt;% \n#   select(age, age_range)\n\n\n\n\nyear\nV8 is the StartDate variable\n\n\nCode\nhead(long_data$V8)\n\n\n[1] \"2017-05-08 07:31:27 UTC\" \"2017-05-08 07:31:27 UTC\"\n[3] \"2017-05-08 07:31:27 UTC\" \"2017-05-08 07:31:27 UTC\"\n[5] \"2017-05-08 07:31:27 UTC\" \"2017-05-08 07:31:27 UTC\"\n\n\n\n\nCode\nlong_data &lt;- long_data |&gt; \n  mutate(year = year(V8)\n         )\n\n# check\nlong_data |&gt; \n  select(V8, year)\n\n\n# A tibble: 26,946 × 2\n   V8                   year\n   &lt;dttm&gt;              &lt;dbl&gt;\n 1 2017-05-08 07:31:27  2017\n 2 2017-05-08 07:31:27  2017\n 3 2017-05-08 07:31:27  2017\n 4 2017-05-08 07:31:27  2017\n 5 2017-05-08 07:31:27  2017\n 6 2017-05-08 07:31:27  2017\n 7 2017-05-08 07:31:27  2017\n 8 2017-05-08 07:31:27  2017\n 9 2017-05-08 07:31:27  2017\n10 2017-05-08 07:51:57  2017\n# ℹ 26,936 more rows\n\n\n\n\nIdentifiers (subject_id, experiment_id, paper_id, country)\n\n\nCode\n# make final data\nclayton_2020 &lt;- long_data |&gt;  \n  mutate(\n    subject_id = id,\n    experiment_id = 1,\n    country = \"United States\",\n    paper_id = \"clayton_2020\") |&gt; \n    # add_intervention_info \n  bind_cols(intervention_info) |&gt; \n  select(any_of(target_variables))\n\n\n# check conditions\n# clayton_2020 |&gt;\n#   group_by(condition) |&gt;\n#   reframe(unique(intervention_label))\n\n\n\n\nWrite out data\n\n\nCode\nsave_data(clayton_2020)"
+  },
+  {
+    "objectID": "presentations/madrid.html#many-individual-level-interventions-have-been-proposed-to-reduce-belief-in-misinformation",
+    "href": "presentations/madrid.html#many-individual-level-interventions-have-been-proposed-to-reduce-belief-in-misinformation",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "Many individual-level interventions have been proposed to reduce belief in misinformation",
+    "text": "Many individual-level interventions have been proposed to reduce belief in misinformation\n\nBad news game, literacy tips, labels"
+  },
+  {
+    "objectID": "presentations/madrid.html#countries",
+    "href": "presentations/madrid.html#countries",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "Countries",
+    "text": "Countries"
+  },
+  {
+    "objectID": "presentations/madrid.html#skepticism-bias",
+    "href": "presentations/madrid.html#skepticism-bias",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "Skepticism bias",
+    "text": "Skepticism bias"
+  },
+  {
+    "objectID": "presentations/madrid.html#interim-conclusion",
+    "href": "presentations/madrid.html#interim-conclusion",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "Interim conclusion",
+    "text": "Interim conclusion\n\n\n\nPeople discern rather well between true and false news\n\n\n\n\n\nIf they err, they tend to be more skeptical of true news than gullible towards false news"
+  },
+  {
+    "objectID": "presentations/madrid.html#but",
+    "href": "presentations/madrid.html#but",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "But…",
+    "text": "But…\n\n\n\nThe effectiveness of these interventions has been evaluated in terms of discernment only\n\n\n\n\n\nSome misinformation interventions have been shown to foster general skepticism."
+  },
+  {
+    "objectID": "presentations/madrid.html#steps",
+    "href": "presentations/madrid.html#steps",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "Steps",
+    "text": "Steps\n\nIdentify relevant studies\nCollect raw data\nClean and bring into common format\nAnalyze using Signal Detection Theory framework"
+  },
+  {
+    "objectID": "presentations/madrid.html#political-concordance-1",
+    "href": "presentations/madrid.html#political-concordance-1",
+    "title": "How effective are interventions designed to help people detect misinformation?",
+    "section": "Political concordance",
+    "text": "Political concordance\n\n\n\nAlignment between personal political stance and the political slant of the news\n\n\n\n\n\nFor example, pro-republican news rated by republicans are coded as concordant"
   }
 ]

@@ -75,18 +75,7 @@ meta_estimates <- bind_rows(delta_dprime, delta_c)
 
 ![](images/worry_misinfo.png){width="100%"}
 
-# ...and there has been a lot of research on people's belief in misinformation
-
----
-
-![[Pennycook, G., Binnendyk, J., Newton, C., & Rand, D. G. (2021). A Practical Guide to Doing Behavioral Research on Fake News and Misinformation. Collabra: Psychology, 7(1), 25293.](https://doi.org/10.1525/collabra.25293)](images/example-item.jpg){fig-align="center" width="100%"}
-
----
-
-![](images/example-item2.jpg){width="100%"}
-
-
-# People might not worry enough about information
+# But people might not worry enough about information
 
 ---
 
@@ -105,6 +94,16 @@ meta_estimates <- bind_rows(delta_dprime, delta_c)
 ![](images/reuters_2024_b.png){width="70%"}
 :::
 :::::
+
+# There has been a lot of research on people's belief in misinformation
+
+---
+
+![[Pennycook, G., Binnendyk, J., Newton, C., & Rand, D. G. (2021). A Practical Guide to Doing Behavioral Research on Fake News and Misinformation. Collabra: Psychology, 7(1), 25293.](https://doi.org/10.1525/collabra.25293)](images/example-item.jpg){fig-align="center" width="100%"}
+
+---
+
+![](images/example-item2.jpg){width="100%"}
 
 ---
 
@@ -141,11 +140,9 @@ meta_estimates <- bind_rows(delta_dprime, delta_c)
 
 ---
 
-<br>
-<br>
-<br>
-
-Discernment = Accuracy(true news) - Accuracy(false news)
+<div style="text-align: center; font-size: 2em; font-weight: bold; margin-top: 3em;">
+  Discernment = Accuracy(true news) − Accuracy(false news)
+</div>
 
 ---
 
@@ -166,33 +163,27 @@ For 298 of the 303 effect sizes, people rated true news as (a lot) more accurate
 
 ---
 
-![](images/discernment-countries.png){width="100%" .center}
-
----
-
-<br> 
-<br> 
 <br> 
 
-On the whole, people did well in discerning true from false news…
+<div style="text-align: center; font-size: 2em; font-weight: bold">
+  On the whole, people did well in discerning true from false news…
+</div>
+
 
 . . .
 
 <br> 
 
-but of course they still made some errors.
+<div style="text-align: center; font-size: 2em; font-weight: bold">
+  but of course they still made some errors.
+</div>
 
 ---
 
-![](images/descriptive.png){width="100%"}
-
----
-
 <br>
-<br>
-<br>
-
-Skepticism bias = Error(true news) - Error(false news)
+<div style="text-align: center; font-size: 2em; font-weight: bold; margin-top: 3em;">
+  Skepticism bias = Error(true news) - Error(false news)
+</div>
 
 ---
 
@@ -214,31 +205,76 @@ For 203 of 303 effect sizes, people made (slightly) more errors on true news tha
 
 ---
 
-![](images/bias-countries.png){width="100%" .center}
+## Interim conclusion
+
+. . .
+
+<br> 
+
+<div style="text-align: center; font-size: 2em; font-weight: bold">
+  People discern rather well between true and false news
+</div>
+
+
+. . .
+
+<br> 
+
+<div style="text-align: center; font-size: 2em; font-weight: bold">
+  If they err, they tend to be more skeptical of true news than gullible towards false news
+</div>
+
+
+
+# Many individual-level interventions have been proposed to reduce belief in misinformation
 
 ---
 
-## Many individual-level interventions have been proposed to help people spot false news 
+![[See for example: Basol, M., Roozenbeek, J., & Linden, S. van der. (2020). Good News about Bad News: Gamified Inoculation Boosts Confidence and Cognitive Immunity Against Fake News. Journal of Cognition](https://doi.org/10.5334/joc.91)](images/inoculation.png){fig-align="center" width="100%"}
+
+---
+
+![[Guess, A. M., Lerner, M., Lyons, B., Montgomery, J. M., Nyhan, B., Reifler, J., & Sircar, N. (2020). A digital media literacy intervention increases discernment between mainstream and false news in the United States and India. Proceedings of the National Academy of Sciences](https://doi.org/10.1073/pnas.1920498117)](images/tips.png){fig-align="center" width="100%"}
+
+---
+
+![[Brashier, N. M., Pennycook, G., Berinsky, A. J., & Rand, D. G. (2021). Timing matters when correcting fake news. Proceedings of the National Academy of Sciences](https://doi.org/10.1073/pnas.2020043118)](images/labels.png){fig-align="center" width="100%"}
+
+---
+
+## But...
 
 . . .
 
-Bad news game, literacy tips, labels
+<br> 
 
-# Effectiveness of these interventions has been evaluated in terms of *discernment only*
-
-## Some misinformation interventions have been shown to foster general skepticism. 
+<div style="text-align: center; font-size: 2em">
+  The effectiveness of these interventions has been evaluated in terms of **discernment only**
+</div>
 
 . . .
 
-Bad news game (Modirrousta)
+<br> 
 
-## How effective are misinformation interventions ? A(nother) meta-analysis
+<div style="text-align: center; font-size: 2em">
+  Some misinformation interventions have been shown to **foster general skepticism**. 
+</div>
+
+---
+
+![[Modirrousta-Galian, A., & Higham, P. A. (2023). Gamified inoculation interventions **do not improve discrimination between true and fake news**: Reanalyzing existing research with receiver operating characteristic analysis. Journal of Experimental Psychology: General.](https://psycnet.apa.org/doi/10.1037/xge0001395)](images/inoculation.png){fig-align="center" width="70%"}
+
+# How effective are misinformation interventions ? A(nother) meta-analysis
+
+---
+
+## Steps
 
 1. Identify relevant studies
 
-2. Collect raw data. 
+2. Collect raw data
 
-3. Clean and bring into common format. 
+3. Clean and bring into common format 
 
 4. Analyze using Signal Detection Theory framework 
 
@@ -372,27 +408,104 @@ ggplot(forest_data |>
 
 ## Conclusion
 
+. . .
+
 - People discern rather well between true and false news
+
+. . .
 
 - If they err, they tend to be more skeptical of true news than gullible towards false news
 
-- It is not clear how effective individual-level misinformation interventions are
+. . .
 
-- If they foster skepticism, more than discrimination ability, that would not be great
+- It is not (yet) clear how effective individual-level misinformation interventions are: 
+  - do they help people discriminate better?
+  - do they just make people more skeptical?
+  - which are the most/least effective interventions?
 
 ---
 
 ## Thank you
 
+::::: columns
+::: {.column width="50%"}
+
+![](images/jan.jpg){width="30%"}
+Jan Pfänder
+
+![](images/sacha.jpg){width="30%"}
+Sacha Altay
+
+:::
+
+::: {.column width="50%"}
 Slides are available here: 
 
-
+![](images/qr_code.png){width="70%"}
+:::
+:::::
 
 # Backup slides
 
 ---
 
+## Skepticism bias
+
+![](images/descriptive.png){width="100%"}
+
+---
+
+## Countries
+
+---
+
+![](images/discernment-countries.png){width="100%" .center}
+
+---
+
+![](images/bias-countries.png){width="100%" .center}
+
+---
+
 ## Political concordance
+
+![](images/partisan_news.png){width="100%" .center}
+
+---
+
+## Political concordance
+
+. . .
+
+<br> 
+
+<div style="text-align: center; font-size: 2em">
+  Alignment between personal political stance and the political slant of the news
+</div>
+
+. . .
+
+<br> 
+
+<div style="text-align: center; font-size: 2em">
+  For example, pro-republican news rated by republicans are coded as concordant
+</div>
+
+---
+
+![](images/concordance.png){width="100%" .center}
+
+---
+
+## Comparison SDT and Discernment/ Skepticism bias
+
+![](images/SDT-descriptive-plot.png){width="100%"}
+
+---
+
+## Selection bias
+
+![](images/forest-automated.png){width="100%"}
 
 ---
 
@@ -542,12 +655,4 @@ final_plot <- plots$p1 / (plots$p2 + plots$p3) +
 
 final_plot
 ```
-
----
-
-## Comparison SDT and Discernment/ Skepticism bias
-
-## Selection bias
-
-
 
